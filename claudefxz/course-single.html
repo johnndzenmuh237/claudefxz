@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Complete beginner Forex trading course covering currency pairs, market structure, strategies and live trading.">
-  <title>Forex Trading Fundamentals | Forex Academy Pro</title>
+  <title>Forex & Synthetic Indices Full Course + Mentorship</title>
   <link rel="icon" type="image/png" href="assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,9 +18,44 @@
   <link rel="stylesheet" href="assets/css/themes.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
   <style>
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
-    @media (max-width:900px){.grid-3{grid-template-columns:repeat(2,1fr);}}
-    @media (max-width:640px){.grid-3{grid-template-columns:1fr;}}
+    /* ---------- Base layout fixes (prevents horizontal overflow / "dangling" content) ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { max-width: 100%; overflow-x: hidden; }
+    img, video { max-width: 100%; height: auto; }
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding-left: 1rem; padding-right: 1rem; }
+
+    /* ---------- Explore-more course grid ---------- */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 900px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .grid-3 { grid-template-columns: 1fr; } }
+
+    /* ---------- Hero two-column (course info + sticky buy card) ---------- */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+
+    @media (max-width: 900px) {
+      /* Stack to a single column on tablet & mobile so nothing pushes past the viewport */
+      .grid-2 { grid-template-columns: 1fr !important; gap: 2rem !important; }
+      /* Buy card no longer needs to be sticky once it's stacked under the content;
+         sticky positioning inside a stacked single-column layout is what was
+         causing it to detach/overflow sideways on small screens */
+      .grid-2 > div:last-child { position: static !important; top: auto !important; }
+      /* Put the buy card right after the title/description so it's easy to find
+         without scrolling all the way down on mobile */
+      .grid-2 > div:last-child { order: -1; margin-bottom: 1.5rem; }
+    }
+
+    @media (max-width: 640px) {
+      .page-hero, section { padding-left: 0; padding-right: 0; }
+      .navbar-actions .btn span,
+      .navbar-actions .btn-outline { white-space: nowrap; }
+      h1 { word-break: break-word; }
+    }
+
+    /* ---------- Misc small-screen tidy-ups ---------- */
+    @media (max-width: 480px) {
+      .card-gold { padding: 1.25rem !important; }
+      .card { padding: 1rem !important; }
+    }
   </style>
 </head>
 <body>
@@ -84,7 +119,7 @@
 
 <section style="padding-top:2rem;padding-bottom:0;">
 <div class="container">
-    <div class="grid-2" style="gap:3rem;align-items:start;">
+    <div class="grid-2">
       <div>
         <span class="badge badge-success" style="margin-bottom:1rem;">Beginner → Advanced</span>
         <h1 style="font-size:clamp(1.75rem,4vw,2.75rem);margin-bottom:1rem;line-height:1.2;">Forex & Synthetic Indices Full Course + Mentorship</h1>
@@ -97,14 +132,14 @@
           <span><i class="fas fa-user-tie" style="color:var(--color-gold);"></i> <strong>1-on-1</strong> mentorship</span>
         </div>
         <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:2rem;">
-          <img src="assets/images/instructors/instructor-1.jpg" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,168,76,0.3);" onerror="this.style.background='var(--color-dark-3)'">
+          <img src="assets/images/instructors/instructor-1.jpg" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,168,76,0.3);flex-shrink:0;" onerror="this.style.background='var(--color-dark-3)'">
           <div>
             <div style="font-weight:600;">Claudefx Academy</div>
             <div style="font-size:.8rem;color:var(--color-text-muted);">Senior FX & Synthetic Indices Analyst · Lead Mentor</div>
           </div>
         </div>
 
-        <div class="tabs" data-tabs>
+        <div class="tabs" data-tabs style="overflow-x:auto;">
           <button class="tab-btn active" data-tab="cs-overview">Overview</button>
           <button class="tab-btn" data-tab="cs-curriculum">Curriculum</button>
           <button class="tab-btn" data-tab="cs-reviews">Reviews</button>
@@ -130,18 +165,18 @@
           <div style="display:flex;flex-direction:column;gap:.5rem;">
             <div style="background:var(--color-dark-3);border-radius:var(--radius-lg);overflow:hidden;">
               <div style="padding:1rem 1.25rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06);">Section 1: Introduction to Forex (6 lessons)</div>
-              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;"><span><i class="fas fa-play-circle" style="color:var(--color-gold);margin-right:.5rem;"></i>What is Forex Trading?</span><span>12:34 · <span style="color:var(--color-success);">Free Preview</span></span></div>
-              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>How the Forex Market Works</span><span>18:22</span></div>
-              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);display:flex;justify-content:space-between;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>Major Market Participants</span><span>14:08</span></div>
+              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;"><span><i class="fas fa-play-circle" style="color:var(--color-gold);margin-right:.5rem;"></i>What is Forex Trading?</span><span>12:34 · <span style="color:var(--color-success);">Free Preview</span></span></div>
+              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>How the Forex Market Works</span><span>18:22</span></div>
+              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>Major Market Participants</span><span>14:08</span></div>
             </div>
             <div style="background:var(--color-dark-3);border-radius:var(--radius-lg);overflow:hidden;">
               <div style="padding:1rem 1.25rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06);">Section 2: Currency Pairs & Pricing (8 lessons)</div>
-              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>Major, Minor & Exotic Pairs</span><span>21:15</span></div>
-              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);display:flex;justify-content:space-between;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>Understanding Pips, Lots & Leverage</span><span>25:40</span></div>
+              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>Major, Minor & Exotic Pairs</span><span>21:15</span></div>
+              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>Understanding Pips, Lots & Leverage</span><span>25:40</span></div>
             </div>
             <div style="background:var(--color-dark-3);border-radius:var(--radius-lg);overflow:hidden;">
               <div style="padding:1rem 1.25rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06);">Section 3: Technical Analysis Basics (10 lessons)</div>
-              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);display:flex;justify-content:space-between;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>Reading Candlestick Charts</span><span>19:58</span></div>
+              <div style="padding:.875rem 1.25rem;font-size:.875rem;color:var(--color-text-secondary);display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;"><span><i class="fas fa-lock" style="color:var(--color-text-muted);margin-right:.5rem;"></i>Reading Candlestick Charts</span><span>19:58</span></div>
             </div>
           </div>
         </div>
@@ -151,8 +186,8 @@
             <div style="text-align:center;"><div style="font-size:3rem;font-weight:800;color:var(--color-gold);">4.9</div><div style="color:var(--color-gold);">★★★★★</div><div style="font-size:.8rem;color:var(--color-text-muted);">1,240 reviews</div></div>
           </div>
           <div style="display:flex;flex-direction:column;gap:1.25rem;">
-            <div class="card" style="padding:1.25rem;"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;"><img src="assets/images/testimonials/avatar-1.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;" onerror="this.style.background='var(--color-dark-3)'"><div><strong>Kofi A.</strong><span style="color:var(--color-gold);margin-left:.5rem;">★★★★★</span></div></div><p style="font-size:.875rem;color:var(--color-text-secondary);">"Best Forex course I have ever taken. David explains everything so clearly. I went from knowing nothing to placing profitable trades in 6 weeks."</p></div>
-            <div class="card" style="padding:1.25rem;"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;"><img src="assets/images/testimonials/avatar-2.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;" onerror="this.style.background='var(--color-dark-3)'"><div><strong>Amara D.</strong><span style="color:var(--color-gold);margin-left:.5rem;">★★★★★</span></div></div><p style="font-size:.875rem;color:var(--color-text-secondary);">"The risk management section alone is worth 10x the price. I finally stopped blowing accounts after implementing what David teaches here."</p></div>
+            <div class="card" style="padding:1.25rem;"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;"><img src="assets/images/testimonials/avatar-1.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.background='var(--color-dark-3)'"><div><strong>Kofi A.</strong><span style="color:var(--color-gold);margin-left:.5rem;">★★★★★</span></div></div><p style="font-size:.875rem;color:var(--color-text-secondary);">"Best Forex course I have ever taken. David explains everything so clearly. I went from knowing nothing to placing profitable trades in 6 weeks."</p></div>
+            <div class="card" style="padding:1.25rem;"><div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;"><img src="assets/images/testimonials/avatar-2.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.background='var(--color-dark-3)'"><div><strong>Amara D.</strong><span style="color:var(--color-gold);margin-left:.5rem;">★★★★★</span></div></div><p style="font-size:.875rem;color:var(--color-text-secondary);">"The risk management section alone is worth 10x the price. I finally stopped blowing accounts after implementing what David teaches here."</p></div>
           </div>
         </div>
 
@@ -168,7 +203,7 @@
         </div>
       </div>
 
-      <!-- Sticky Buy Card -->
+      <!-- Sticky Buy Card (becomes static + reordered above content on tablet/mobile — see media queries in <head>) -->
       <div style="position:sticky;top:100px;">
         <div class="card-gold" style="padding:2rem;text-align:center;">
           <img src="assets/images/courses/course-5.jpg" alt="Course Preview" style="width:100%;border-radius:var(--radius-lg);margin-bottom:1.5rem;" onerror="this.style.background='var(--color-dark-3)'">
@@ -206,7 +241,7 @@
         <span class="badge badge-success" style="margin-bottom:.75rem;">Beginner → Advanced</span>
         <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Forex Trading — Full Course</h3>
         <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">The complete Forex path from fundamentals to advanced Smart Money Concepts, order blocks, and live execution.</p>
-        <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;">
+        <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
           <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.9</span>
           <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 67 lessons</span>
           <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 28h</span>
@@ -218,7 +253,7 @@
           <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Private Telegram community</li>
           <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
         </ul>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
           <div>
             <span style="font-size:1.35rem;font-weight:800;color:var(--color-gold);">$297</span>
             <span style="font-size:.8rem;color:var(--color-text-muted);text-decoration:line-through;margin-left:.35rem;">$497</span>
@@ -233,7 +268,7 @@
         <span class="badge badge-danger" style="margin-bottom:.75rem;">Advanced</span>
         <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Synthetic Indices — Full Course</h3>
         <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Master Volatility, Boom & Crash, and Step Indices with strategies built specifically for synthetic markets.</p>
-        <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;">
+        <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
           <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.8</span>
           <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 58 lessons</span>
           <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 16h</span>
@@ -245,7 +280,7 @@
           <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Private Telegram community</li>
           <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
         </ul>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
           <div>
             <span style="font-size:1.35rem;font-weight:800;color:var(--color-gold);">$297</span>
             <span style="font-size:.8rem;color:var(--color-text-muted);text-decoration:line-through;margin-left:.35rem;">$497</span>
@@ -260,7 +295,7 @@
         <span class="badge badge-gold" style="margin-bottom:.75rem;">Intermediate</span>
         <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Technical Analysis Mastery</h3>
         <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Chart patterns, indicators, support & resistance, and multi-timeframe analysis for precision entries.</p>
-        <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;">
+        <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
           <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.9</span>
           <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 40 lessons</span>
           <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 11h</span>
@@ -271,7 +306,7 @@
           <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Bonus ebook PDF guide included</li>
           <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
         </ul>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
           <div>
             <span style="font-size:1.35rem;font-weight:800;color:var(--color-gold);">$127</span>
             <span style="font-size:.8rem;color:var(--color-text-muted);text-decoration:line-through;margin-left:.35rem;">$227</span>
@@ -286,7 +321,7 @@
         <span class="badge badge-gold" style="margin-bottom:.75rem;">Intermediate</span>
         <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Fundamental Analysis Mastery</h3>
         <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Interest rates, central bank policy, economic calendars, and news-driven moves that shape market direction.</p>
-        <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;">
+        <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
           <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.8</span>
           <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 34 lessons</span>
           <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 9h</span>
@@ -297,7 +332,7 @@
           <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Bonus ebook PDF guide included</li>
           <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
         </ul>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
           <div>
             <span style="font-size:1.35rem;font-weight:800;color:var(--color-gold);">$127</span>
             <span style="font-size:.8rem;color:var(--color-text-muted);text-decoration:line-through;margin-left:.35rem;">$227</span>
