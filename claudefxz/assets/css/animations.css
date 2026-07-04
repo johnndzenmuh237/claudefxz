@@ -1,0 +1,269 @@
+/* ============================================================
+   FOREX ACADEMY PRO — animations.css
+   All animation keyframes, utility classes & transitions
+   ============================================================ */
+
+/* ── Entrance Animations ── */
+.animate-fade-up      { animation: fadeInUp 0.6s ease both; }
+.animate-fade-down    { animation: fadeInDown 0.6s ease both; }
+.animate-fade-left    { animation: fadeInLeft 0.6s ease both; }
+.animate-fade-right   { animation: fadeInRight 0.6s ease both; }
+.animate-fade-in      { animation: fadeIn 0.5s ease both; }
+.animate-scale-in     { animation: scaleIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+.animate-slide-up     { animation: slideUp 0.5s ease both; }
+.animate-bounce-in    { animation: bounceIn 0.7s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+/* ── Delay Helpers ── */
+.delay-50  { animation-delay: 0.05s; }
+.delay-100 { animation-delay: 0.10s; }
+.delay-150 { animation-delay: 0.15s; }
+.delay-200 { animation-delay: 0.20s; }
+.delay-250 { animation-delay: 0.25s; }
+.delay-300 { animation-delay: 0.30s; }
+.delay-350 { animation-delay: 0.35s; }
+.delay-400 { animation-delay: 0.40s; }
+.delay-500 { animation-delay: 0.50s; }
+.delay-600 { animation-delay: 0.60s; }
+.delay-700 { animation-delay: 0.70s; }
+.delay-800 { animation-delay: 0.80s; }
+
+/* ── Duration Helpers ── */
+.duration-300 { animation-duration: 0.3s; }
+.duration-500 { animation-duration: 0.5s; }
+.duration-700 { animation-duration: 0.7s; }
+.duration-1000{ animation-duration: 1.0s; }
+
+/* ── Hover Effects ── */
+.hover-lift  { transition: transform 0.25s ease; }
+.hover-lift:hover  { transform: translateY(-4px); }
+.hover-lift-sm:hover { transform: translateY(-2px); }
+.hover-scale { transition: transform 0.25s ease; }
+.hover-scale:hover { transform: scale(1.03); }
+.hover-glow  { transition: box-shadow 0.25s ease; }
+.hover-glow:hover  { box-shadow: 0 0 24px rgba(201,168,76,0.3); }
+.hover-bright { transition: filter 0.2s ease; }
+.hover-bright:hover { filter: brightness(1.1); }
+
+/* ── Continuous Animations ── */
+.float      { animation: float 4s ease-in-out infinite; }
+.float-slow { animation: float 6s ease-in-out infinite; }
+.float-fast { animation: float 2.5s ease-in-out infinite; }
+.float-delay{ animation: float 4s ease-in-out infinite 1.5s; }
+.pulse      { animation: pulse 2s ease-in-out infinite; }
+.pulse-slow { animation: pulse 3.5s ease-in-out infinite; }
+.spin-slow  { animation: spin 8s linear infinite; }
+.shimmer    { animation: shimmer 1.6s infinite; background: linear-gradient(90deg, var(--color-dark-3) 25%, var(--color-dark-4) 50%, var(--color-dark-3) 75%); background-size: 400px 100%; }
+.blink      { animation: blink 1.2s step-end infinite; }
+.swing      { animation: swing 1s ease-in-out infinite alternate; }
+.gradient-shift { background-size: 200% 200%; animation: gradientShift 4s ease infinite; }
+.rotate-ccw { animation: rotateCCW 20s linear infinite; }
+
+/* ── Pulse Ring (for live indicators) ── */
+.pulse-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--color-success);
+  opacity: 0;
+  animation: pulseRing 1.8s ease-out infinite;
+}
+
+/* ── Skeleton Loader ── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-dark-3) 25%,
+    var(--color-dark-4) 50%,
+    var(--color-dark-3) 75%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: var(--radius-md);
+  color: transparent !important;
+  pointer-events: none;
+  user-select: none;
+}
+.skeleton * { visibility: hidden; }
+
+/* ── Stagger Group (JS-triggered) ── */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.stagger-children.in-view > *              { opacity: 1; transform: none; }
+.stagger-children.in-view > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger-children.in-view > *:nth-child(2) { transition-delay: 0.10s; }
+.stagger-children.in-view > *:nth-child(3) { transition-delay: 0.15s; }
+.stagger-children.in-view > *:nth-child(4) { transition-delay: 0.20s; }
+.stagger-children.in-view > *:nth-child(5) { transition-delay: 0.25s; }
+.stagger-children.in-view > *:nth-child(6) { transition-delay: 0.30s; }
+.stagger-children.in-view > *:nth-child(7) { transition-delay: 0.35s; }
+.stagger-children.in-view > *:nth-child(8) { transition-delay: 0.40s; }
+
+/* ── Count Up Number ── */
+.counter-value { font-variant-numeric: tabular-nums; }
+
+/* ── Typewriter Cursor ── */
+.typewriter::after {
+  content: '|';
+  animation: blink 0.8s step-end infinite;
+  color: var(--color-gold);
+  margin-left: 2px;
+}
+
+/* ── Page Transition ── */
+.page-enter  { animation: fadeIn 0.35s ease both; }
+.page-leave  { animation: fadeOut 0.25s ease both; }
+
+/* ── Notification Pop ── */
+.notif-pop { animation: notifPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+/* ── Chart Line Drawing ── */
+.chart-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 2.5s ease forwards;
+}
+
+/* ── Gradient Border ── */
+.gradient-border {
+  position: relative;
+  border: none !important;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--color-gold), transparent, var(--color-gold));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ── Ripple Effect ── */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+.ripple::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  width: 100px; height: 100px;
+  margin-top: -50px; margin-left: -50px;
+  top: 50%; left: 50%;
+  opacity: 0;
+  transition: all 0.6s ease;
+  transform: scale(0);
+}
+.ripple:active::after {
+  opacity: 1;
+  transform: scale(4);
+  transition: 0s;
+}
+
+/* ══════════════════════════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════════════════════════ */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.3); }
+  50%  { opacity: 1; transform: scale(1.05); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.96); }
+}
+@keyframes pulseRing {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2); opacity: 0; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes rotateCCW {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes swing {
+  from { transform: rotate(-5deg); }
+  to   { transform: rotate(5deg); }
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes notifPop {
+  from { opacity: 0; transform: translateX(100%) scale(0.8); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes rippleOut {
+  0%   { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(2.5); opacity: 0; }
+}

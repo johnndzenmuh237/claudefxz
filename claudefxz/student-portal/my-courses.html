@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Courses | Forex Academy Pro</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/darkmode.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+<div class="page-loader"><div class="loader-ring"></div></div>
+<div class="dashboard-layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="dashboard.html" class="sidebar-brand">
+      <img src="../assets/images/logo/logo-icon.png" alt="Logo" onerror="this.style.display='none'">
+      <span class="sidebar-brand-name">Claudefx<span style="color:var(--color-gold);">Academy</span></span>
+    </a>
+    <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link ">
+        <i class="fas fa-th-large"></i><span class="link-text">Dashboard</span>
+      </a>
+      <a href="my-courses.html" class="sidebar-link active">
+        <i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span>
+      </a>
+      <a href="live-sessions.html" class="sidebar-link ">
+        <i class="fas fa-video"></i><span class="link-text">Live Sessions</span>
+        <span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span>
+      </a>
+      <a href="assignments.html" class="sidebar-link ">
+        <i class="fas fa-tasks"></i><span class="link-text">Assignments</span>
+        <span class="badge badge-danger" style="font-size:9px;margin-left:auto;">3</span>
+      </a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Resources</div>
+      <a href="downloads.html" class="sidebar-link ">
+        <i class="fas fa-download"></i><span class="link-text">Downloads</span>
+      </a>
+      <a href="certificates.html" class="sidebar-link ">
+        <i class="fas fa-certificate"></i><span class="link-text">Certificates</span>
+      </a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Account</div>
+      <a href="profile.html" class="sidebar-link ">
+        <i class="fas fa-user"></i><span class="link-text">My Profile</span>
+      </a>
+      <a href="settings.html" class="sidebar-link ">
+        <i class="fas fa-cog"></i><span class="link-text">Settings</span>
+      </a>
+      <a href="../index.html" class="sidebar-link">
+        <i class="fas fa-globe"></i><span class="link-text">Back to Site</span>
+      </a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <img class="sidebar-user-avatar" src="../assets/images/traders/student-avatar.jpg"
+           alt="Student" onerror="this.src='data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;36&quot; height=&quot;36&quot; viewBox=&quot;0 0 36 36&quot;><rect width=&quot;36&quot; height=&quot;36&quot; fill=&quot;%23252B37&quot; rx=&quot;18&quot;/><text x=&quot;18&quot; y=&quot;23&quot; text-anchor=&quot;middle&quot; fill=&quot;%23C9A84C&quot; font-size=&quot;14&quot; font-family=&quot;sans-serif&quot;>AJ</text></svg>'">
+      <div style="overflow:hidden;min-width:0;">
+        <div class="sidebar-user-name">Alex Johnson</div>
+        <div class="sidebar-user-role">Professional Plan</div>
+      </div>
+      <i class="fas fa-chevron-right sidebar-user-icon"></i>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay"></div>
+  <div class="dashboard-main" id="dashboard-main">
+    <div class="dashboard-topbar">
+  <div class="topbar-left">
+    <button class="topbar-mobile-toggle"><i class="fas fa-bars"></i></button>
+    <div class="topbar-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search courses, lessons...">
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="topbar-action" data-notif-toggle title="Notifications">
+      <i class="fas fa-bell"></i>
+      <span class="notif-badge"></span>
+    </button>
+    <button class="topbar-action" data-theme-toggle title="Toggle theme">
+      <i class="fas fa-moon"></i>
+    </button>
+    <div class="topbar-user">
+      <img src="../assets/images/traders/student-avatar.jpg" alt="User"
+           onerror="this.style.display='none'"
+           style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
+      <span class="topbar-user-name">Alex J.</span>
+      <i class="fas fa-chevron-down" style="font-size:10px;color:var(--color-text-muted);"></i>
+    </div>
+  </div>
+</div>
+    <div class="notif-drawer">
+  <div class="notif-drawer-header">
+    <span class="notif-drawer-title">Notifications</span>
+    <button class="btn btn-ghost btn-sm" data-notif-toggle>Close</button>
+  </div>
+  <div class="notif-item unread">
+    <div class="notif-item-icon stat-card-gold"><i class="fas fa-signal"></i></div>
+    <div><div class="notif-text"><strong>New Signal:</strong> EUR/USD BUY @ 1.08450</div><div class="notif-time">2 min ago</div></div>
+  </div>
+  <div class="notif-item unread">
+    <div class="notif-item-icon stat-card-blue"><i class="fas fa-video"></i></div>
+    <div><div class="notif-text"><strong>Live Session</strong> starts in 30 minutes</div><div class="notif-time">28 min ago</div></div>
+  </div>
+  <div class="notif-item">
+    <div class="notif-item-icon stat-card-green"><i class="fas fa-check"></i></div>
+    <div><div class="notif-text">Assignment graded — <strong>92/100</strong></div><div class="notif-time">1 hour ago</div></div>
+  </div>
+  <div class="notif-item">
+    <div class="notif-item-icon stat-card-gold"><i class="fas fa-trophy"></i></div>
+    <div><div class="notif-text">You earned the <strong>Consistent Trader</strong> badge!</div><div class="notif-time">3 hours ago</div></div>
+  </div>
+</div>
+    <div class="dashboard-content">
+<div class="dash-page-header">
+  <div>
+    <h1 class="dash-page-title">My Courses</h1>
+    <p class="dash-page-sub">Track your enrolled courses and continue learning.</p>
+  </div>
+  <a href="../courses.html" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Explore More Courses</a>
+</div>
+
+<div class="tabs" data-tabs>
+  <button class="tab-btn active" data-tab="in-progress">In Progress (3)</button>
+  <button class="tab-btn" data-tab="completed">Completed (1)</button>
+  <button class="tab-btn" data-tab="wishlist">Wishlist (2)</button>
+</div>
+
+<!-- ================= FULL COURSES & MENTORSHIP ================= -->
+<div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);">
+  <div class="dash-page-header" style="margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <div style="width:38px;height:38px;border-radius:10px;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fas fa-crown" style="color:var(--color-gold);font-size:1rem;"></i>
+      </div>
+      <div>
+        <h1 class="dash-page-title" style="font-size:1.35rem;margin-bottom:.15rem;">Full Courses & Mentorship</h1>
+        <p class="dash-page-sub" style="margin:0;">Go all-in with complete course access plus 1-on-1 mentorship.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/course-1.jpg" alt="Forex Full Course & Mentorship" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay"><span class="course-level level-beginner">Beginner → Advanced</span></div>
+      </div>
+      <div class="course-body" style="display:flex;flex-direction:column;">
+        <div class="course-category">FOREX TRADING</div>
+        <h3 class="course-title">Forex Full Course & Mentorship</h3>
+        <p style="font-size:.8rem;color:var(--color-text-secondary);line-height:1.6;margin:.5rem 0 .875rem;flex:1;">Complete Forex curriculum from fundamentals to advanced strategy, plus 1-on-1 mentorship with a senior FX analyst.</p>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+          <div style="display:flex;align-items:baseline;gap:.5rem;">
+            <span style="font-size:1.4rem;font-weight:800;color:var(--color-gold);">$297</span>
+            <span style="font-size:.8rem;color:var(--color-text-muted);text-decoration:line-through;">$497</span>
+          </div>
+          <span class="badge badge-danger" style="font-size:.65rem;">Save 40%</span>
+        </div>
+        <a href="../course-single.html" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-shopping-cart"></i> Enroll Now</a>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/course-3.jpg" alt="Synthetic Indices Full Course & Mentorship" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay"><span class="course-level level-advanced">Advanced</span></div>
+      </div>
+      <div class="course-body" style="display:flex;flex-direction:column;">
+        <div class="course-category">SYNTHETIC INDICES</div>
+        <h3 class="course-title">Synthetic Indices Full Course & Mentorship</h3>
+        <p style="font-size:.8rem;color:var(--color-text-secondary);line-height:1.6;margin:.5rem 0 .875rem;flex:1;">Complete Synthetic Indices curriculum covering Volatility, Boom & Crash, and Step Indices, plus 1-on-1 mentorship.</p>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+          <div style="display:flex;align-items:baseline;gap:.5rem;">
+            <span style="font-size:1.4rem;font-weight:800;color:var(--color-gold);">$297</span>
+            <span style="font-size:.8rem;color:var(--color-text-muted);text-decoration:line-through;">$497</span>
+          </div>
+          <span class="badge badge-danger" style="font-size:.65rem;">Save 38%</span>
+        </div>
+        <a href="../course-single.html" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-shopping-cart"></i> Enroll Now</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= EBOOKS & RESOURCES ================= -->
+<div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);">
+  <div class="dash-page-header" style="margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <div style="width:38px;height:38px;border-radius:10px;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fas fa-book-open" style="color:var(--color-gold);font-size:1rem;"></i>
+      </div>
+      <div>
+        <h1 class="dash-page-title" style="font-size:1.35rem;margin-bottom:.15rem;">Available Ebooks & Resources</h1>
+        <p class="dash-page-sub" style="margin:0;">Premium guides and tools to sharpen your trading edge.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/course-4.jpg" alt="Risk Management Guide" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay"><span class="course-level level-beginner">PDF Guide</span></div>
+      </div>
+      <div class="course-body" style="display:flex;flex-direction:column;">
+        <div class="course-category">RISK MANAGEMENT</div>
+        <h3 class="course-title">Risk Management Guide</h3>
+        <p style="font-size:.8rem;color:var(--color-text-secondary);line-height:1.6;margin:.5rem 0 .875rem;flex:1;">Learn position sizing, stop-loss placement, and capital protection strategies to trade safely.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$27</span>
+          <i class="fas fa-file-pdf" style="color:var(--color-text-muted);font-size:.9rem;"></i>
+        </div>
+        <a href="#" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-download"></i> Buy & Download</a>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/ebook-technical-analysis.jpg" alt="Technical Analysis Guide" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay"><span class="course-level level-intermediate">PDF Guide</span></div>
+      </div>
+      <div class="course-body" style="display:flex;flex-direction:column;">
+        <div class="course-category">TECHNICAL ANALYSIS</div>
+        <h3 class="course-title">Technical Analysis Guide</h3>
+        <p style="font-size:.8rem;color:var(--color-text-secondary);line-height:1.6;margin:.5rem 0 .875rem;flex:1;">Chart patterns, indicators, and support/resistance breakdowns to sharpen your entries.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$27</span>
+          <i class="fas fa-file-pdf" style="color:var(--color-text-muted);font-size:.9rem;"></i>
+        </div>
+        <a href="#" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-download"></i> Buy & Download</a>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/ebook-fundamental-analysis.jpg" alt="Fundamental Analysis Guide" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay"><span class="course-level level-intermediate">PDF Guide</span></div>
+      </div>
+      <div class="course-body" style="display:flex;flex-direction:column;">
+        <div class="course-category">FUNDAMENTAL ANALYSIS</div>
+        <h3 class="course-title">Fundamental Analysis Guide</h3>
+        <p style="font-size:.8rem;color:var(--color-text-secondary);line-height:1.6;margin:.5rem 0 .875rem;flex:1;">Understand how news, interest rates, and economic data move currency markets.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$27</span>
+          <i class="fas fa-file-pdf" style="color:var(--color-text-muted);font-size:.9rem;"></i>
+        </div>
+        <a href="#" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-download"></i> Buy & Download</a>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/ebook-psychology.jpg" alt="Psychology vs Physiology in Trading" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay"><span class="course-level level-beginner">PDF Guide</span></div>
+      </div>
+      <div class="course-body" style="display:flex;flex-direction:column;">
+        <div class="course-category">TRADING MINDSET</div>
+        <h3 class="course-title">Psychology vs Physiology in Trading</h3>
+        <p style="font-size:.8rem;color:var(--color-text-secondary);line-height:1.6;margin:.5rem 0 .875rem;flex:1;">Discover how mindset and body state both drive trading discipline and decision-making.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$19</span>
+          <i class="fas fa-file-pdf" style="color:var(--color-text-muted);font-size:.9rem;"></i>
+        </div>
+        <a href="#" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-download"></i> Buy & Download</a>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/ebook-strategy.jpg" alt="Trading Strategy Guide" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay"><span class="course-level level-intermediate">PDF Guide</span></div>
+      </div>
+      <div class="course-body" style="display:flex;flex-direction:column;">
+        <div class="course-category">STRATEGY</div>
+        <h3 class="course-title">Trading Strategy Playbook</h3>
+        <p style="font-size:.8rem;color:var(--color-text-secondary);line-height:1.6;margin:.5rem 0 .875rem;flex:1;">A step-by-step framework for building and testing your own repeatable trading strategy.</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$37</span>
+          <i class="fas fa-file-pdf" style="color:var(--color-text-muted);font-size:.9rem;"></i>
+        </div>
+        <a href="#" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-download"></i> Buy & Download</a>
+      </div>
+    </div>
+
+<div class="course-card">
+  <div class="course-thumb">
+    <img src="../assets/images/courses/auto-trading-bot.jpg" alt="Auto Trading Bot" onerror="this.style.background='var(--color-dark-3)'">
+    <div class="course-thumb-overlay"><span class="course-level level-advanced">For Sale</span></div>
+  </div>
+  <div class="course-body" style="display:flex;flex-direction:column;">
+    <div class="course-category">AUTOMATION</div>
+    <h3 class="course-title">Our Auto Trading Bot</h3>
+    <p style="font-size:.8rem;color:var(--color-text-secondary);line-height:1.6;margin:.5rem 0 .875rem;flex:1;">
+      Built on our rules-based strategy logic. The bot scans price action and technical indicators for setups matching predefined criteria, opens a position automatically when conditions align, attaches a stop-loss on entry to cap downside, and closes the trade if conditions invalidate the setup or a profit target is hit. Runs 24/5 so you don't have to watch charts manually.
+    </p>
+    <p style="font-size:.7rem;color:var(--color-text-muted);line-height:1.5;margin:0 0 .875rem;">
+      89% confirmed technical Analysis
+    </p>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+      <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$249</span>
+      <i class="fas fa-robot" style="color:var(--color-text-muted);font-size:.9rem;"></i>
+    </div>
+    <a href="../contact.html" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-shopping-cart"></i> Buy Now</a>
+  </div>
+</div>
+  </div>
+</div>
+
+</div>
+
+<div id="completed" class="tab-pane" style="margin-top:2rem;">
+  <div class="grid-3">
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/course-4.jpg" alt="Risk Management" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay">
+          <span style="background:var(--color-success);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;">COMPLETED</span>
+        </div>
+      </div>
+      <div class="course-body">
+        <div class="course-category">RISK MANAGEMENT</div>
+        <h3 class="course-title">Risk Management & Psychology</h3>
+        <div style="margin:.75rem 0;">
+          <div class="progress"><div class="progress-bar" style="width:100%;background:var(--color-success);"></div></div>
+        </div>
+        <div style="display:flex;gap:.75rem;">
+          <a href="certificates.html" class="btn btn-outline-gold btn-sm" style="flex:1;justify-content:center;"><i class="fas fa-certificate"></i> Certificate</a>
+          <a href="../course-single.html" class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;"><i class="fas fa-redo"></i> Review</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="wishlist" class="tab-pane" style="margin-top:2rem;">
+  <div class="grid-3">
+    <div class="course-card">
+      <div class="course-thumb">
+        <img src="../assets/images/courses/course-6.jpg" alt="Funded Account Blueprint" onerror="this.style.background='var(--color-dark-3)'">
+        <div class="course-thumb-overlay"><span class="course-level level-advanced">Advanced</span></div>
+      </div>
+      <div class="course-body">
+        <div class="course-category">PROP FIRM</div>
+        <h3 class="course-title">Funded Account Blueprint</h3>
+        <p class="course-desc">Pass FTMO, MyForexFunds and other prop firm challenges with proven strategies.</p>
+        <div style="display:flex;gap:.75rem;margin-top:auto;">
+          <a href="../pricing.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">Enroll — $347</a>
+          <button class="btn btn-ghost btn-sm btn-icon" title="Remove"><i class="fas fa-trash" style="color:var(--color-danger);"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<script src="../assets/vendors/aos/aos.js"></script>
+<script src="../assets/vendors/chartjs/chart.umd.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

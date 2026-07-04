@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Forex Academy Pro — Elite trading education, signals, mentorship, and funded account programs for serious traders worldwide.">
+  <title>Forex Academy Pro | Elite Trading Education</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo/favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Vendors -->
+  <link rel="stylesheet" href="assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="assets/vendors/swiper/swiper-bundle.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/darkmode.css">
+  <link rel="stylesheet" href="assets/css/themes.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════ PAGE LOADER ═══════════════════════════════ -->
+<div class="page-loader">
+  <div class="loader-ring"></div>
+</div>
+
+<!-- ═══════════════════════════════ NAVBAR ═══════════════════════════════════ -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container">
+    <div class="navbar-inner">
+      <!-- Brand -->
+      <a href="index.html" class="navbar-brand">
+        <img src="assets/images/logo/logo-icon.jpg" alt="FAP Logo" class="brand-logo">
+        <span class="brand-name">Claudefx<span>Academy</span></span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <ul class="navbar-nav">
+        <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+        <li class="nav-item">
+          <a href="courses.html" class="nav-link">Courses <i class="fas fa-chevron-down" style="font-size:10px;"></i></a>
+          <div class="nav-dropdown">
+            <a href="courses.html"><i class="fas fa-layer-group"></i> All Courses</a>
+            <a href="forex-trading.html"><i class="fas fa-chart-line"></i> Forex Trading</a>
+            <a href="synthetic-indices.html"><i class="fas fa-wave-square"></i> Synthetic Indices</a>
+            <a href="course-single.html"><i class="fas fa-play-circle"></i> Course Preview</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="signals.html" class="nav-link">Services <i class="fas fa-chevron-down" style="font-size:10px;"></i></a>
+          <div class="nav-dropdown">
+            <a href="signals.html"><i class="fas fa-signal"></i> Live Signals</a>
+            <a href="mentorship.html"><i class="fas fa-user-tie"></i> Mentorship</a>
+            <a href="account-management.html"><i class="fas fa-briefcase"></i> Account Management</a>
+            <a href="funded-accounts.html"><i class="fas fa-money-bill-wave"></i> Funded Accounts</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="pricing.html" class="nav-link">Pricing</a></li>
+        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Actions -->
+      <div class="navbar-actions">
+        <button class="btn btn-icon" data-theme-toggle aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <a href="student-portal/dashboard.html" class="btn btn-outline btn-sm">
+          <i class="fas fa-user"></i> Portal
+        </a>
+        <a href="pricing.html" class="btn btn-primary btn-sm">
+          Get Started
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" aria-hidden="true">
+  <div class="mobile-nav-inner">
+    <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="courses.html"><i class="fas fa-graduation-cap"></i> Courses</a>
+    <a href="forex-trading.html"><i class="fas fa-chart-line"></i> Forex Trading</a>
+    <a href="synthetic-indices.html"><i class="fas fa-wave-square"></i> Synthetic Indices</a>
+    <a href="signals.html"><i class="fas fa-signal"></i> Live Signals</a>
+    <a href="mentorship.html"><i class="fas fa-user-tie"></i> Mentorship</a>
+    <a href="account-management.html"><i class="fas fa-briefcase"></i> Account Management</a>
+    <a href="funded-accounts.html"><i class="fas fa-money-bill-wave"></i> Funded Accounts</a>
+    <a href="pricing.html"><i class="fas fa-tags"></i> Pricing</a>
+    <a href="blog.html"><i class="fas fa-newspaper"></i> Blog</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    <div class="mobile-nav-actions">
+      <a href="student-portal/dashboard.html" class="btn btn-outline"><i class="fas fa-user"></i> Student Portal</a>
+      <a href="pricing.html" class="btn btn-primary"><i class="fas fa-rocket"></i> Get Started Free</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ HERO ════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="assets/images/hero/hero-bg.jpg" alt="" role="presentation">
+  </div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow" data-aos="fade-up">
+          <span class="dot"></span>
+          Trusted by 14,000+ traders worldwide
+        </div>
+
+        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+          Trade Smarter.<br>
+          <span class="gradient-text">Profit Consistently.</span><br>
+          Build Wealth.
+        </h1>
+
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+          From beginner to funded trader — Forex Academy Pro gives you the education,
+          signals, mentorship, and tools to trade at the highest level.
+        </p>
+
+        <div class="hero-actions" data-aos="fade-up" data-aos-delay="300">
+          <a href="courses.html" class="btn btn-primary btn-xl">
+            <i class="fas fa-rocket"></i> Start Learning Free
+          </a>
+          <a href="#how-it-works" class="btn btn-outline btn-xl">
+            <i class="fas fa-play-circle"></i> See How It Works
+          </a>
+        </div>
+
+        <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+          <div class="hero-stat">
+            <div class="hero-stat-value" data-count="14000" data-suffix="+">0</div>
+            <div class="hero-stat-label">Active Students</div>
+          </div>
+          <div style="width:1px; height:40px; background:rgba(255,255,255,0.1);"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-value" data-count="79" data-suffix="%">0%</div>
+            <div class="hero-stat-label">Signal Win Rate</div>
+          </div>
+          <div style="width:1px; height:40px; background:rgba(255,255,255,0.1);"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-value" data-count="52" data-suffix="+">0+</div>
+            <div class="hero-stat-label">Expert Courses</div>
+          </div>
+          <div style="width:1px; height:40px; background:rgba(255,255,255,0.1);"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-value" data-count="4.9">0</div>
+            <div class="hero-stat-label">Average Rating</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
+        <div class="hero-visual-card">
+          <img src="assets/images/hero/hero-trader.jpg" alt="Professional Trader" style="min-height:480px;">
+        </div>
+
+        <!-- Floating Cards -->
+        <div class="hero-float-card card-profit" data-aos="fade-up" data-aos-delay="500">
+          <div class="icon-box icon-box-gold" style="width:40px;height:40px;">
+            <i class="fas fa-arrow-trend-up"></i>
+          </div>
+          <div>
+            <div style="font-size:12px; color:var(--color-text-muted);">This month's profit</div>
+            <div style="font-size:18px; font-weight:800; color:var(--color-success);">+$12,480</div>
+          </div>
+        </div>
+
+        <div class="hero-float-card card-users" data-aos="fade-down" data-aos-delay="600">
+          <div>
+            <div style="font-size:12px; color:var(--color-text-muted);">New traders today</div>
+            <div style="font-size:18px; font-weight:800;">+48 joined</div>
+          </div>
+          <div class="avatar-group">
+            <img class="avatar" src="assets/images/testimonials/avatar-1.jpg" alt="">
+            <img class="avatar" src="assets/images/testimonials/avatar-2.jpg" alt="">
+            <img class="avatar" src="assets/images/testimonials/avatar-3.jpg" alt="">
+            <div class="avatar-count">+45</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ TRUST BAR ════════════════════════════════ -->
+<section class="trust-bar bg-dark-2">
+  <div class="container">
+    <p class="trust-label">Trusted partners & platforms</p>
+    <div class="trust-logos">
+      <div class="trust-logo-wrap">
+        <img class="trust-logo" src="assets/images/logo/partner-deriv.jpg" alt="Deriv">
+      </div>
+      <div class="trust-logo-wrap">
+        <img class="trust-logo" src="assets/images/logo/partner-ftmo.jpg" alt="FTMO">
+      </div>
+      <div class="trust-logo-wrap">
+        <img class="trust-logo" src="assets/images/logo/partner-mt4.jpg" alt="MetaTrader 4">
+      </div>
+      <div class="trust-logo-wrap">
+        <img class="trust-logo" src="assets/images/logo/partner-mt5.jpg" alt="MetaTrader 5">
+      </div>
+      <div class="trust-logo-wrap">
+        <img class="trust-logo" src="assets/images/logo/partner-myfx.jpg" alt="MyFXBook">
+      </div>
+      <div class="trust-logo-wrap">
+        <img class="trust-logo" src="assets/images/logo/partner-tradingview.jpg" alt="TradingView">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ SERVICES ═════════════════════════════════ -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head center" data-aos="fade-up">
+      <span class="section-label">What We Offer</span>
+      <h2 class="section-title">Everything You Need<br>to <span class="gradient-text">Succeed in Trading</span></h2>
+      <p class="section-subtitle">A complete ecosystem built around one goal: turning you into a consistently profitable trader.</p>
+    </div>
+
+    <div class="grid-3 stagger-children" data-aos="fade-up">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+        <h3 class="feature-title">Trading Courses</h3>
+        <p class="feature-text">52+ structured courses from complete beginner to professional-level. Self-paced with lifetime access, live Q&A, and community support.</p>
+        <a href="courses.html" class="feature-link">Browse Courses <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-signal"></i></div>
+        <h3 class="feature-title">Live Trading Signals</h3>
+        <p class="feature-text">Daily Forex & Synthetic Indices signals with entry, TP, and SL. 79%+ average win rate, fully transparent track record with every trade documented.</p>
+        <a href="signals.html" class="feature-link">View Signals <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-user-tie"></i></div>
+        <h3 class="feature-title">1-on-1 Mentorship</h3>
+        <p class="feature-text">Work directly with a professional trader. Personalized strategy building, screen-sharing sessions, and accountability coaching.</p>
+        <a href="mentorship.html" class="feature-link">Meet Mentors <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
+        <h3 class="feature-title">Account Management</h3>
+        <p class="feature-text">Let our verified traders manage your capital. Monthly returns of 6–20%, transparent reporting, and strict drawdown limits protect your investment.</p>
+        <a href="account-management.html" class="feature-link">Learn More <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-money-bill-wave"></i></div>
+        <h3 class="feature-title">Funded Accounts</h3>
+        <p class="feature-text">Pass our challenge and trade our capital. Accounts from $5,000 to $200,000. Keep up to 90% of profits with bi-weekly payouts.</p>
+        <a href="funded-accounts.html" class="feature-link">Get Funded <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-wave-square"></i></div>
+        <h3 class="feature-title">Synthetic Indices</h3>
+        <p class="feature-text">Master Volatility 75, Crash/Boom, Step Index and more. Dedicated strategies, 24/7 markets, and a community of active synthetic traders.</p>
+        <a href="synthetic-indices.html" class="feature-link">Explore <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ STATS ════════════════════════════════════ -->
+<section class="section bg-dark-2">
+  <div class="container">
+    <div class="grid-4 stagger-children">
+      <div class="stat-item" data-aos="fade-up">
+        <div class="stat-number" data-count="14000" data-suffix="+">0</div>
+        <div class="stat-label">Students Trained</div>
+      </div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+        <div class="stat-number" data-count="79" data-suffix="%">0</div>
+        <div class="stat-label">Signal Accuracy</div>
+      </div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+        <div class="stat-number" data-count="52">0</div>
+        <div class="stat-label">Expert Courses</div>
+      </div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+        <div class="stat-number" data-count="5" data-suffix="yr">0</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ HOW IT WORKS ═════════════════════════════ -->
+<section class="section" id="how-it-works">
+  <div class="container">
+    <div class="section-head center" data-aos="fade-up">
+      <span class="section-label">The Process</span>
+      <h2 class="section-title">Your Journey to<br><span class="gradient-text">Consistent Profits</span></h2>
+    </div>
+
+    <div class="grid-4" data-aos="fade-up">
+      <!-- Step 1 -->
+      <div style="text-align:center; padding: 2rem;">
+        <div style="position:relative; display:inline-block; margin-bottom:1.5rem;">
+          <div class="icon-box icon-box-gold" style="width:72px;height:72px;font-size:28px;margin:0 auto;">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <span style="position:absolute;top:-8px;right:-8px;width:24px;height:24px;background:var(--color-gold);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;">1</span>
+        </div>
+        <h3 style="font-size:1.1rem;margin-bottom:.75rem;">Sign Up Free</h3>
+        <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.7;">Create your account in 60 seconds. Access free resources and choose your learning path.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div style="text-align:center; padding: 2rem;">
+        <div style="position:relative; display:inline-block; margin-bottom:1.5rem;">
+          <div class="icon-box icon-box-gold" style="width:72px;height:72px;font-size:28px;margin:0 auto;">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <span style="position:absolute;top:-8px;right:-8px;width:24px;height:24px;background:var(--color-gold);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;">2</span>
+        </div>
+        <h3 style="font-size:1.1rem;margin-bottom:.75rem;">Learn & Practice</h3>
+        <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.7;">Follow structured courses, receive daily signals, and practice on a demo account risk-free.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div style="text-align:center; padding: 2rem;">
+        <div style="position:relative; display:inline-block; margin-bottom:1.5rem;">
+          <div class="icon-box icon-box-gold" style="width:72px;height:72px;font-size:28px;margin:0 auto;">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <span style="position:absolute;top:-8px;right:-8px;width:24px;height:24px;background:var(--color-gold);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;">3</span>
+        </div>
+        <h3 style="font-size:1.1rem;margin-bottom:.75rem;">Trade Live</h3>
+        <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.7;">Go live with proven strategies, real-time signals, and mentor support behind you.</p>
+      </div>
+
+      <!-- Step 4 -->
+      <div style="text-align:center; padding: 2rem;">
+        <div style="position:relative; display:inline-block; margin-bottom:1.5rem;">
+          <div class="icon-box icon-box-gold" style="width:72px;height:72px;font-size:28px;margin:0 auto;">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <span style="position:absolute;top:-8px;right:-8px;width:24px;height:24px;background:var(--color-gold);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;">4</span>
+        </div>
+        <h3 style="font-size:1.1rem;margin-bottom:.75rem;">Scale & Withdraw</h3>
+        <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.7;">Get funded, scale your account, and withdraw consistent profits every month.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FEATURED COURSES ═════════════════════════ -->
+<section class="section bg-dark-2">
+  <div class="container">
+    <div class="section-head flex-between" data-aos="fade-up">
+      <div>
+        <span class="section-label">Popular Courses</span>
+        <h2 class="section-title">Start With Our<br><span class="gradient-text">Top-Rated Programs</span></h2>
+      </div>
+      <a href="courses.html" class="btn btn-outline" style="flex-shrink:0;">
+        View All Courses <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="grid-3" data-aos="fade-up">
+      <!-- Course 1 -->
+      <div class="course-card">
+        <div class="course-thumb"><img src="assets/images/courses/course-1.jpg" alt="Forex Fundamentals" loading="lazy">
+          
+          <div class="course-thumb-overlay"><span class="course-level level-beginner">Beginner</span></div>
+        </div>
+        <div class="course-body">
+          <div class="course-category">FOREX TRADING</div>
+          <h3 class="course-title">Forex Trading Fundamentals</h3>
+          <p class="course-desc">Master currency pairs, market structure, sessions, order types, and execute your first live trade with confidence.</p>
+          <div class="course-meta">
+            <span><i class="fas fa-clock"></i> 12 hours</span>
+            <span><i class="fas fa-play-circle"></i> 42 lessons</span>
+            <span><i class="fas fa-users"></i> 2,840 students</span>
+          </div>
+          <div class="course-instructor">
+            <img class="instructor-avatar" src="assets/images/instructors/instructor-1.jpg" alt="David Okafor">
+            <div>
+              <div class="instructor-name">Claudefx Academy</div>
+              <div class="instructor-title">Senior FX Analyst</div>
+            </div>
+            <div class="course-price">
+              <div class="price">$197</div>
+              <div class="price-original">$397</div>
+            </div>
+          </div>
+          <a href="course-single.html" class="btn btn-primary w-full mt-4" style="justify-content:center; margin-top:16px;">Enroll Now</a>
+        </div>
+      </div>
+
+      <!-- Course 2 -->
+      <div class="course-card">
+        <div class="course-thumb">
+          <img src="assets/images/courses/course-2.jpg" alt="Technical Analysis" loading="lazy">
+          <div class="course-thumb-overlay"><span class="course-level level-intermediate">Intermediate</span></div>
+        </div>
+        <div class="course-body">
+          <div class="course-category">TECHNICAL ANALYSIS</div>
+          <h3 class="course-title">Advanced Technical Analysis</h3>
+          <p class="course-desc">Deep dive into chart patterns, ICT concepts, Fibonacci, and multi-timeframe confluence strategies used by pro traders.</p>
+          <div class="course-meta">
+            <span><i class="fas fa-clock"></i> 18 hours</span>
+            <span><i class="fas fa-play-circle"></i> 64 lessons</span>
+            <span><i class="fas fa-users"></i> 1,920 students</span>
+          </div>
+          <div class="course-instructor">
+            <img class="instructor-avatar" src="assets/images/instructors/instructor-1.jpg" alt="Sarah Mensah">
+            <div>
+              <div class="instructor-name">Claudefx Academy</div>
+              <div class="instructor-title">Chart Pattern Specialist</div>
+            </div>
+            <div class="course-price">
+              <div class="price">$297</div>
+              <div class="price-original">$597</div>
+            </div>
+          </div>
+          <a href="course-single.html" class="btn btn-primary w-full mt-4" style="justify-content:center; margin-top:16px;">Enroll Now</a>
+        </div>
+      </div>
+
+      <!-- Course 3 -->
+      <div class="course-card">
+        <div class="course-thumb">
+          <img src="assets/images/courses/course-3.jpg" alt="Synthetic Indices" loading="lazy">
+          <div class="course-thumb-overlay"><span class="course-level level-intermediate">Intermediate</span></div>
+        </div>
+        <div class="course-body">
+          <div class="course-category">SYNTHETIC INDICES</div>
+          <h3 class="course-title">Synthetic Indices Mastery</h3>
+          <p class="course-desc">The complete guide to trading Volatility 75, Crash/Boom, Step Index on Deriv. 24/7 markets, no broker manipulation.</p>
+          <div class="course-meta">
+            <span><i class="fas fa-clock"></i> 15 hours</span>
+            <span><i class="fas fa-play-circle"></i> 54 lessons</span>
+            <span><i class="fas fa-users"></i> 3,210 students</span>
+          </div>
+          <div class="course-instructor">
+            <img class="instructor-avatar" src="assets/images/instructors/instructor-1.jpg" alt="Emmanuel Asante">
+            <div>
+              <div class="instructor-name">Claudefx Academy</div>
+              <div class="instructor-title">Synthetic Indices Pro</div>
+            </div>
+            <div class="course-price">
+              <div class="price">$247</div>
+              <div class="price-original">$497</div>
+            </div>
+          </div>
+          <a href="course-single.html" class="btn btn-primary w-full mt-4" style="justify-content:center; margin-top:16px;">Enroll Now</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:3rem;" data-aos="fade-up">
+      <a href="courses.html" class="btn btn-outline-gold btn-lg">
+        <i class="fas fa-layer-group"></i> View All 52 Courses
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ TESTIMONIALS ══════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head center" data-aos="fade-up">
+      <span class="section-label">Success Stories</span>
+      <h2 class="section-title">Real Traders,<br><span class="gradient-text">Real Results</span></h2>
+      <p class="section-subtitle">Over 14,000 traders have transformed their trading with Forex Academy Pro.</p>
+    </div>
+
+    <div class="swiper testimonials-swiper" data-aos="fade-up">
+      <div class="swiper-wrapper">
+
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"</div>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">I went from losing money every month to making consistent profits within 3 months. The risk management course alone was worth 10x the price. David's mentorship changed everything.</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="assets/images/testimonials/avatar-1.jpg" alt="Kofi A.">
+              <div>
+                <div class="testimonial-name">Kofi Asante</div>
+                <div class="testimonial-role">Forex Trader, Ghana</div>
+              </div>
+              <div class="testimonial-profit">
+                <div class="testimonial-profit-value">+$4,200</div>
+                <div class="testimonial-profit-label">Last month</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"</div>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">The Synthetic Indices course is phenomenal. I now trade Vol 75 profitably every single day. The signals are accurate and come with full analysis. I've never felt more confident.</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="assets/images/testimonials/avatar-2.jpg" alt="Amara D.">
+              <div>
+                <div class="testimonial-name">Amara Diallo</div>
+                <div class="testimonial-role">Synthetic Indices Trader, Senegal</div>
+              </div>
+              <div class="testimonial-profit">
+                <div class="testimonial-profit-value">+$6,800</div>
+                <div class="testimonial-profit-label">Last month</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"</div>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">Passed my FTMO challenge on the first attempt using the Funded Account Blueprint. I'm now trading a $100K account and keeping 90% of my profits. This program is the real deal.</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="assets/images/testimonials/avatar-3.jpg" alt="Blessing O.">
+              <div>
+                <div class="testimonial-name">Zubi Osei</div>
+                <div class="testimonial-role">Funded Trader, Nigeria</div>
+              </div>
+              <div class="testimonial-profit">
+                <div class="testimonial-profit-value">+$11,400</div>
+                <div class="testimonial-profit-label">Last month</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"</div>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </div>
+            <p class="testimonial-text">Account management is phenomenal. I invested $15,000 and received an 11% return last month completely passively. The team is transparent and professional. Highly recommend.</p>
+            <div class="testimonial-author">
+              <img class="testimonial-avatar" src="assets/images/testimonials/avatar-4.jpg" alt="Grace M.">
+              <div>
+                <div class="testimonial-name">Grace Mwangi</div>
+                <div class="testimonial-role">Passive Investor, Kenya</div>
+              </div>
+              <div class="testimonial-profit">
+                <div class="testimonial-profit-value">+$1,650</div>
+                <div class="testimonial-profit-label">Last month</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="swiper-pagination" style="margin-top:2rem; position:static;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ CTA ══════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="container" style="text-align:center; position:relative; z-index:1;">
+    <div data-aos="fade-up">
+      <span class="section-label" style="justify-content:center;">Limited Offer</span>
+      <h2 class="section-title" style="max-width:700px; margin:0 auto 1.5rem;">
+        Start Your Trading Journey<br><span class="gradient-text">Today — Risk Free</span>
+      </h2>
+      <p style="font-size:1.125rem; color:var(--color-text-secondary); max-width:560px; margin:0 auto 2.5rem; line-height:1.7;">
+        Join 14,000+ traders who are already profiting. Get access to free courses, daily signals, and our trading community today.
+      </p>
+      <div class="flex-center gap-4" style="flex-wrap:wrap;">
+        <a href="pricing.html" class="btn btn-primary btn-xl">
+          <i class="fas fa-rocket"></i> Get Started — Free
+        </a>
+        <a href="about.html" class="btn btn-outline btn-xl">
+          <i class="fas fa-play"></i> Watch Our Story
+        </a>
+      </div>
+      <p style="font-size:12px; color:var(--color-text-muted); margin-top:1.5rem;">
+        <i class="fas fa-shield-alt" style="color:var(--color-gold);"></i> No credit card required &nbsp;•&nbsp;
+        <i class="fas fa-undo" style="color:var(--color-gold);"></i> 30-day money-back guarantee &nbsp;•&nbsp;
+        <i class="fas fa-lock" style="color:var(--color-gold);"></i> Cancel anytime
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="brand-name">Claudefx<span>Academy</span> Pro</div>
+        <p class="footer-desc">
+          The premier trading education platform for Forex, Synthetic Indices, and funded account traders.
+          Built by professional traders, for serious traders.
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+          <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Education</div>
+        <ul class="footer-links">
+          <li><a href="courses.html"><i class="fas fa-chevron-right"></i> All Courses</a></li>
+          <li><a href="forex-trading.html"><i class="fas fa-chevron-right"></i> Forex Trading</a></li>
+          <li><a href="synthetic-indices.html"><i class="fas fa-chevron-right"></i> Synthetic Indices</a></li>
+          <li><a href="mentorship.html"><i class="fas fa-chevron-right"></i> Mentorship</a></li>
+          <li><a href="blog.html"><i class="fas fa-chevron-right"></i> Trading Blog</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="signals.html"><i class="fas fa-chevron-right"></i> Live Signals</a></li>
+          <li><a href="account-management.html"><i class="fas fa-chevron-right"></i> Account Management</a></li>
+          <li><a href="funded-accounts.html"><i class="fas fa-chevron-right"></i> Funded Accounts</a></li>
+          <li><a href="pricing.html"><i class="fas fa-chevron-right"></i> Pricing Plans</a></li>
+          <li><a href="testimonials.html"><i class="fas fa-chevron-right"></i> Success Stories</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Stay Updated</div>
+        <p style="font-size:.875rem; color:var(--color-text-secondary); margin-bottom:1rem; line-height:1.6;">
+          Get weekly market analysis and trading tips delivered to your inbox.
+        </p>
+        <form class="newsletter-form">
+          <input type="email" class="form-control" placeholder="Your email address" required>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+        </form>
+        <div style="margin-top:1.5rem;">
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-links" style="gap:.5rem;">
+            <li><a href="mailto:claudetechfx@gmail.com"><i class="fas fa-envelope"></i> info@forexacademypro.com</a></li>
+            <li><a href="tel:+1234567890"><i class="fas fa-phone"></i> +(237)675175534</a></li>
+            <li><a href="contact.html"><i class="fab fa-whatsapp"></i> WhatsApp Support</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Claudefx Academy Pro. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Risk Disclosure</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+</footer>
+
+<!-- Scroll to Top -->
+<button class="scroll-top" aria-label="Scroll to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Cookie Banner -->
+<div class="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;background:var(--color-dark-2);border-top:1px solid rgba(255,255,255,0.08);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:9998;transform:translateY(100%);transition:transform .4s ease;flex-wrap:wrap;">
+  <p style="font-size:.875rem;color:var(--color-text-secondary);margin:0; flex:1; min-width:200px;">
+    <i class="fas fa-cookie-bite" style="color:var(--color-gold);margin-right:.5rem;"></i>
+    We use cookies to enhance your experience and analyze traffic. By continuing, you agree to our <a href="#" style="color:var(--color-gold);">cookie policy</a>.
+  </p>
+  <div style="display:flex;gap:.75rem;flex-shrink:0;">
+    <button class="btn btn-ghost btn-sm">Decline</button>
+    <button class="btn btn-primary btn-sm" data-accept><i class="fas fa-check"></i> Accept All</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SCRIPTS ═══════════════════════════════════ -->
+<script src="assets/vendors/aos/aos.js"></script>
+<script src="assets/vendors/swiper/swiper-bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
+

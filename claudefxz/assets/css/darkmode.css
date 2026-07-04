@@ -1,0 +1,110 @@
+/* ============================================================
+   FOREX ACADEMY PRO — darkmode.css
+   Light mode overrides (dark mode is the default)
+   ============================================================ */
+
+/* Light mode is NOT the default — the site ships dark.
+   These overrides activate when user adds .light-mode to <html>
+   via the theme toggle in settings. */
+
+html.light-mode {
+  --color-black:      #F4F5F7;
+  --color-dark:       #FAFAFA;
+  --color-dark-2:     #FFFFFF;
+  --color-dark-3:     #F0F2F5;
+  --color-dark-4:     #E8EBF0;
+  --color-surface:    #E2E6ED;
+
+  --color-text-primary:   #0D1117;
+  --color-text-secondary: #4B5563;
+  --color-text-muted:     #9CA3AF;
+
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,0.12);
+  --shadow-gold: 0 0 32px rgba(201,168,76,0.12);
+}
+
+html.light-mode body {
+  background: var(--color-black);
+  color: var(--color-text-primary);
+}
+
+html.light-mode .navbar.scrolled {
+  background: rgba(244,245,247,0.92);
+  border-bottom-color: rgba(0,0,0,0.06);
+}
+
+html.light-mode .nav-dropdown {
+  background: #fff;
+  border-color: rgba(0,0,0,0.08);
+}
+
+html.light-mode .hero-bg img { opacity: 0.15; }
+html.light-mode .hero-bg::after {
+  background: linear-gradient(
+    135deg,
+    rgba(244,245,247,0.97) 0%,
+    rgba(244,245,247,0.85) 50%,
+    rgba(244,245,247,0.92) 100%
+  );
+}
+
+html.light-mode .card,
+html.light-mode .feature-card,
+html.light-mode .course-card,
+html.light-mode .blog-card,
+html.light-mode .team-card,
+html.light-mode .pricing-card,
+html.light-mode .testimonial-card,
+html.light-mode .signal-card,
+html.light-mode .faq-item {
+  border-color: rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+html.light-mode .form-control {
+  background: #fff;
+  border-color: rgba(0,0,0,0.1);
+  color: var(--color-text-primary);
+}
+html.light-mode .form-control::placeholder { color: #9CA3AF; }
+
+html.light-mode .mobile-nav {
+  background: #fff;
+}
+
+html.light-mode .footer {
+  background: #F0F2F5;
+  border-top-color: rgba(0,0,0,0.06);
+}
+
+html.light-mode .footer-top { border-bottom-color: rgba(0,0,0,0.06); }
+html.light-mode .footer-bottom-links a { color: var(--color-text-secondary); }
+
+html.light-mode .trust-logo {
+  filter: grayscale(0);
+  opacity: 0.6;
+}
+
+html.light-mode .ticker-bar {
+  background: #fff;
+  border-color: rgba(0,0,0,0.06);
+}
+
+html.light-mode .table thead tr { background: var(--color-dark-3); }
+html.light-mode .table tbody tr:hover { background: rgba(0,0,0,0.02); }
+html.light-mode th { color: var(--color-text-secondary); }
+html.light-mode td { color: var(--color-text-secondary); }
+
+html.light-mode .progress { background: rgba(0,0,0,0.06); }
+
+html.light-mode .page-loader { background: var(--color-black); }
+
+/* Transition when toggling */
+html, body, .navbar, .card, .feature-card, .course-card,
+.footer, .form-control, .mobile-nav {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}

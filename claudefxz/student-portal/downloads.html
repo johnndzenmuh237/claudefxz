@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloads | Forex Academy Pro</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/darkmode.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+<div class="page-loader"><div class="loader-ring"></div></div>
+<div class="dashboard-layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="dashboard.html" class="sidebar-brand">
+      <img src="../assets/images/logo/logo-icon.png" alt="Logo" onerror="this.style.display='none'">
+      <span class="sidebar-brand-name">Claudefx<span style="color:var(--color-gold);">Academy</span></span>
+    </a>
+    <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link ">
+        <i class="fas fa-th-large"></i><span class="link-text">Dashboard</span>
+      </a>
+      <a href="my-courses.html" class="sidebar-link ">
+        <i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span>
+      </a>
+      <a href="live-sessions.html" class="sidebar-link ">
+        <i class="fas fa-video"></i><span class="link-text">Live Sessions</span>
+        <span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span>
+      </a>
+      <a href="assignments.html" class="sidebar-link ">
+        <i class="fas fa-tasks"></i><span class="link-text">Assignments</span>
+        <span class="badge badge-danger" style="font-size:9px;margin-left:auto;">3</span>
+      </a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Resources</div>
+      <a href="downloads.html" class="sidebar-link active">
+        <i class="fas fa-download"></i><span class="link-text">Downloads</span>
+      </a>
+      <a href="certificates.html" class="sidebar-link ">
+        <i class="fas fa-certificate"></i><span class="link-text">Certificates</span>
+      </a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Account</div>
+      <a href="profile.html" class="sidebar-link ">
+        <i class="fas fa-user"></i><span class="link-text">My Profile</span>
+      </a>
+      <a href="settings.html" class="sidebar-link ">
+        <i class="fas fa-cog"></i><span class="link-text">Settings</span>
+      </a>
+      <a href="../index.html" class="sidebar-link">
+        <i class="fas fa-globe"></i><span class="link-text">Back to Site</span>
+      </a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <img class="sidebar-user-avatar" src="../assets/images/traders/student-avatar.jpg"
+           alt="Student" onerror="this.src='data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;36&quot; height=&quot;36&quot; viewBox=&quot;0 0 36 36&quot;><rect width=&quot;36&quot; height=&quot;36&quot; fill=&quot;%23252B37&quot; rx=&quot;18&quot;/><text x=&quot;18&quot; y=&quot;23&quot; text-anchor=&quot;middle&quot; fill=&quot;%23C9A84C&quot; font-size=&quot;14&quot; font-family=&quot;sans-serif&quot;>AJ</text></svg>'">
+      <div style="overflow:hidden;min-width:0;">
+        <div class="sidebar-user-name">Alex Johnson</div>
+        <div class="sidebar-user-role">Professional Plan</div>
+      </div>
+      <i class="fas fa-chevron-right sidebar-user-icon"></i>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay"></div>
+  <div class="dashboard-main" id="dashboard-main">
+    <div class="dashboard-topbar">
+  <div class="topbar-left">
+    <button class="topbar-mobile-toggle"><i class="fas fa-bars"></i></button>
+    <div class="topbar-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search courses, lessons...">
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="topbar-action" data-notif-toggle title="Notifications">
+      <i class="fas fa-bell"></i>
+      <span class="notif-badge"></span>
+    </button>
+    <button class="topbar-action" data-theme-toggle title="Toggle theme">
+      <i class="fas fa-moon"></i>
+    </button>
+    <div class="topbar-user">
+      <img src="../assets/images/traders/student-avatar.jpg" alt="User"
+           onerror="this.style.display='none'"
+           style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
+      <span class="topbar-user-name">Alex J.</span>
+      <i class="fas fa-chevron-down" style="font-size:10px;color:var(--color-text-muted);"></i>
+    </div>
+  </div>
+</div>
+    <div class="notif-drawer">
+  <div class="notif-drawer-header">
+    <span class="notif-drawer-title">Notifications</span>
+    <button class="btn btn-ghost btn-sm" data-notif-toggle>Close</button>
+  </div>
+  <div class="notif-item unread">
+    <div class="notif-item-icon stat-card-gold"><i class="fas fa-signal"></i></div>
+    <div><div class="notif-text"><strong>New Signal:</strong> EUR/USD BUY @ 1.08450</div><div class="notif-time">2 min ago</div></div>
+  </div>
+  <div class="notif-item unread">
+    <div class="notif-item-icon stat-card-blue"><i class="fas fa-video"></i></div>
+    <div><div class="notif-text"><strong>Live Session</strong> starts in 30 minutes</div><div class="notif-time">28 min ago</div></div>
+  </div>
+  <div class="notif-item">
+    <div class="notif-item-icon stat-card-green"><i class="fas fa-check"></i></div>
+    <div><div class="notif-text">Assignment graded — <strong>92/100</strong></div><div class="notif-time">1 hour ago</div></div>
+  </div>
+  <div class="notif-item">
+    <div class="notif-item-icon stat-card-gold"><i class="fas fa-trophy"></i></div>
+    <div><div class="notif-text">You earned the <strong>Consistent Trader</strong> badge!</div><div class="notif-time">3 hours ago</div></div>
+  </div>
+</div>
+    <div class="dashboard-content">
+
+<div class="dash-page-header">
+  <div>
+    <h1 class="dash-page-title">Downloads</h1>
+    <p class="dash-page-sub">Access your course materials, cheat sheets, indicators, and templates.</p>
+  </div>
+</div>
+
+<div class="tabs" data-tabs style="margin-bottom:2rem;">
+  <button class="tab-btn active" data-tab="dl-all">All Files</button>
+  <button class="tab-btn" data-tab="dl-guides">Guides & PDFs</button>
+  <button class="tab-btn" data-tab="dl-indicators">Indicators</button>
+  <button class="tab-btn" data-tab="dl-templates">Templates</button>
+  <button class="tab-btn" data-tab="dl-recordings">Recordings</button>
+</div>
+
+<div id="dl-all" class="tab-pane active">
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>File Name</th><th>Category</th><th>Size</th><th>Date Added</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(239,68,68,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-pdf" style="color:var(--color-danger);"></i></div><div><strong>Forex Fundamentals — Complete Course Guide</strong><div style="font-size:.75rem;color:var(--color-text-muted);">PDF Ebook</div></div></div></td>
+          <td><span class="badge badge-info">Guide</span></td>
+          <td>4.2 MB</td><td>Jan 15, 2025</td>
+          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
+        </tr>
+        <tr>
+          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-image" style="color:var(--color-gold);"></i></div><div><strong>Technical Analysis Cheat Sheet</strong><div style="font-size:.75rem;color:var(--color-text-muted);">High-res PNG</div></div></div></td>
+          <td><span class="badge badge-gold">Cheat Sheet</span></td>
+          <td>1.8 MB</td><td>Jan 12, 2025</td>
+          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
+        </tr>
+        <tr>
+          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(59,130,246,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-code" style="color:var(--color-info);"></i></div><div><strong>ICT Custom Indicator v2.1</strong><div style="font-size:.75rem;color:var(--color-text-muted);">MT4 / MT5 .ex4 file</div></div></div></td>
+          <td><span class="badge badge-success">Indicator</span></td>
+          <td>284 KB</td><td>Jan 8, 2025</td>
+          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
+        </tr>
+        <tr>
+          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(34,197,94,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-excel" style="color:var(--color-success);"></i></div><div><strong>Trade Journal Template 2025</strong><div style="font-size:.75rem;color:var(--color-text-muted);">Excel .xlsx</div></div></div></td>
+          <td><span class="badge badge-surface">Template</span></td>
+          <td>512 KB</td><td>Jan 5, 2025</td>
+          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
+        </tr>
+        <tr>
+          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(168,85,247,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-video" style="color:#a855f7;"></i></div><div><strong>Live Session: ICT Order Blocks (Recording)</strong><div style="font-size:.75rem;color:var(--color-text-muted);">MP4 Video</div></div></div></td>
+          <td><span class="badge badge-danger">Recording</span></td>
+          <td>1.2 GB</td><td>Jan 3, 2025</td>
+          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-play"></i> Watch</a></td>
+        </tr>
+        <tr>
+          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(239,68,68,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-pdf" style="color:var(--color-danger);"></i></div><div><strong>Risk Management Workbook</strong><div style="font-size:.75rem;color:var(--color-text-muted);">PDF + fillable form</div></div></div></td>
+          <td><span class="badge badge-info">Guide</span></td>
+          <td>2.1 MB</td><td>Dec 28, 2024</td>
+          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="dl-guides" class="tab-pane"></div>
+<div id="dl-indicators" class="tab-pane"></div>
+<div id="dl-templates" class="tab-pane"></div>
+<div id="dl-recordings" class="tab-pane"></div>
+    </div>
+  </div>
+</div>
+<script src="../assets/vendors/aos/aos.js"></script>
+<script src="../assets/vendors/chartjs/chart.umd.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

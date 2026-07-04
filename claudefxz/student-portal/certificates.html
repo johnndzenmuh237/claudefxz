@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificates | Forex Academy Pro</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/darkmode.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+<div class="page-loader"><div class="loader-ring"></div></div>
+<div class="dashboard-layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="dashboard.html" class="sidebar-brand">
+      <img src="../assets/images/logo/logo-icon.png" alt="Logo" onerror="this.style.display='none'">
+      <span class="sidebar-brand-name">Claudefx<span style="color:var(--color-gold);">Academy</span></span>
+    </a>
+    <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link ">
+        <i class="fas fa-th-large"></i><span class="link-text">Dashboard</span>
+      </a>
+      <a href="my-courses.html" class="sidebar-link ">
+        <i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span>
+      </a>
+      <a href="live-sessions.html" class="sidebar-link ">
+        <i class="fas fa-video"></i><span class="link-text">Live Sessions</span>
+        <span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span>
+      </a>
+      <a href="assignments.html" class="sidebar-link ">
+        <i class="fas fa-tasks"></i><span class="link-text">Assignments</span>
+        <span class="badge badge-danger" style="font-size:9px;margin-left:auto;">3</span>
+      </a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Resources</div>
+      <a href="downloads.html" class="sidebar-link ">
+        <i class="fas fa-download"></i><span class="link-text">Downloads</span>
+      </a>
+      <a href="certificates.html" class="sidebar-link active">
+        <i class="fas fa-certificate"></i><span class="link-text">Certificates</span>
+      </a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Account</div>
+      <a href="profile.html" class="sidebar-link ">
+        <i class="fas fa-user"></i><span class="link-text">My Profile</span>
+      </a>
+      <a href="settings.html" class="sidebar-link ">
+        <i class="fas fa-cog"></i><span class="link-text">Settings</span>
+      </a>
+      <a href="../index.html" class="sidebar-link">
+        <i class="fas fa-globe"></i><span class="link-text">Back to Site</span>
+      </a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <img class="sidebar-user-avatar" src="../assets/images/traders/student-avatar.jpg"
+           alt="Student" onerror="this.src='data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;36&quot; height=&quot;36&quot; viewBox=&quot;0 0 36 36&quot;><rect width=&quot;36&quot; height=&quot;36&quot; fill=&quot;%23252B37&quot; rx=&quot;18&quot;/><text x=&quot;18&quot; y=&quot;23&quot; text-anchor=&quot;middle&quot; fill=&quot;%23C9A84C&quot; font-size=&quot;14&quot; font-family=&quot;sans-serif&quot;>AJ</text></svg>'">
+      <div style="overflow:hidden;min-width:0;">
+        <div class="sidebar-user-name">Alex Johnson</div>
+        <div class="sidebar-user-role">Professional Plan</div>
+      </div>
+      <i class="fas fa-chevron-right sidebar-user-icon"></i>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay"></div>
+  <div class="dashboard-main" id="dashboard-main">
+    <div class="dashboard-topbar">
+  <div class="topbar-left">
+    <button class="topbar-mobile-toggle"><i class="fas fa-bars"></i></button>
+    <div class="topbar-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search courses, lessons...">
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="topbar-action" data-notif-toggle title="Notifications">
+      <i class="fas fa-bell"></i>
+      <span class="notif-badge"></span>
+    </button>
+    <button class="topbar-action" data-theme-toggle title="Toggle theme">
+      <i class="fas fa-moon"></i>
+    </button>
+    <div class="topbar-user">
+      <img src="../assets/images/traders/student-avatar.jpg" alt="User"
+           onerror="this.style.display='none'"
+           style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
+      <span class="topbar-user-name">Alex J.</span>
+      <i class="fas fa-chevron-down" style="font-size:10px;color:var(--color-text-muted);"></i>
+    </div>
+  </div>
+</div>
+    <div class="notif-drawer">
+  <div class="notif-drawer-header">
+    <span class="notif-drawer-title">Notifications</span>
+    <button class="btn btn-ghost btn-sm" data-notif-toggle>Close</button>
+  </div>
+  <div class="notif-item unread">
+    <div class="notif-item-icon stat-card-gold"><i class="fas fa-signal"></i></div>
+    <div><div class="notif-text"><strong>New Signal:</strong> EUR/USD BUY @ 1.08450</div><div class="notif-time">2 min ago</div></div>
+  </div>
+  <div class="notif-item unread">
+    <div class="notif-item-icon stat-card-blue"><i class="fas fa-video"></i></div>
+    <div><div class="notif-text"><strong>Live Session</strong> starts in 30 minutes</div><div class="notif-time">28 min ago</div></div>
+  </div>
+  <div class="notif-item">
+    <div class="notif-item-icon stat-card-green"><i class="fas fa-check"></i></div>
+    <div><div class="notif-text">Assignment graded — <strong>92/100</strong></div><div class="notif-time">1 hour ago</div></div>
+  </div>
+  <div class="notif-item">
+    <div class="notif-item-icon stat-card-gold"><i class="fas fa-trophy"></i></div>
+    <div><div class="notif-text">You earned the <strong>Consistent Trader</strong> badge!</div><div class="notif-time">3 hours ago</div></div>
+  </div>
+</div>
+    <div class="dashboard-content">
+
+<div class="dash-page-header">
+  <div>
+    <h1 class="dash-page-title">My Certificates</h1>
+    <p class="dash-page-sub">Your earned credentials from completed courses.</p>
+  </div>
+</div>
+
+<div class="alert alert-success" style="margin-bottom:2rem;">
+  <i class="fas fa-trophy"></i>
+  <span>You have earned <strong>2 certificates</strong> so far. Complete more courses to unlock additional credentials!</span>
+</div>
+
+<div class="grid-2" style="margin-bottom:2rem;">
+  <div class="certificate-card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;">
+      <div class="certificate-icon" style="font-size:2.5rem;"><i class="fas fa-medal"></i></div>
+      <span class="badge badge-gold">Verified</span>
+    </div>
+    <div class="certificate-title">Risk Management Expert</div>
+    <div class="certificate-sub">Awarded to Alex Johnson for successfully completing Risk Management & Psychology with a score of 92%.</div>
+    <div style="font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;">Issued: January 15, 2025 · ID: FAP-2025-001</div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+      <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Download PDF</a>
+      <a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-share-alt"></i> Share</a>
+      <a href="#" class="btn btn-ghost btn-sm"><i class="fab fa-linkedin"></i> Add to LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="certificate-card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;">
+      <div class="certificate-icon" style="font-size:2.5rem;"><i class="fas fa-graduation-cap"></i></div>
+      <span class="badge badge-gold">Verified</span>
+    </div>
+    <div class="certificate-title">Forex Beginner Certified</div>
+    <div class="certificate-sub">Awarded to Alex Johnson for successfully completing Forex for Complete Beginners with a score of 88%.</div>
+    <div style="font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;">Issued: November 22, 2024 · ID: FAP-2024-087</div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+      <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Download PDF</a>
+      <a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-share-alt"></i> Share</a>
+      <a href="#" class="btn btn-ghost btn-sm"><i class="fab fa-linkedin"></i> Add to LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<h3 style="font-size:1.25rem;margin-bottom:1rem;">Certificates In Progress</h3>
+<div style="display:flex;flex-direction:column;gap:.75rem;">
+  <div class="card" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;flex-wrap:wrap;">
+    <div style="width:52px;height:52px;border-radius:var(--radius-lg);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.25rem;color:var(--color-text-muted);"><i class="fas fa-lock"></i></div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-weight:600;margin-bottom:.25rem;">Advanced Technical Analysis Certificate</div>
+      <div style="margin-bottom:.5rem;">
+        <div class="progress" style="height:6px;"><div class="progress-bar" style="width:45%;"></div></div>
+      </div>
+      <div style="font-size:.8rem;color:var(--color-text-muted);">45% complete — 35 lessons remaining</div>
+    </div>
+    <a href="my-courses.html" class="btn btn-outline btn-sm" style="flex-shrink:0;">Continue Course</a>
+  </div>
+
+  <div class="card" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;flex-wrap:wrap;">
+    <div style="width:52px;height:52px;border-radius:var(--radius-lg);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.25rem;color:var(--color-text-muted);"><i class="fas fa-lock"></i></div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-weight:600;margin-bottom:.25rem;">Synthetic Indices Mastery Certificate</div>
+      <div style="margin-bottom:.5rem;">
+        <div class="progress" style="height:6px;"><div class="progress-bar" style="width:12%;"></div></div>
+      </div>
+      <div style="font-size:.8rem;color:var(--color-text-muted);">12% complete — 47 lessons remaining</div>
+    </div>
+    <a href="my-courses.html" class="btn btn-outline btn-sm" style="flex-shrink:0;">Continue Course</a>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<script src="../assets/vendors/aos/aos.js"></script>
+<script src="../assets/vendors/chartjs/chart.umd.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

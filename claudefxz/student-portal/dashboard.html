@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Claudefx Academy Pro</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/darkmode.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <style>
+    @keyframes flashUpdate { 0%{background:rgba(201,168,76,0.18);}100%{background:transparent;} }
+    .updated { animation:flashUpdate 1.2s ease; }
+    .admin-message-banner{background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.3);border-radius:var(--radius-xl);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem;}
+    .admin-message-banner i{color:var(--color-gold);font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+    .connection-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;}
+    .connection-dot.online{background:var(--color-success);box-shadow:0 0 6px rgba(34,197,94,0.5);}
+    .connection-dot.offline{background:var(--color-danger);}
+  </style>
+</head>
+<body>
+<div class="page-loader"><div class="loader-ring"></div></div>
+<div class="dashboard-layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="dashboard.html" class="sidebar-brand">
+      <img src="../assets/images/logo/logo-icon.png" alt="Logo" onerror="this.style.display='none'">
+      <span class="sidebar-brand-name">Claudefx<span style="color:var(--color-gold);">Academy</span></span>
+    </a>
+    <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link active"><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a>
+      <a href="my-courses.html" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
+      <a href="live-sessions.html" class="sidebar-link"><i class="fas fa-video"></i><span class="link-text">Live Sessions</span><span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span></a>
+      <a href="assignments.html" class="sidebar-link"><i class="fas fa-tasks"></i><span class="link-text">Assignments</span><span class="badge badge-danger" id="assignmentBadge" style="font-size:9px;margin-left:auto;display:none;">0</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Resources</div>
+      <a href="downloads.html" class="sidebar-link"><i class="fas fa-download"></i><span class="link-text">Downloads</span></a>
+      <a href="certificates.html" class="sidebar-link"><i class="fas fa-certificate"></i><span class="link-text">Certificates</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Account</div>
+      <a href="profile.html" class="sidebar-link"><i class="fas fa-user"></i><span class="link-text">My Profile</span></a>
+      <a href="settings.html" class="sidebar-link"><i class="fas fa-cog"></i><span class="link-text">Settings</span></a>
+      <a href="../index.html" class="sidebar-link"><i class="fas fa-globe"></i><span class="link-text">Back to Site</span></a>
+      <a href="#" class="sidebar-link" id="logoutBtn" style="color:var(--color-danger);"><i class="fas fa-sign-out-alt"></i><span class="link-text">Sign Out</span></a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user" onclick="window.location='profile.html'" style="cursor:pointer;">
+      <img class="sidebar-user-avatar" id="sidebarAvatar" src="../assets/images/traders/student-avatar.jpg" alt="Student" onerror="this.style.display='none'">
+      <div style="overflow:hidden;min-width:0;">
+        <div class="sidebar-user-name" data-user-name>Loading…</div>
+        <div class="sidebar-user-role" data-user-plan>—</div>
+      </div>
+      <i class="fas fa-chevron-right sidebar-user-icon"></i>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay"></div>
+<div class="dashboard-main" id="dashboard-main">
+  <div class="dashboard-topbar">
+    <div class="topbar-left">
+      <button class="topbar-mobile-toggle"><i class="fas fa-bars"></i></button>
+      <div class="topbar-search"><i class="fas fa-search"></i><input type="text" placeholder="Search courses, lessons…"></div>
+    </div>
+    <div class="topbar-right">
+      <span id="connectionStatus" style="font-size:.7rem;color:var(--color-text-muted);display:flex;align-items:center;gap:4px;">
+        <span class="connection-dot online" id="connDot"></span><span id="connText">Live</span>
+      </span>
+      <button class="topbar-action" data-notif-toggle title="Notifications">
+        <i class="fas fa-bell"></i><span class="notif-badge" id="notifBadge" style="display:none;"></span>
+      </button>
+      <button class="topbar-action" data-theme-toggle title="Toggle theme"><i class="fas fa-moon"></i></button>
+      <div class="topbar-user" onclick="window.location='profile.html'" style="cursor:pointer;">
+        <img id="topbarAvatar" src="../assets/images/traders/student-avatar.jpg" alt="User" onerror="this.style.display='none'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
+        <span class="topbar-user-name" data-user-name>…</span>
+        <i class="fas fa-chevron-down" style="font-size:10px;color:var(--color-text-muted);"></i>
+      </div>
+    </div>
+  </div>
+  <div class="notif-drawer" id="notifDrawer">
+    <div class="notif-drawer-header">
+      <span class="notif-drawer-title">Notifications</span>
+      <button class="btn btn-ghost btn-sm" data-notif-toggle>Close</button>
+    </div>
+    <div id="notifList"><div style="padding:2rem;text-align:center;color:var(--color-text-muted);font-size:.875rem;"><i class="fas fa-bell" style="font-size:2rem;display:block;margin-bottom:.75rem;"></i>No notifications yet</div></div>
+  </div>
+  <div class="dashboard-content">
+    <div class="dash-page-header">
+      <div>
+        <h1 class="dash-page-title" data-user-greeting>Good morning 👋</h1>
+        <p class="dash-page-sub" id="planSubtitle">Loading your dashboard…</p>
+      </div>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+        <a href="../signals.html" class="btn btn-outline btn-sm"><i class="fas fa-signal"></i> Live Signals</a>
+        <a href="my-courses.html" class="btn btn-primary btn-sm"><i class="fas fa-play"></i> Continue Learning</a>
+      </div>
+    </div>
+    <div class="admin-message-banner" id="adminMsgBanner" style="display:none;">
+      <i class="fas fa-bullhorn"></i>
+      <div style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;">
+        <strong style="color:var(--color-text-primary);">Message from your instructor:</strong>
+        <div id="adminMsgText" style="margin-top:4px;"></div>
+      </div>
+    </div>
+    <div class="dash-stats">
+      <div class="stat-card" id="statCoursesCard">
+        <div class="stat-card-icon stat-card-gold"><i class="fas fa-graduation-cap"></i></div>
+        <div class="stat-card-info">
+          <div class="stat-card-label">Courses Enrolled</div>
+          <div class="stat-card-value" data-stat-courses>—</div>
+          <span class="stat-card-change change-up"><i class="fas fa-arrow-up"></i> Updated live</span>
+        </div>
+      </div>
+      <div class="stat-card" id="statLessonsCard">
+        <div class="stat-card-icon stat-card-green"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-card-info">
+          <div class="stat-card-label">Lessons Completed</div>
+          <div class="stat-card-value" data-stat-lessons>—</div>
+          <span class="stat-card-change change-up"><i class="fas fa-arrow-up"></i> Keep going!</span>
+        </div>
+      </div>
+      <div class="stat-card" id="statCertsCard">
+        <div class="stat-card-icon stat-card-blue"><i class="fas fa-certificate"></i></div>
+        <div class="stat-card-info">
+          <div class="stat-card-label">Certificates Earned</div>
+          <div class="stat-card-value" data-stat-certs>—</div>
+          <span class="stat-card-change change-up"><i class="fas fa-award"></i> Earned</span>
+        </div>
+      </div>
+      <div class="stat-card" id="statStreakCard">
+        <div class="stat-card-icon stat-card-gold"><i class="fas fa-fire"></i></div>
+        <div class="stat-card-info">
+          <div class="stat-card-label">Day Streak</div>
+          <div class="stat-card-value" data-stat-streak>—</div>
+          <span class="stat-card-change change-up"><i class="fas fa-fire"></i> On fire!</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="gap:1.5rem;margin-bottom:1.5rem;">
+      <div class="dash-widget">
+        <div class="dash-widget-header"><span class="dash-widget-title">Course Progress</span><a href="my-courses.html" class="btn btn-ghost btn-sm">View All</a></div>
+        <div class="dash-widget-body" id="courseProgressList"><div style="text-align:center;padding:2rem;color:var(--color-text-muted);"><div class="loader-ring" style="margin:0 auto;"></div><p style="margin-top:.75rem;font-size:.8rem;">Loading…</p></div></div>
+      </div>
+      <div class="dash-widget">
+        <div class="dash-widget-header"><span class="dash-widget-title">Recent Activity</span></div>
+        <div class="dash-widget-body" id="activityList"><div style="text-align:center;padding:2rem;color:var(--color-text-muted);"><div class="loader-ring" style="margin:0 auto;"></div></div></div>
+      </div>
+    </div>
+    <div class="grid-2" style="gap:1.5rem;margin-bottom:1.5rem;">
+      <div class="dash-widget">
+        <div class="dash-widget-header"><span class="dash-widget-title">Trading Performance</span><span class="badge badge-gold">Last 12 months</span></div>
+        <div class="dash-widget-body" style="height:300px;"><canvas id="revenueChart"></canvas></div>
+      </div>
+      <div class="dash-widget">
+        <div class="dash-widget-header"><span class="dash-widget-title">Trader Score Radar</span><span class="badge badge-success">Good progress</span></div>
+        <div class="dash-widget-body" style="height:300px;"><canvas id="performanceChart"></canvas></div>
+      </div>
+    </div>
+    <div class="grid-2" style="gap:1.5rem;">
+      <div class="dash-widget">
+        <div class="dash-widget-header"><span class="dash-widget-title">Upcoming Sessions</span><a href="live-sessions.html" class="btn btn-ghost btn-sm">View All</a></div>
+        <div class="dash-widget-body" id="sessionsList"><div style="text-align:center;padding:2rem;color:var(--color-text-muted);font-size:.875rem;">No sessions scheduled yet.</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="certificate-card" id="certCard" style="display:none;">
+          <div class="certificate-icon"><i class="fas fa-award"></i></div>
+          <div class="certificate-title" id="certTitle">Certificate</div>
+          <div class="certificate-sub" id="certSub">Forex Academy Pro</div>
+          <a href="certificates.html" class="btn btn-outline-gold btn-sm"><i class="fas fa-download"></i> Download PDF</a>
+        </div>
+        <div class="card" style="text-align:center;padding:1.5rem;">
+          <i class="fas fa-fire" style="font-size:2rem;color:var(--color-warning);margin-bottom:.75rem;display:block;"></i>
+          <div style="font-size:2rem;font-weight:800;color:var(--color-gold);" data-stat-streak>—</div>
+          <div style="font-size:.875rem;color:var(--color-text-secondary);">Day Learning Streak</div>
+          <div style="font-size:.75rem;color:var(--color-text-muted);margin-top:.5rem;" id="streakMsg">Keep going!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="../assets/vendors/aos/aos.js"></script>
+<script src="../assets/vendors/chartjs/chart.umd.min.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+
+<script type="module">
+import { auth, db } from '../assets/js/firebase/firebase-config.js';
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, onSnapshot, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { populateUserUI } from '../assets/js/firebase/auth-helpers.js';
+
+let unsubscribe = null;
+let revenueChart = null, performanceChart = null;
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) { window.location.href = '../auth/login.html'; return; }
+  startSync(user.uid);
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+  e.preventDefault();
+  if (unsubscribe) unsubscribe();
+  await signOut(auth);
+  window.location.href = '../auth/login.html';
+});
+
+function startSync(uid) {
+  unsubscribe = onSnapshot(doc(db, 'users', uid), (snap) => {
+    document.getElementById('connDot').className = 'connection-dot online';
+    document.getElementById('connText').textContent = 'Live';
+    if (!snap.exists()) return;
+    const p = snap.data();
+    populateUserUI(p);
+    document.getElementById('planSubtitle').textContent = (p.plan||'Starter') + ' Plan · Welcome to your learning hub';
+    if (p.adminMessage) { document.getElementById('adminMsgBanner').style.display='flex'; document.getElementById('adminMsgText').textContent=p.adminMessage; }
+    else { document.getElementById('adminMsgBanner').style.display='none'; }
+    ['statCoursesCard','statLessonsCard','statCertsCard','statStreakCard'].forEach(flashUpdate);
+    const streak = p.stats?.dayStreak||0;
+    document.getElementById('streakMsg').textContent = streak>=30?'🔥 Incredible!':streak>=14?'🚀 On fire!':streak>=7?'💪 Great!':'Keep going!';
+    const pending = p.pendingAssignments||0;
+    const badge = document.getElementById('assignmentBadge');
+    if (pending>0) { badge.textContent=pending; badge.style.display='inline-flex'; } else badge.style.display='none';
+    renderCourseProgress(p.courses||[]);
+    renderActivity(p.recentActivity||[]);
+    renderSessions(p.upcomingSessions||[]);
+    renderNotifications(p.notifications||[]);
+    if (p.latestCertificate) { document.getElementById('certCard').style.display='block'; document.getElementById('certTitle').textContent=p.latestCertificate.title||'Certificate'; document.getElementById('certSub').textContent=p.latestCertificate.issued||'Forex Academy Pro'; }
+    updateCharts(p.performanceData||{});
+    updateDoc(doc(db,'users',uid),{lastSeen:serverTimestamp()}).catch(()=>{});
+  }, (err) => {
+    document.getElementById('connDot').className='connection-dot offline';
+    document.getElementById('connText').textContent='Offline';
+  });
+}
+
+function flashUpdate(id) { const el=document.getElementById(id); if(!el)return; el.classList.remove('updated'); void el.offsetWidth; el.classList.add('updated'); }
+
+function renderCourseProgress(courses) {
+  const el = document.getElementById('courseProgressList');
+  if (!courses.length) { el.innerHTML='<div style="text-align:center;padding:2rem;color:var(--color-text-muted);font-size:.875rem;"><i class="fas fa-graduation-cap" style="font-size:2rem;display:block;margin-bottom:.75rem;opacity:.3;"></i>No courses enrolled yet.<br><a href="../courses.html" style="color:var(--color-gold);">Browse courses →</a></div>'; return; }
+  el.innerHTML = courses.map(c=>`<div class="course-progress-item"><img class="course-progress-thumb" src="${c.thumb||'../assets/images/courses/placeholder.jpg'}" alt="${c.title}" onerror="this.style.background='var(--color-dark-3)'"><div class="course-progress-info"><div class="course-progress-name">${c.title}</div><div class="course-progress-bar-wrap"><div class="progress"><div class="progress-bar" style="width:${c.progress||0}%;${c.progress>=100?'background:var(--color-success);':''}"></div></div><span class="course-progress-pct" ${c.progress>=100?'style="color:var(--color-success);"':''}>${c.progress>=100?'✓':(c.progress||0)+'%'}</span></div></div></div>`).join('');
+}
+
+function renderActivity(activities) {
+  const el = document.getElementById('activityList');
+  const icons={lesson:'fa-check',signal:'fa-signal',session:'fa-video',certificate:'fa-certificate',assignment:'fa-tasks',payment:'fa-credit-card',message:'fa-comment'};
+  const cls={lesson:'stat-card-green',signal:'stat-card-gold',session:'stat-card-blue',certificate:'stat-card-gold',assignment:'stat-card-green',payment:'stat-card-green',message:'stat-card-blue'};
+  if (!activities.length) { el.innerHTML='<div style="text-align:center;padding:2rem;color:var(--color-text-muted);font-size:.875rem;">No activity yet. Start learning!</div>'; return; }
+  el.innerHTML = activities.slice(0,8).map(a=>`<div class="activity-item"><div class="activity-icon ${cls[a.type]||'stat-card-gold'}"><i class="fas ${icons[a.type]||'fa-circle'}" style="font-size:13px;"></i></div><div class="activity-text">${a.text||''}</div><span class="activity-time">${a.time||''}</span></div>`).join('');
+}
+
+function renderSessions(sessions) {
+  const el = document.getElementById('sessionsList');
+  if (!sessions.length) { el.innerHTML='<div style="text-align:center;padding:2rem;color:var(--color-text-muted);font-size:.875rem;">No upcoming sessions yet.</div>'; return; }
+  const bcMap={today:'badge-gold',tomorrow:'badge-surface'};
+  el.innerHTML = sessions.slice(0,4).map(s=>`<div class="activity-item"><div class="activity-icon stat-card-blue"><i class="fas fa-video" style="font-size:13px;"></i></div><div><div style="font-size:.875rem;font-weight:600;">${s.title}</div><div style="font-size:.75rem;color:var(--color-text-muted);">${s.time||''} · ${s.instructor||''}</div></div>${s.when?`<span class="badge ${bcMap[s.when?.toLowerCase()]||'badge-info'}">${s.when}</span>`:''}</div>`).join('');
+}
+
+function renderNotifications(notifications) {
+  const unread=notifications.filter(n=>!n.read).length;
+  const badge=document.getElementById('notifBadge');
+  if(unread>0){badge.textContent=unread;badge.style.display='flex';}else badge.style.display='none';
+  const list=document.getElementById('notifList');
+  if(!notifications.length){list.innerHTML='<div style="padding:2rem;text-align:center;color:var(--color-text-muted);font-size:.875rem;"><i class="fas fa-bell" style="font-size:2rem;display:block;margin-bottom:.75rem;"></i>No notifications yet</div>';return;}
+  const icons={signal:'fa-signal',session:'fa-video',grade:'fa-check',badge:'fa-trophy',message:'fa-comment',payment:'fa-credit-card'};
+  const clss={signal:'stat-card-gold',session:'stat-card-blue',grade:'stat-card-green',badge:'stat-card-gold',message:'stat-card-blue',payment:'stat-card-green'};
+  list.innerHTML=notifications.slice(0,12).map(n=>`<div class="notif-item ${n.read?'':'unread'}"><div class="notif-item-icon ${clss[n.type]||'stat-card-gold'}"><i class="fas ${icons[n.type]||'fa-bell'}"></i></div><div><div class="notif-text">${n.text||''}</div><div class="notif-time">${n.time||''}</div></div></div>`).join('');
+}
+
+function updateCharts(data) {
+  const rCtx=document.getElementById('revenueChart');
+  if(rCtx&&window.Chart){
+    if(revenueChart)revenueChart.destroy();
+    revenueChart=new window.Chart(rCtx,{type:'line',data:{labels:data.months||['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],datasets:[{label:'Account ($)',data:data.values||[0,0,0,0,0,0,0,0,0,0,0,0],borderColor:'#C9A84C',backgroundColor:ctx=>{const g=ctx.chart.ctx.createLinearGradient(0,0,0,280);g.addColorStop(0,'rgba(201,168,76,0.25)');g.addColorStop(1,'rgba(201,168,76,0)');return g;},fill:true,tension:0.4,borderWidth:2,pointBackgroundColor:'#C9A84C',pointBorderColor:'#111318',pointBorderWidth:2,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1F242E',borderColor:'rgba(255,255,255,0.08)',borderWidth:1,padding:12}},scales:{x:{grid:{color:'rgba(255,255,255,0.05)'},border:{display:false}},y:{grid:{color:'rgba(255,255,255,0.05)'},border:{display:false},ticks:{callback:v=>'$'+v.toLocaleString()}}}}});
+  }
+  const pCtx=document.getElementById('performanceChart');
+  if(pCtx&&window.Chart){
+    if(performanceChart)performanceChart.destroy();
+    performanceChart=new window.Chart(pCtx,{type:'radar',data:{labels:data.radarLabels||['Accuracy','Risk/Reward','Discipline','Strategy','Psychology','Execution'],datasets:[{label:'Your Score',data:data.radarValues||[0,0,0,0,0,0],borderColor:'#C9A84C',backgroundColor:'rgba(201,168,76,0.12)',borderWidth:2,pointBackgroundColor:'#C9A84C',pointBorderColor:'#111318',pointBorderWidth:2,pointRadius:4},{label:'Average Trader',data:[55,48,60,52,50,58],borderColor:'rgba(255,255,255,0.2)',backgroundColor:'rgba(255,255,255,0.04)',borderWidth:1,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{padding:16,usePointStyle:true,pointStyle:'circle'}}},scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:'rgba(255,255,255,0.05)'},pointLabels:{color:'#9CA3B0',font:{size:12}},angleLines:{color:'rgba(255,255,255,0.05)'}}}}});
+  }
+}
+updateCharts({});
+</script>
+</body>
+</html>
