@@ -587,6 +587,7 @@ select.form-control { appearance: none; cursor: pointer; }
   z-index: calc(var(--z-sticky) - 1);
   padding-top: 80px;
   overflow-y: auto;
+}
 
 .mobile-nav.open { display: block; }
 .mobile-nav-inner {
