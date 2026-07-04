@@ -31,8 +31,27 @@
 /* ── Tablet (768px - 1199px) ── */
 @media (max-width: 1024px) {
   .navbar-nav  { display: none; }
-  .hamburger   { display: flex; }
+  .hamburger   { display: flex; flex-shrink: 0; }
   .navbar-actions .btn-outline { display: none; }
+
+  /* Free up space next to the hamburger: the "Get Started" CTA is
+     already duplicated inside the mobile drawer, so drop it from the
+     top bar. Without this, the theme toggle + CTA + hamburger compete
+     for room and the hamburger can get squeezed/clipped off-screen,
+     making it look like only the theme toggle is showing. */
+  .navbar-actions .btn-primary { display: none; }
+
+  .navbar-actions {
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+  .navbar-actions .btn-icon { flex-shrink: 0; }
+
+  .navbar-brand .brand-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   .grid-3      { grid-template-columns: repeat(2, 1fr); }
   .grid-2      { grid-template-columns: 1fr; }
@@ -139,8 +158,12 @@
 
   .hero-float-card { display: none; }
 
-  /* Stack navbar brand tighter */
-  .navbar-brand .brand-name { font-size: var(--text-lg); }
+  /* Stack navbar brand tighter, and cap its width so it can't push
+     the theme toggle / hamburger out of the visible row. */
+  .navbar-brand .brand-name {
+    font-size: var(--text-lg);
+    max-width: 140px;
+  }
 }
 
 /* ── Print ── */
