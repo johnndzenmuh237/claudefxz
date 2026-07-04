@@ -576,7 +576,6 @@ select.form-control { appearance: none; cursor: pointer; }
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Mobile Nav */
 .mobile-nav {
   display: none;
   position: fixed;
@@ -588,7 +587,7 @@ select.form-control { appearance: none; cursor: pointer; }
   z-index: calc(var(--z-sticky) - 1);
   padding-top: 80px;
   overflow-y: auto;
-}
+
 .mobile-nav.open { display: block; }
 .mobile-nav-inner {
   padding: var(--space-8) var(--container-pad);
