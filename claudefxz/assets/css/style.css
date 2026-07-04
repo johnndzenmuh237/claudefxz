@@ -105,14 +105,7 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-body {
-  font-family: var(--font-body);
-  background-color: var(--color-black);
-  color: var(--color-text-primary);
-  line-height: 1.65;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+overflow-x: clip; /* was: hidden — hidden breaks position:fixed children on mobile Safari */
 
 img { max-width: 100%; height: auto; display: block; }
 a  { color: inherit; text-decoration: none; }
