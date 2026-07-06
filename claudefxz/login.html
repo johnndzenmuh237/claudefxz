@@ -13,14 +13,11 @@
   <link rel="stylesheet" href="../assets/css/animations.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
   <style>
-    /* ── Auth page styles ── */
     .auth-layout {
       min-height: 100vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
     }
-
-    /* Left panel — decorative */
     .auth-panel {
       background: linear-gradient(145deg, #0A0B0D 0%, #111318 40%, #0d1117 100%);
       position: relative;
@@ -137,7 +134,6 @@
       flex-shrink: 0;
     }
 
-    /* Floating chart graphic */
     .panel-chart-graphic {
       position: absolute;
       bottom: 160px; right: 40px;
@@ -146,7 +142,6 @@
       pointer-events: none;
     }
 
-    /* Right panel — form */
     .auth-form-panel {
       background: var(--color-dark);
       display: flex;
@@ -170,7 +165,6 @@
       margin-bottom: 2rem;
     }
 
-    /* Input with icon */
     .input-icon-wrap {
       position: relative;
     }
@@ -202,7 +196,6 @@
     }
     .input-icon-wrap .toggle-password:hover { color: var(--color-gold); }
 
-    /* Remember / forgot */
     .auth-row {
       display: flex;
       align-items: center;
@@ -219,7 +212,6 @@
     .auth-link { color: var(--color-gold); font-weight: 600; }
     .auth-link:hover { text-decoration: underline; }
 
-    /* Divider */
     .auth-divider {
       display: flex; align-items: center; gap: 1rem;
       margin: 1.5rem 0;
@@ -234,7 +226,6 @@
       background: rgba(255,255,255,0.07);
     }
 
-    /* Social buttons */
     .auth-social-btn {
       display: flex; align-items: center; justify-content: center;
       gap: .75rem;
@@ -257,7 +248,6 @@
     }
     .auth-social-btn img { width: 18px; height: 18px; }
 
-    /* Error / success messages */
     .auth-message {
       padding: .75rem 1rem;
       border-radius: var(--radius-md);
@@ -270,7 +260,6 @@
     .auth-message.error   { display: flex; background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.25); color: #fca5a5; }
     .auth-message.success { display: flex; background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.25); color: #86efac; }
 
-    /* Loading spinner on submit */
     .btn-spinner {
       width: 16px; height: 16px;
       border: 2px solid rgba(0,0,0,.3);
@@ -280,7 +269,6 @@
       display: none;
     }
 
-    /* Footer */
     .auth-footer {
       margin-top: 2rem;
       text-align: center;
@@ -289,7 +277,6 @@
     }
     .auth-footer a { color: var(--color-gold); font-weight: 600; }
 
-    /* Responsive */
     @media (max-width: 900px) {
       .auth-layout { grid-template-columns: 1fr; }
       .auth-panel  { display: none; }
@@ -301,7 +288,6 @@
 
 <div class="auth-layout">
 
-  <!-- ── Left decorative panel ── -->
   <div class="auth-panel">
     <div class="panel-brand">
       <div class="panel-brand-logo">F</div>
@@ -311,29 +297,14 @@
     <div class="panel-content">
       <h1 class="panel-headline">
         Trade Smarter.<br>
-        <span class="gradient-text">Profit Consistently.</span>
+        <span class="gradient-text">Trade With a Plan.</span>
       </h1>
       <p class="panel-tagline">
-        Join 14,000+ traders accessing professional Forex education,
-        live signals with 79% win rate, and funded account programs.
+        Sign back in to pick up your courses, check today's signals,
+        and keep your streak going.
       </p>
-      <div class="panel-stats">
-        <div>
-          <div class="panel-stat-val">14K+</div>
-          <div class="panel-stat-lbl">Students</div>
-        </div>
-        <div>
-          <div class="panel-stat-val">79%</div>
-          <div class="panel-stat-lbl">Signal Win Rate</div>
-        </div>
-        <div>
-          <div class="panel-stat-val">52+</div>
-          <div class="panel-stat-lbl">Expert Courses</div>
-        </div>
-      </div>
     </div>
 
-    <!-- Fake chart SVG -->
     <svg class="panel-chart-graphic" viewBox="0 0 220 80" fill="none">
       <polyline points="0,70 30,55 60,60 90,30 120,40 150,15 180,25 210,5"
         stroke="#C9A84C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -348,19 +319,17 @@
     </svg>
 
     <div class="panel-testimonial">
-      <p>"I went from losing money every month to making $4,200 last month. The courses and signals changed my trading completely."</p>
+      <p>"The step-by-step courses finally made risk management click for me."</p>
       <div class="panel-testimonial-author">
         <div class="panel-testimonial-avatar">KA</div>
         <div>
           <div style="font-weight:700;font-size:.875rem;">Kofi Asante</div>
-          <div style="font-size:.75rem;color:var(--color-text-muted);">Forex Trader, Ghana</div>
+          <div style="font-size:.75rem;color:var(--color-text-muted);">Student, Ghana</div>
         </div>
-        <div style="margin-left:auto;color:var(--color-gold);font-size:.8rem;">★★★★★</div>
       </div>
     </div>
   </div>
 
-  <!-- ── Right form panel ── -->
   <div class="auth-form-panel">
     <div class="auth-form-box animate-fade-up">
 
@@ -370,13 +339,11 @@
         <p class="auth-form-sub">Sign in to your student dashboard</p>
       </div>
 
-      <!-- Error / Success message -->
       <div class="auth-message" id="authMsg">
         <i class="fas fa-circle-exclamation"></i>
         <span id="authMsgText"></span>
       </div>
 
-      <!-- Login Form -->
       <form id="loginForm" novalidate>
         <div class="form-group" style="margin-bottom:1rem;">
           <label class="form-label">Email Address</label>
@@ -436,9 +403,8 @@
   </div>
 </div>
 
-<!-- ── Firebase & Auth Script ── -->
 <script type="module">
-  import { auth } from '../assets/js/firebase/firebase-config.js';
+  import { auth, db } from '../assets/js/firebase/firebase-config.js';
   import {
     signInWithEmailAndPassword,
     signInWithPopup,
@@ -448,11 +414,9 @@
     browserLocalPersistence,
     browserSessionPersistence
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { db } from '../assets/js/firebase/firebase-config.js';
   import { doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
   import { createUserProfile } from '../assets/js/firebase/auth-helpers.js';
 
-  /* ── Already logged in? Skip to dashboard ── */
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const snap = await getDoc(doc(db, 'users', user.uid));
@@ -465,7 +429,6 @@
     }
   });
 
-  /* ── UI helpers ── */
   function showMsg(text, type='error') {
     const el = document.getElementById('authMsg');
     el.className = 'auth-message ' + type;
@@ -480,7 +443,6 @@
     document.getElementById('loginBtn').disabled = on;
   }
 
-  /* ── Email / Password login ── */
   document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email    = document.getElementById('loginEmail').value.trim();
@@ -491,14 +453,11 @@
     setLoading(true);
 
     try {
-      // Set persistence based on remember-me
       await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
       const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-      // Update last login
       await updateDoc(doc(db, 'users', user.uid), { lastLogin: serverTimestamp() });
 
-      // Get role
       const snap = await getDoc(doc(db, 'users', user.uid));
       const profile = snap.exists() ? snap.data() : {};
 
@@ -525,13 +484,11 @@
     }
   });
 
-  /* ── Google Sign In ── */
   document.getElementById('googleBtn').addEventListener('click', async () => {
     try {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
-      // Create profile if new user
       const snap = await getDoc(doc(db, 'users', user.uid));
       if (!snap.exists()) {
         await createUserProfile(user.uid, {
@@ -542,7 +499,8 @@
         await updateDoc(doc(db, 'users', user.uid), { lastLogin: serverTimestamp() });
       }
 
-      const profile = snap.exists() ? snap.data() : { role: 'student' };
+      const finalSnap = await getDoc(doc(db, 'users', user.uid));
+      const profile = finalSnap.exists() ? finalSnap.data() : { role: 'student' };
       window.location.href = profile.role === 'admin'
         ? '../admin/dashboard.html'
         : '../student-portal/dashboard.html';
@@ -556,7 +514,6 @@
 </script>
 
 <script>
-  /* ── Toggle password visibility ── */
   function togglePw(inputId, icon) {
     const inp = document.getElementById(inputId);
     const showing = inp.type === 'text';
