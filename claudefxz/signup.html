@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account | Claudefx Academy Pro</title>
+  <title>Create Account | Forex Academy Pro</title>
   <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,7 +77,6 @@
     }
     .toggle-password:hover { color:var(--color-gold); }
 
-    /* Password strength */
     .pw-strength { margin-top:.5rem; }
     .pw-strength-bar {
       height:4px; border-radius:2px; background:var(--color-dark-3);
@@ -86,7 +85,6 @@
     .pw-strength-fill { height:100%; border-radius:2px; transition:all .3s; width:0%; }
     .pw-strength-text { font-size:.75rem; color:var(--color-text-muted); }
 
-    /* Step indicator */
     .auth-steps {
       display:flex; align-items:center; gap:.5rem;
       margin-bottom:2rem; justify-content:center;
@@ -147,21 +145,21 @@
         <div class="perk-icon"><i class="fas fa-signal"></i></div>
         <div>
           <div class="perk-title">Daily Trading Signals</div>
-          <div class="perk-desc">Forex & Synthetic Indices signals with 79%+ win rate. Entry, TP, and SL included every day.</div>
+          <div class="perk-desc">Forex & Synthetic Indices signals with entry, TP, and SL included every day.</div>
         </div>
       </div>
       <div class="perk-item">
         <div class="perk-icon"><i class="fas fa-users"></i></div>
         <div>
           <div class="perk-title">Active Community</div>
-          <div class="perk-desc">Join 14,000+ traders sharing charts, ideas, and wins in our private Telegram community.</div>
+          <div class="perk-desc">Join thousands of traders sharing charts and ideas in our private community.</div>
         </div>
       </div>
       <div class="perk-item">
         <div class="perk-icon"><i class="fas fa-video"></i></div>
         <div>
           <div class="perk-title">Live Trading Sessions</div>
-          <div class="perk-desc">2x weekly live sessions. Watch pros trade in real-time and ask questions live.</div>
+          <div class="perk-desc">Weekly live sessions. Watch instructors trade in real-time and ask questions live.</div>
         </div>
       </div>
     </div>
@@ -437,8 +435,15 @@
       // Set display name in Firebase Auth
       await updateProfile(user, { displayName: name });
 
-      // Create Firestore profile
-      await createUserProfile(user.uid, { displayName: name, email, country, phone, experience: exp, tradingStyle: market });
+      // Create Firestore profile with the exact details the person just entered
+      await createUserProfile(user.uid, {
+        displayName: name,
+        email,
+        country,
+        phone,
+        experience: exp,
+        tradingStyle: market
+      });
 
       showMsg('Account created! Redirecting to your dashboard…', 'success');
       setTimeout(() => {
@@ -452,7 +457,7 @@
       document.getElementById('createBtn').disabled          = false;
 
       const msgs = {
-        'auth/email-already-in-use': 'An account with this email already exists. <a href="login.html" style="color:var(--color-gold);">Sign in instead.</a>',
+        'auth/email-already-in-use': 'An account with this email already exists. Sign in instead.',
         'auth/invalid-email': 'Please enter a valid email address.',
         'auth/weak-password': 'Password must be at least 6 characters.',
       };
@@ -483,7 +488,6 @@
   window.goStep = function(n) {
     document.querySelectorAll('.auth-step-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('step-panel-'+n).classList.add('active');
-    // Update step dots
     [1,2,3].forEach(i => {
       const dot  = document.getElementById('step-dot-'+i);
       const line = document.getElementById('step-line-'+i);
@@ -491,7 +495,7 @@
       dot.classList.toggle('done',   i<n);
       if (line) line.classList.toggle('done', i<n);
     });
-    document.getElementById('authMsg').className = 'auth-message'; // clear
+    document.getElementById('authMsg').className = 'auth-message';
   };
 
   window.goStep2 = function() {
@@ -499,8 +503,6 @@
     const email = document.getElementById('signupEmail').value.trim();
     const pw    = document.getElementById('signupPassword').value;
     const conf  = document.getElementById('signupConfirm').value;
-    const msg   = document.getElementById('authMsg');
-    const msgTxt = document.getElementById('authMsgText');
     if (!name) { showError('Please enter your full name.'); return; }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('Please enter a valid email address.'); return; }
     if (pw.length < 8) { showError('Password must be at least 8 characters.'); return; }
