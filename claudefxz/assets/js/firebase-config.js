@@ -2,13 +2,14 @@
    FOREX ACADEMY PRO — firebase-config.js
    ============================================================ */
 const firebaseConfig = {
-  apiKey:            "AIzaSyDn2t_SrCp3ekILRWv9uZj_59y82_bn7Og",
-  authDomain:        "dashboared-f3415.firebaseapp.com",
-  projectId:         "dashboared-f3415",
-  storageBucket:     "dashboared-f3415.firebasestorage.app",
-  messagingSenderId: "895902567656",
-  appId:             "1:895902567656:web:b4fb684e6d53280572cd5d",
-  measurementId:     "G-1P4MEV11LT"
+  apiKey: "AIzaSyB4zLVvw6SVuFa7TxU4Ee7Ic7381K6Kz0s",
+  authDomain: "swiftchain-827f2.firebaseapp.com",
+  databaseURL: "https://swiftchain-827f2-default-rtdb.firebaseio.com",
+  projectId: "swiftchain-827f2",
+  storageBucket: "swiftchain-827f2.firebasestorage.app",
+  messagingSenderId: "709059558659",
+  appId: "1:709059558659:web:7c3eb1d6ddba07bb14bd36",
+  measurementId: "G-5SSGXJL3DS"
 };
 
 /* ── Initialise Firebase ── */
