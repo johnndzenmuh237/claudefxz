@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Claudefx Academy Pro</title>
+  <title>Dashboard | Forex Academy Pro</title>
   <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +32,7 @@
   <div class="sidebar-header">
     <a href="dashboard.html" class="sidebar-brand">
       <img src="../assets/images/logo/logo-icon.png" alt="Logo" onerror="this.style.display='none'">
-      <span class="sidebar-brand-name">Claudefx<span style="color:var(--color-gold);">Academy</span></span>
+      <span class="sidebar-brand-name">Forex<span style="color:var(--color-gold);">Academy</span></span>
     </a>
     <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
   </div>
@@ -84,7 +84,7 @@
       </button>
       <button class="topbar-action" data-theme-toggle title="Toggle theme"><i class="fas fa-moon"></i></button>
       <div class="topbar-user" onclick="window.location='profile.html'" style="cursor:pointer;">
-        <img id="topbarAvatar" src="../assets/images/hero/student-avatar.jpg" alt="User" onerror="this.style.display='none'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
+        <img id="topbarAvatar" src="../assets/images/traders/student-avatar.jpg" alt="User" onerror="this.style.display='none'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
         <span class="topbar-user-name" data-user-name>…</span>
         <i class="fas fa-chevron-down" style="font-size:10px;color:var(--color-text-muted);"></i>
       </div>
@@ -100,7 +100,7 @@
   <div class="dashboard-content">
     <div class="dash-page-header">
       <div>
-        <h1 class="dash-page-title" data-user-greeting>Hello 👋</h1>
+        <h1 class="dash-page-title" data-user-greeting>Good morning 👋</h1>
         <p class="dash-page-sub" id="planSubtitle">Loading your dashboard…</p>
       </div>
       <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
@@ -202,13 +202,15 @@
 import { auth, db } from '../assets/js/firebase/firebase-config.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, onSnapshot, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { populateUserUI } from '../assets/js/firebase/auth-helpers.js';
+import { populateUserUI, createUserProfile } from '../assets/js/firebase/auth-helpers.js';
 
 let unsubscribe = null;
 let revenueChart = null, performanceChart = null;
+let currentUser = null;
 
 onAuthStateChanged(auth, (user) => {
   if (!user) { window.location.href = '../auth/login.html'; return; }
+  currentUser = user;
   startSync(user.uid);
 });
 
@@ -220,10 +222,22 @@ document.getElementById('logoutBtn').addEventListener('click', async (e) => {
 });
 
 function startSync(uid) {
-  unsubscribe = onSnapshot(doc(db, 'users', uid), (snap) => {
+  unsubscribe = onSnapshot(doc(db, 'users', uid), async (snap) => {
     document.getElementById('connDot').className = 'connection-dot online';
     document.getElementById('connText').textContent = 'Live';
-    if (!snap.exists()) return;
+
+    // Self-heal: if this authenticated user has no Firestore profile yet
+    // (e.g. account created outside the normal signup flow), create a
+    // sensible default from their Auth record instead of leaving the
+    // dashboard blank. The write below re-triggers this onSnapshot.
+    if (!snap.exists()) {
+      await createUserProfile(uid, {
+        displayName: currentUser?.displayName || '',
+        email: currentUser?.email || ''
+      });
+      return;
+    }
+
     const p = snap.data();
     populateUserUI(p);
     document.getElementById('planSubtitle').textContent = (p.plan||'Starter') + ' Plan · Welcome to your learning hub';
@@ -291,7 +305,7 @@ function updateCharts(data) {
   const pCtx=document.getElementById('performanceChart');
   if(pCtx&&window.Chart){
     if(performanceChart)performanceChart.destroy();
-    performanceChart=new window.Chart(pCtx,{type:'radar',data:{labels:data.radarLabels||['Accuracy','Risk/Reward','Discipline','Strategy','Psychology','Execution'],datasets:[{label:'Your Score',data:data.radarValues||[0,0,0,0,0,0],borderColor:'#C9A84C',backgroundColor:'rgba(201,168,76,0.12)',borderWidth:2,pointBackgroundColor:'#C9A84C',pointBorderColor:'#111318',pointBorderWidth:2,pointRadius:4},{label:'Average Trader',data:[55,48,60,52,50,58],borderColor:'rgba(255,255,255,0.2)',backgroundColor:'rgba(255,255,255,0.04)',borderWidth:1,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{padding:16,usePointStyle:true,pointStyle:'circle'}}},scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:'rgba(255,255,255,0.05)'},pointLabels:{color:'#9CA3B0',font:{size:12}},angleLines:{color:'rgba(255,255,255,0.05)'}}}}});
+    performanceChart=new window.Chart(pCtx,{type:'radar',data:{labels:data.radarLabels||['Accuracy','Risk/Reward','Discipline','Strategy','Psychology','Execution'],datasets:[{label:'Your Score',data:data.radarValues||[0,0,0,0,0,0],borderColor:'#C9A84C',backgroundColor:'rgba(201,168,76,0.12)',borderWidth:2,pointBackgroundColor:'#C9A84C',pointBorderColor:'#111318',pointBorderWidth:2,pointRadius:4},{label:'Average Trader',data:data.radarAverage||[0,0,0,0,0,0],borderColor:'rgba(255,255,255,0.2)',backgroundColor:'rgba(255,255,255,0.04)',borderWidth:1,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{padding:16,usePointStyle:true,pointStyle:'circle'}}},scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:'rgba(255,255,255,0.05)'},pointLabels:{color:'#9CA3B0',font:{size:12}},angleLines:{color:'rgba(255,255,255,0.05)'}}}}});
   }
 }
 updateCharts({});
