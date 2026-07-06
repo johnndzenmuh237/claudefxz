@@ -25,7 +25,6 @@ export function requireUser() {
         window.location.href = '../auth/login.html';
         return reject('not-authenticated');
       }
-      // Load Firestore profile
       const snap = await getDoc(doc(db, 'users', user.uid));
       const profile = snap.exists() ? snap.data() : {};
       resolve({ user, profile });
@@ -69,7 +68,9 @@ export async function signOutUser(isAdmin = false) {
 
 /* ────────────────────────────────────────────────────────────
    createUserProfile()
-   Called after signup to initialise the Firestore document
+   Called after signup (or first Google sign-in) to initialise
+   the Firestore document. Safe to call more than once — uses
+   merge so it never clobbers existing stats/courses/etc.
 ──────────────────────────────────────────────────────────── */
 export async function createUserProfile(uid, data) {
   const defaultProfile = {
@@ -85,22 +86,16 @@ export async function createUserProfile(uid, data) {
     bio:           '',
     createdAt:     serverTimestamp(),
     lastLogin:     serverTimestamp(),
-    // Dashboard stats — admin can update these
     stats: {
       coursesEnrolled:    0,
       lessonsCompleted:   0,
       certificatesEarned: 0,
       dayStreak:          0,
     },
-    // Course progress — admin updates
     courses: [],
-    // Recent activity — updated on actions
     recentActivity: [],
-    // Upcoming sessions — admin populates
     upcomingSessions: [],
-    // Notifications
     notifications: [],
-    // Admin notes (only visible in admin panel)
     adminNotes: '',
     isActive: true,
   };
@@ -118,13 +113,11 @@ export function populateUserUI(profile) {
   const name    = profile.displayName || profile.email?.split('@')[0] || 'Trader';
   const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
-  // Name slots
   document.querySelectorAll('[data-user-name]').forEach(el => el.textContent = name);
   document.querySelectorAll('[data-user-email]').forEach(el => el.textContent = profile.email || '');
   document.querySelectorAll('[data-user-plan]').forEach(el => el.textContent = profile.plan || 'Starter');
   document.querySelectorAll('[data-user-initials]').forEach(el => el.textContent = initials);
 
-  // Greeting with first name
   const firstName = name.split(' ')[0];
   document.querySelectorAll('[data-user-greeting]').forEach(el => {
     const hour = new Date().getHours();
@@ -132,7 +125,6 @@ export function populateUserUI(profile) {
     el.textContent = `${greet}, ${firstName} 👋`;
   });
 
-  // Stats
   if (profile.stats) {
     const s = profile.stats;
     document.querySelectorAll('[data-stat-courses]').forEach(el => el.textContent = s.coursesEnrolled ?? 0);
@@ -141,7 +133,6 @@ export function populateUserUI(profile) {
     document.querySelectorAll('[data-stat-streak]').forEach(el => el.textContent = s.dayStreak ?? 0);
   }
 
-  // Avatar fallback initials
   document.querySelectorAll('.sidebar-user-avatar, .topbar-user img').forEach(img => {
     img.onerror = () => {
       const span = document.createElement('span');
