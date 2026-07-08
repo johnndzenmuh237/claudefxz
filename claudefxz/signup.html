@@ -1,550 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account | Forex Academy Pro</title>
-  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/animations.css">
-  <link rel="stylesheet" href="../assets/css/responsive.css">
-  <style>
-    .auth-layout { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }
-    .auth-panel {
-      background: linear-gradient(145deg,#0A0B0D 0%,#111318 40%,#0d1117 100%);
-      position:relative; display:flex; flex-direction:column;
-      justify-content:space-between; padding:3rem; overflow:hidden;
-    }
-    .auth-panel::before {
-      content:''; position:absolute; width:500px; height:500px; border-radius:50%;
-      background:radial-gradient(circle,rgba(201,168,76,0.12),transparent 70%);
-      top:-100px; right:-80px; pointer-events:none;
-    }
-    .auth-panel::after {
-      content:''; position:absolute; width:350px; height:350px; border-radius:50%;
-      background:radial-gradient(circle,rgba(34,197,94,0.06),transparent 70%);
-      bottom:-60px; left:-60px; pointer-events:none;
-    }
-    .panel-brand { display:flex; align-items:center; gap:.875rem; position:relative; z-index:1; }
-    .panel-brand-logo {
-      width:44px; height:44px; background:var(--color-gold); border-radius:10px;
-      display:flex; align-items:center; justify-content:center;
-      font-family:var(--font-display); font-size:1.25rem; font-weight:900; color:#000;
-    }
-    .panel-brand-name { font-family:var(--font-display); font-size:1.375rem; font-weight:800; }
-    .panel-brand-name span { color:var(--color-gold); }
-    .panel-perks { position:relative; z-index:1; display:flex; flex-direction:column; gap:1.25rem; }
-    .perk-item { display:flex; align-items:flex-start; gap:1rem; }
-    .perk-icon {
-      width:44px; height:44px; border-radius:var(--radius-md); flex-shrink:0;
-      background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2);
-      display:flex; align-items:center; justify-content:center;
-      color:var(--color-gold); font-size:18px;
-    }
-    .perk-title { font-weight:700; margin-bottom:2px; }
-    .perk-desc { font-size:.8rem; color:var(--color-text-secondary); line-height:1.6; }
-    .panel-guarantee {
-      position:relative; z-index:1;
-      background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.2);
-      border-radius:var(--radius-xl); padding:1.25rem 1.5rem;
-      display:flex; align-items:center; gap:1rem; font-size:.875rem;
-    }
-    .panel-guarantee i { color:var(--color-success); font-size:1.5rem; flex-shrink:0; }
-
-    .auth-form-panel {
-      background:var(--color-dark); display:flex;
-      align-items:center; justify-content:center; padding:2.5rem 2rem;
-    }
-    .auth-form-box { width:100%; max-width:460px; }
-    .auth-form-title { font-family:var(--font-display); font-size:1.75rem; font-weight:800; margin-bottom:.375rem; }
-    .auth-form-sub { font-size:.9rem; color:var(--color-text-secondary); margin-bottom:1.75rem; }
-
-    .input-icon-wrap { position:relative; }
-    .input-icon-wrap i.fi-icon {
-      position:absolute; left:14px; top:50%; transform:translateY(-50%);
-      color:var(--color-text-muted); font-size:15px; pointer-events:none; transition:color .2s;
-    }
-    .input-icon-wrap input,
-    .input-icon-wrap select { padding-left:2.75rem !important; }
-    .input-icon-wrap:focus-within i.fi-icon { color:var(--color-gold); }
-    .toggle-password {
-      position:absolute; right:14px; top:50%; transform:translateY(-50%);
-      cursor:pointer; color:var(--color-text-muted); font-size:14px; transition:color .2s;
-    }
-    .toggle-password:hover { color:var(--color-gold); }
-
-    .pw-strength { margin-top:.5rem; }
-    .pw-strength-bar {
-      height:4px; border-radius:2px; background:var(--color-dark-3);
-      overflow:hidden; margin-bottom:4px;
-    }
-    .pw-strength-fill { height:100%; border-radius:2px; transition:all .3s; width:0%; }
-    .pw-strength-text { font-size:.75rem; color:var(--color-text-muted); }
-
-    .auth-steps {
-      display:flex; align-items:center; gap:.5rem;
-      margin-bottom:2rem; justify-content:center;
-    }
-    .auth-step {
-      width:32px; height:32px; border-radius:50%; display:flex;
-      align-items:center; justify-content:center; font-size:.8rem; font-weight:700;
-      border:2px solid rgba(255,255,255,0.1); color:var(--color-text-muted);
-      transition:all .3s;
-    }
-    .auth-step.active { background:var(--color-gold); color:#000; border-color:var(--color-gold); }
-    .auth-step.done   { background:var(--color-success); color:#fff; border-color:var(--color-success); }
-    .auth-step-line { flex:1; height:2px; background:rgba(255,255,255,0.08); }
-    .auth-step-line.done { background:var(--color-success); }
-
-    .auth-step-panel { display:none; }
-    .auth-step-panel.active { display:block; }
-
-    .auth-message {
-      padding:.75rem 1rem; border-radius:var(--radius-md); font-size:.875rem;
-      margin-bottom:1.25rem; display:none; align-items:center; gap:.625rem;
-    }
-    .auth-message.error   { display:flex; background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.25); color:#fca5a5; }
-    .auth-message.success { display:flex; background:rgba(34,197,94,.1); border:1px solid rgba(34,197,94,.25); color:#86efac; }
-
-    .auth-footer { margin-top:1.5rem; text-align:center; font-size:.875rem; color:var(--color-text-muted); }
-    .auth-footer a { color:var(--color-gold); font-weight:600; }
-
-    @media (max-width:900px) {
-      .auth-layout { grid-template-columns:1fr; }
-      .auth-panel  { display:none; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account | Forex Academy Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root{
+    --gold:#C9A84C; --dark:#0A0B0D; --dark2:#111318; --dark3:#1F242E;
+    --text:#F4F5F7; --text-sec:#9CA3B0; --text-muted:#6B7280;
+    --danger:#EF4444; --success:#22C55E;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);}
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;}
+  .box{width:100%;max-width:440px;background:var(--dark2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2.5rem;}
+  .logo{width:48px;height:48px;background:var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;
+        font-family:'Syne',sans-serif;font-weight:800;color:#000;font-size:1.25rem;margin:0 auto 1rem;}
+  h1{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;text-align:center;margin:0 0 .25rem;}
+  .sub{text-align:center;color:var(--text-sec);font-size:.875rem;margin:0 0 1.75rem;}
+  label{display:block;font-size:.8rem;font-weight:600;margin-bottom:.375rem;color:var(--text-sec);}
+  .field{margin-bottom:1rem;}
+  input{width:100%;padding:.75rem .875rem;border-radius:8px;border:1px solid rgba(255,255,255,.1);
+        background:var(--dark3);color:var(--text);font-size:.9rem;font-family:inherit;}
+  input:focus{outline:none;border-color:var(--gold);}
+  .btn{width:100%;padding:.85rem;border:none;border-radius:8px;background:var(--gold);color:#000;
+       font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+  .btn:disabled{opacity:.6;cursor:not-allowed;}
+  .btn:hover:not(:disabled){filter:brightness(1.05);}
+  .msg{padding:.75rem 1rem;border-radius:8px;font-size:.85rem;margin-bottom:1.25rem;display:none;gap:.5rem;align-items:center;}
+  .msg.error{display:flex;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;}
+  .msg.success{display:flex;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#86efac;}
+  .foot{text-align:center;margin-top:1.5rem;font-size:.875rem;color:var(--text-muted);}
+  .foot a{color:var(--gold);font-weight:600;text-decoration:none;}
+  .foot a:hover{text-decoration:underline;}
+  .checkrow{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:1.25rem;font-size:.8rem;color:var(--text-sec);}
+  .checkrow input{width:auto;margin-top:2px;accent-color:var(--gold);}
+  .spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;
+           animation:spin .7s linear infinite;display:none;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  #debugBox{margin-top:1rem;font-size:.7rem;color:var(--text-muted);background:var(--dark3);border-radius:6px;padding:.6rem;display:none;white-space:pre-wrap;word-break:break-all;}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <div class="box">
+    <div class="logo">F</div>
+    <h1>Create your account</h1>
+    <p class="sub">Start your trading journey — free</p>
 
-<div class="auth-layout">
+    <div class="msg" id="msg"><i class="fas fa-circle-exclamation"></i><span id="msgText"></span></div>
 
-  <!-- ── Left panel ── -->
-  <div class="auth-panel">
-    <div class="panel-brand">
-      <div class="panel-brand-logo">F</div>
-      <div class="panel-brand-name">Forex<span>Academy</span> Pro</div>
-    </div>
-
-    <div class="panel-perks">
-      <h2 style="font-family:var(--font-display);font-size:1.75rem;font-weight:800;margin-bottom:.5rem;">
-        Everything you need<br>to <span class="gradient-text">trade profitably</span>
-      </h2>
-      <div class="perk-item">
-        <div class="perk-icon"><i class="fas fa-graduation-cap"></i></div>
-        <div>
-          <div class="perk-title">52+ Expert Courses</div>
-          <div class="perk-desc">From Forex basics to ICT concepts and funded account strategies. Self-paced with lifetime access.</div>
-        </div>
+    <form id="signupForm" novalidate>
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="name" required>
       </div>
-      <div class="perk-item">
-        <div class="perk-icon"><i class="fas fa-signal"></i></div>
-        <div>
-          <div class="perk-title">Daily Trading Signals</div>
-          <div class="perk-desc">Forex & Synthetic Indices signals with entry, TP, and SL included every day.</div>
-        </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="email" required>
       </div>
-      <div class="perk-item">
-        <div class="perk-icon"><i class="fas fa-users"></i></div>
-        <div>
-          <div class="perk-title">Active Community</div>
-          <div class="perk-desc">Join thousands of traders sharing charts and ideas in our private community.</div>
-        </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Min. 6 characters" autocomplete="new-password" required>
       </div>
-      <div class="perk-item">
-        <div class="perk-icon"><i class="fas fa-video"></i></div>
-        <div>
-          <div class="perk-title">Live Trading Sessions</div>
-          <div class="perk-desc">Weekly live sessions. Watch instructors trade in real-time and ask questions live.</div>
-        </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <input type="password" id="confirm" autocomplete="new-password" required>
       </div>
-    </div>
-
-    <div class="panel-guarantee">
-      <i class="fas fa-shield-alt"></i>
-      <div>
-        <strong>30-Day Money-Back Guarantee</strong><br>
-        <span style="color:var(--color-text-secondary);font-size:.8rem;">Not satisfied? Full refund within 30 days — no questions asked.</span>
+      <div class="checkrow">
+        <input type="checkbox" id="agree">
+        <label for="agree" style="margin:0;cursor:pointer;">I agree to the Terms of Service and understand trading involves risk.</label>
       </div>
-    </div>
-  </div>
-
-  <!-- ── Right form panel ── -->
-  <div class="auth-form-panel">
-    <div class="auth-form-box animate-fade-up">
-
-      <div style="text-align:center;margin-bottom:1.5rem;">
-        <div class="panel-brand-logo" style="margin:0 auto .75rem;width:52px;height:52px;font-size:1.5rem;">F</div>
-        <h2 class="auth-form-title">Create your account</h2>
-        <p class="auth-form-sub">Start your trading journey — free in 60 seconds</p>
-      </div>
-
-      <!-- Step indicator -->
-      <div class="auth-steps">
-        <div class="auth-step active" id="step-dot-1">1</div>
-        <div class="auth-step-line" id="step-line-1"></div>
-        <div class="auth-step" id="step-dot-2">2</div>
-        <div class="auth-step-line" id="step-line-2"></div>
-        <div class="auth-step" id="step-dot-3">3</div>
-      </div>
-
-      <div class="auth-message" id="authMsg">
-        <i class="fas fa-circle-exclamation"></i>
-        <span id="authMsgText"></span>
-      </div>
-
-      <!-- Step 1: Account details -->
-      <div class="auth-step-panel active" id="step-panel-1">
-        <div class="form-group" style="margin-bottom:1rem;">
-          <label class="form-label">Full Name</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-user fi-icon"></i>
-            <input type="text" id="signupName" class="form-control" placeholder="John Doe" required>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:1rem;">
-          <label class="form-label">Email Address</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-envelope fi-icon"></i>
-            <input type="email" id="signupEmail" class="form-control" placeholder="you@example.com" required>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:1rem;">
-          <label class="form-label">Password</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-lock fi-icon"></i>
-            <input type="password" id="signupPassword" class="form-control"
-                   placeholder="Min. 8 characters" autocomplete="new-password" required
-                   oninput="checkPwStrength(this.value)">
-            <span class="toggle-password" onclick="togglePw('signupPassword',this)">
-              <i class="fas fa-eye"></i>
-            </span>
-          </div>
-          <div class="pw-strength">
-            <div class="pw-strength-bar">
-              <div class="pw-strength-fill" id="pwFill"></div>
-            </div>
-            <div class="pw-strength-text" id="pwText">Enter a password</div>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5rem;">
-          <label class="form-label">Confirm Password</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-lock fi-icon"></i>
-            <input type="password" id="signupConfirm" class="form-control"
-                   placeholder="Repeat password" autocomplete="new-password">
-            <span class="toggle-password" onclick="togglePw('signupConfirm',this)">
-              <i class="fas fa-eye"></i>
-            </span>
-          </div>
-        </div>
-        <button type="button" class="btn btn-primary btn-lg w-full" onclick="goStep2()" style="justify-content:center;">
-          Continue <i class="fas fa-arrow-right"></i>
-        </button>
-      </div>
-
-      <!-- Step 2: Profile details -->
-      <div class="auth-step-panel" id="step-panel-2">
-        <div class="form-group" style="margin-bottom:1rem;">
-          <label class="form-label">Country</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-globe fi-icon"></i>
-            <select id="signupCountry" class="form-control">
-              <option value="">Select your country…</option>
-              <option>Ghana</option><option>Nigeria</option><option>Kenya</option>
-              <option>South Africa</option><option>Cameroon</option><option>Tanzania</option>
-              <option>Uganda</option><option>Ethiopia</option><option>Senegal</option>
-              <option>Côte d'Ivoire</option><option>United Kingdom</option>
-              <option>United States</option><option>Canada</option><option>Australia</option>
-              <option>Germany</option><option>France</option><option>Other</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:1rem;">
-          <label class="form-label">Phone / WhatsApp</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-phone fi-icon"></i>
-            <input type="tel" id="signupPhone" class="form-control" placeholder="+1 234 567 8900">
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:1rem;">
-          <label class="form-label">Trading Experience</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-chart-line fi-icon"></i>
-            <select id="signupExperience" class="form-control">
-              <option value="beginner">Complete Beginner (never traded)</option>
-              <option value="novice">Novice (under 6 months)</option>
-              <option value="intermediate">Intermediate (6 months – 2 years)</option>
-              <option value="experienced">Experienced (2–5 years)</option>
-              <option value="advanced">Advanced (5+ years)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:1.5rem;">
-          <label class="form-label">Primary Market Interest</label>
-          <div class="input-icon-wrap">
-            <i class="fas fa-layer-group fi-icon"></i>
-            <select id="signupMarket" class="form-control">
-              <option value="forex">Forex (Currency Pairs)</option>
-              <option value="synthetic">Synthetic Indices (Deriv)</option>
-              <option value="both">Both Forex & Synthetic Indices</option>
-              <option value="crypto">Cryptocurrency</option>
-              <option value="stocks">Stocks / Indices</option>
-            </select>
-          </div>
-        </div>
-        <div style="display:flex;gap:.75rem;">
-          <button type="button" class="btn btn-ghost btn-lg" onclick="goStep(1)" style="flex-shrink:0;">
-            <i class="fas fa-arrow-left"></i>
-          </button>
-          <button type="button" class="btn btn-primary btn-lg w-full" onclick="goStep3()" style="justify-content:center;">
-            Continue <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 3: Terms & Create -->
-      <div class="auth-step-panel" id="step-panel-3">
-        <div class="card" style="padding:1.25rem;margin-bottom:1.25rem;background:var(--color-dark-3);">
-          <h4 style="margin-bottom:.75rem;font-size:1rem;">You're almost there! 🎉</h4>
-          <div style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.7;">
-            <div style="display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;">
-              <i class="fas fa-check-circle" style="color:var(--color-success);"></i>
-              <span>Access to 5 free beginner courses immediately</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;">
-              <i class="fas fa-check-circle" style="color:var(--color-success);"></i>
-              <span>Student dashboard with progress tracking</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;">
-              <i class="fas fa-check-circle" style="color:var(--color-success);"></i>
-              <span>Community forum access</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:.625rem;">
-              <i class="fas fa-check-circle" style="color:var(--color-success);"></i>
-              <span>Weekly market newsletter</span>
-            </div>
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem;">
-          <input type="checkbox" id="agreeTerms" style="margin-top:3px;accent-color:var(--color-gold);flex-shrink:0;">
-          <label for="agreeTerms" style="font-size:.875rem;color:var(--color-text-secondary);cursor:pointer;line-height:1.5;">
-            I agree to the <a href="../#" class="auth-link" style="font-size:.875rem;">Terms of Service</a>
-            and <a href="../#" class="auth-link" style="font-size:.875rem;">Privacy Policy</a>.
-            I understand trading involves risk.
-          </label>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1.5rem;">
-          <input type="checkbox" id="agreeMarketing" style="margin-top:3px;accent-color:var(--color-gold);flex-shrink:0;" checked>
-          <label for="agreeMarketing" style="font-size:.875rem;color:var(--color-text-secondary);cursor:pointer;line-height:1.5;">
-            Send me trading tips, signal alerts, and course updates via email.
-          </label>
-        </div>
-
-        <div style="display:flex;gap:.75rem;">
-          <button type="button" class="btn btn-ghost btn-lg" onclick="goStep(2)" style="flex-shrink:0;">
-            <i class="fas fa-arrow-left"></i>
-          </button>
-          <button type="button" id="createBtn" class="btn btn-primary btn-lg w-full"
-                  onclick="createAccount()" style="justify-content:center;gap:.75rem;">
-            <div class="btn-spinner" id="createSpinner" style="display:none;width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;"></div>
-            <i class="fas fa-rocket" id="createIcon"></i>
-            <span id="createBtnText">Create Free Account</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Google option -->
-      <div style="display:flex;align-items:center;gap:1rem;margin:1.5rem 0;color:var(--color-text-muted);font-size:.8rem;">
-        <div style="flex:1;height:1px;background:rgba(255,255,255,0.07);"></div>
-        or sign up with
-        <div style="flex:1;height:1px;background:rgba(255,255,255,0.07);"></div>
-      </div>
-
-      <button class="auth-social-btn" id="googleBtn" style="display:flex;align-items:center;justify-content:center;gap:.75rem;width:100%;padding:.75rem;border-radius:var(--radius-md);border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:var(--color-text-primary);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:var(--font-body);margin-bottom:.75rem;">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23FFC107' d='M43.6 20H24v8h11.3C33.6 33.4 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.2 6.5 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.2-2.7-.4-4z'/%3E%3Cpath fill='%23FF3D00' d='M6.3 14.7l6.6 4.8C14.5 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34.2 6.5 29.4 4 24 4 16.3 4 9.6 8.3 6.3 14.7z'/%3E%3Cpath fill='%234CAF50' d='M24 44c5.2 0 9.9-1.9 13.5-5l-6.2-5.2C29.5 35.5 26.9 36 24 36c-5.2 0-9.6-2.5-12.3-6.3l-6.6 5.1C8.9 40 16 44 24 44z'/%3E%3Cpath fill='%231976D2' d='M43.6 20H24v8h11.3c-.9 2.5-2.7 4.6-5 6l6.2 5.2C40.5 35.8 44 30.3 44 24c0-1.3-.2-2.7-.4-4z'/%3E%3C/svg%3E" style="width:18px;height:18px;" alt="Google">
-        Continue with Google
+      <button type="submit" class="btn" id="submitBtn">
+        <div class="spinner" id="spinner"></div>
+        <span id="btnText">Create Free Account</span>
       </button>
+    </form>
 
-      <div class="auth-footer">
-        Already have an account? <a href="login.html">Sign in →</a>
-      </div>
-      <div class="auth-footer" style="margin-top:.5rem;">
-        <a href="../index.html" style="color:var(--color-text-muted);font-size:.8rem;">
-          <i class="fas fa-arrow-left"></i> Back to website
-        </a>
-      </div>
-
-    </div>
+    <div class="foot">Already have an account? <a href="login.html">Sign in →</a></div>
+    <div id="debugBox"></div>
   </div>
 </div>
 
-<!-- ── Firebase Script ── -->
 <script type="module">
-  import { auth, db } from '../assets/js/firebase/firebase-config.js';
-  import {
-    createUserWithEmailAndPassword,
-    signInWithPopup, GoogleAuthProvider,
-    updateProfile, onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  import { createUserProfile } from '../assets/js/firebase/auth-helpers.js';
+  // ── This page is fully self-contained: Firebase config is inlined below,
+  //    no imports from any other local file in your project. ──
 
-  // Already logged in?
-  onAuthStateChanged(auth, (user) => {
-    if (user) window.location.href = '../student-portal/dashboard.html';
-  });
-
-  function showMsg(text, type='error') {
-    const el = document.getElementById('authMsg');
-    el.className = 'auth-message ' + type;
-    document.getElementById('authMsgText').textContent = text;
-    el.querySelector('i').className = type==='error'?'fas fa-circle-exclamation':'fas fa-circle-check';
-    el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  const debugBox = document.getElementById('debugBox');
+  function debugLog(text) {
+    console.log(text);
+    debugBox.style.display = 'block';
+    debugBox.textContent += text + '\n';
   }
 
-  // Expose createAccount globally
-  window.createAccount = async function() {
-    if (!document.getElementById('agreeTerms').checked) {
-      showMsg('Please agree to the Terms of Service to continue.');
-      return;
+  debugLog('[signup] module script starting…');
+
+  try {
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+    const {
+      getAuth,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      onAuthStateChanged
+    } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+    const {
+      getFirestore,
+      doc,
+      setDoc,
+      serverTimestamp
+    } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+
+    debugLog('[signup] Firebase SDK modules loaded OK');
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4zLVvw6SVuFa7TxU4Ee7Ic7381K6Kz0s",
+      authDomain: "swiftchain-827f2.firebaseapp.com",
+      databaseURL: "https://swiftchain-827f2-default-rtdb.firebaseio.com",
+      projectId: "swiftchain-827f2",
+      storageBucket: "swiftchain-827f2.firebasestorage.app",
+      messagingSenderId: "709059558659",
+      appId: "1:709059558659:web:7c3eb1d6ddba07bb14bd36",
+      measurementId: "G-5SSGXJL3DS"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    debugLog('[signup] Firebase app initialised: ' + app.options.projectId);
+
+    const form      = document.getElementById('signupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const spinner   = document.getElementById('spinner');
+    const btnText   = document.getElementById('btnText');
+    const msg       = document.getElementById('msg');
+    const msgText   = document.getElementById('msgText');
+
+    function showMsg(text, type = 'error') {
+      msg.className = 'msg ' + type;
+      msgText.textContent = text;
+    }
+    function setLoading(on) {
+      submitBtn.disabled = on;
+      spinner.style.display = on ? 'inline-block' : 'none';
+      btnText.textContent = on ? 'Creating account…' : 'Create Free Account';
     }
 
-    const name     = document.getElementById('signupName').value.trim();
-    const email    = document.getElementById('signupEmail').value.trim();
-    const password = document.getElementById('signupPassword').value;
-    const country  = document.getElementById('signupCountry').value;
-    const phone    = document.getElementById('signupPhone').value.trim();
-    const exp      = document.getElementById('signupExperience').value;
-    const market   = document.getElementById('signupMarket').value;
-
-    // Loading state
-    document.getElementById('createSpinner').style.display = 'block';
-    document.getElementById('createIcon').style.display    = 'none';
-    document.getElementById('createBtnText').textContent   = 'Creating account…';
-    document.getElementById('createBtn').disabled          = true;
-
-    try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password);
-
-      // Set display name in Firebase Auth
-      await updateProfile(user, { displayName: name });
-
-      // Create Firestore profile with the exact details the person just entered
-      await createUserProfile(user.uid, {
-        displayName: name,
-        email,
-        country,
-        phone,
-        experience: exp,
-        tradingStyle: market
-      });
-
-      showMsg('Account created! Redirecting to your dashboard…', 'success');
-      setTimeout(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        debugLog('[signup] already logged in as ' + user.email + ', redirecting');
         window.location.href = '../student-portal/dashboard.html';
-      }, 1200);
-
-    } catch (err) {
-      document.getElementById('createSpinner').style.display = 'none';
-      document.getElementById('createIcon').style.display    = 'inline';
-      document.getElementById('createBtnText').textContent   = 'Create Free Account';
-      document.getElementById('createBtn').disabled          = false;
-
-      const msgs = {
-        'auth/email-already-in-use': 'An account with this email already exists. Sign in instead.',
-        'auth/invalid-email': 'Please enter a valid email address.',
-        'auth/weak-password': 'Password must be at least 6 characters.',
-      };
-      showMsg(msgs[err.code] || 'Account creation failed. Please try again.');
-    }
-  };
-
-  // Google signup
-  document.getElementById('googleBtn').addEventListener('click', async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      const { user }  = await signInWithPopup(auth, provider);
-      const snap      = await getDoc(doc(db, 'users', user.uid));
-      if (!snap.exists()) {
-        await createUserProfile(user.uid, { displayName: user.displayName, email: user.email });
       }
-      window.location.href = '../student-portal/dashboard.html';
-    } catch (err) {
-      if (err.code !== 'auth/popup-closed-by-user') {
-        showMsg('Google sign-up failed. Please try again.');
-      }
-    }
-  });
-</script>
-
-<script>
-  /* ── Step navigation ── */
-  window.goStep = function(n) {
-    document.querySelectorAll('.auth-step-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('step-panel-'+n).classList.add('active');
-    [1,2,3].forEach(i => {
-      const dot  = document.getElementById('step-dot-'+i);
-      const line = document.getElementById('step-line-'+i);
-      dot.classList.toggle('active', i===n);
-      dot.classList.toggle('done',   i<n);
-      if (line) line.classList.toggle('done', i<n);
     });
-    document.getElementById('authMsg').className = 'auth-message';
-  };
 
-  window.goStep2 = function() {
-    const name = document.getElementById('signupName').value.trim();
-    const email = document.getElementById('signupEmail').value.trim();
-    const pw    = document.getElementById('signupPassword').value;
-    const conf  = document.getElementById('signupConfirm').value;
-    if (!name) { showError('Please enter your full name.'); return; }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('Please enter a valid email address.'); return; }
-    if (pw.length < 8) { showError('Password must be at least 8 characters.'); return; }
-    if (pw !== conf)   { showError('Passwords do not match.'); return; }
-    goStep(2);
-  };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      debugLog('[signup] form submitted');
 
-  window.goStep3 = function() { goStep(3); };
+      const name     = document.getElementById('name').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm  = document.getElementById('confirm').value;
+      const agreed   = document.getElementById('agree').checked;
 
-  function showError(text) {
-    const el = document.getElementById('authMsg');
-    el.className = 'auth-message error';
-    document.getElementById('authMsgText').textContent = text;
-    el.querySelector('i').className = 'fas fa-circle-exclamation';
+      if (!name)               return showMsg('Please enter your full name.');
+      if (!/^\S+@\S+\.\S+$/.test(email)) return showMsg('Please enter a valid email address.');
+      if (password.length < 6)  return showMsg('Password must be at least 6 characters.');
+      if (password !== confirm) return showMsg('Passwords do not match.');
+      if (!agreed)              return showMsg('Please agree to the Terms of Service.');
+
+      setLoading(true);
+
+      try {
+        debugLog('[signup] calling createUserWithEmailAndPassword…');
+        const { user } = await createUserWithEmailAndPassword(auth, email, password);
+        debugLog('[signup] Auth user created: ' + user.uid);
+
+        await updateProfile(user, { displayName: name });
+        debugLog('[signup] display name set');
+
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          role: 'student',
+          plan: 'Starter',
+          displayName: name,
+          email: email,
+          bio: '',
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp(),
+          stats: { coursesEnrolled: 0, lessonsCompleted: 0, certificatesEarned: 0, dayStreak: 0 },
+          courses: [],
+          recentActivity: [],
+          upcomingSessions: [],
+          notifications: [],
+          isActive: true
+        }, { merge: true });
+        debugLog('[signup] Firestore profile written');
+
+        showMsg('Account created! Redirecting…', 'success');
+        setTimeout(() => {
+          window.location.href = '../student-portal/dashboard.html';
+        }, 900);
+
+      } catch (err) {
+        debugLog('[signup] ERROR: ' + err.code + ' — ' + err.message);
+        setLoading(false);
+        const msgs = {
+          'auth/email-already-in-use': 'An account with this email already exists. Try signing in.',
+          'auth/invalid-email':        'Please enter a valid email address.',
+          'auth/weak-password':        'Password must be at least 6 characters.',
+          'auth/network-request-failed': 'Network error. Check your connection and try again.',
+          'auth/operation-not-allowed': 'Email/Password sign-in is not enabled for this project in Firebase Console.',
+        };
+        showMsg(msgs[err.code] || `Account creation failed: ${err.message}`);
+      }
+    });
+
+  } catch (fatalErr) {
+    debugLog('[signup] FATAL — Firebase SDK failed to load: ' + fatalErr.message);
+    showTopMsg('Could not load Firebase. Check your internet connection and console for details.');
   }
 
-  /* ── Password strength ── */
-  window.checkPwStrength = function(pw) {
-    const fill = document.getElementById('pwFill');
-    const text = document.getElementById('pwText');
-    let score = 0;
-    if (pw.length >= 8)  score++;
-    if (/[A-Z]/.test(pw)) score++;
-    if (/[0-9]/.test(pw)) score++;
-    if (/[^A-Za-z0-9]/.test(pw)) score++;
-    const colors = ['#EF4444','#F59E0B','#3B82F6','#22C55E'];
-    const labels = ['Weak','Fair','Good','Strong'];
-    const widths = ['25%','50%','75%','100%'];
-    fill.style.width      = pw.length ? widths[score-1]||'25%' : '0%';
-    fill.style.background = pw.length ? colors[score-1]||'#EF4444' : 'transparent';
-    text.textContent      = pw.length ? labels[score-1]||'Weak' : 'Enter a password';
-    text.style.color      = pw.length ? colors[score-1]||'#EF4444' : 'var(--color-text-muted)';
-  };
-
-  /* ── Toggle password ── */
-  window.togglePw = function(id, el) {
-    const inp = document.getElementById(id);
-    const showing = inp.type === 'text';
-    inp.type = showing ? 'password' : 'text';
-    el.querySelector('i').className = showing ? 'fas fa-eye' : 'fas fa-eye-slash';
-  };
+  function showTopMsg(text) {
+    const msg = document.getElementById('msg');
+    const msgText = document.getElementById('msgText');
+    msg.className = 'msg error';
+    msgText.textContent = text;
+  }
 </script>
-
 </body>
 </html>
