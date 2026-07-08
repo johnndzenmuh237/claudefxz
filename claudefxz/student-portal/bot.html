@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentinel — Rules-Based Auto-Trading Bot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F14;
+    --panel:#121821;
+    --panel-2:#161D28;
+    --line:#232C39;
+    --text:#E7EDF3;
+    --muted:#7A8699;
+    --up:#23D18B;
+    --down:#F0566B;
+    --up-glow: rgba(35,209,139,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px; position:relative;}
+
+  /* ambient background grid + glow, sits behind everything */
+  .bg-grid{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(35,209,139,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(35,209,139,0.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 0%, transparent 70%);
+            mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 0%, transparent 70%);
+  }
+  .bg-orb{
+    position:fixed; z-index:0; pointer-events:none; border-radius:50%;
+    filter:blur(90px); opacity:.14;
+  }
+  .bg-orb.o1{width:520px; height:520px; background:var(--up); top:-180px; left:-120px;}
+  .bg-orb.o2{width:420px; height:420px; background:#2C7EF5; top:280px; right:-160px; opacity:.08;}
+
+  nav, header, section, footer{position:relative; z-index:1;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,15,20,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:700; font-size:18px;}
+  .brand .dot{width:8px; height:8px; border-radius:50%; background:var(--up); box-shadow:0 0 10px var(--up-glow); animation:pulse 1.8s infinite;}
+  .nav-status{
+    display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono'; font-size:11px; color:var(--muted);
+    border:1px solid var(--line); padding:6px 12px; border-radius:20px; margin-left:16px;
+  }
+  .nav-status .bars{display:flex; align-items:flex-end; gap:2px; height:11px;}
+  .nav-status .bars span{width:3px; background:var(--up); border-radius:1px; animation:eq 1.1s ease-in-out infinite;}
+  .nav-status .bars span:nth-child(1){height:40%; animation-delay:0s;}
+  .nav-status .bars span:nth-child(2){height:100%; animation-delay:.15s;}
+  .nav-status .bars span:nth-child(3){height:65%; animation-delay:.3s;}
+  .nav-status .bars span:nth-child(4){height:85%; animation-delay:.45s;}
+  @keyframes eq{0%,100%{transform:scaleY(.4);} 50%{transform:scaleY(1);}}
+  .nav-right{display:flex; align-items:center;}
+  .nav-cta{
+    background:var(--up); color:#06140F; font-weight:600; font-size:14px;
+    padding:9px 18px; border-radius:6px; font-family:'Space Grotesk';
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{transform:translateY(-1px); box-shadow:0 6px 20px var(--up-glow);}
+
+  /* HERO */
+  header.hero{padding:96px 0 72px; border-bottom:1px solid var(--line);}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono'; font-size:12px; letter-spacing:0.06em;
+    color:var(--up); background:rgba(35,209,139,0.08);
+    border:1px solid rgba(35,209,139,0.25); padding:6px 12px; border-radius:20px;
+    margin-bottom:22px;
+  }
+  .eyebrow .pulse{width:6px; height:6px; border-radius:50%; background:var(--up); animation:pulse 1.8s infinite; flex-shrink:0;}
+  @keyframes pulse{0%,100%{opacity:1; box-shadow:0 0 0 0 var(--up-glow);} 50%{opacity:.35;}}
+
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;}
+  .hero h1{font-size:48px; line-height:1.08; margin-bottom:20px; opacity:0; animation:riseIn .7s ease forwards .1s;}
+  .hero h1 span{color:var(--up); position:relative;}
+  .hero p.lead{font-size:17px; color:var(--muted); max-width:480px; margin-bottom:32px; opacity:0; animation:riseIn .7s ease forwards .25s;}
+  .hero-actions{display:flex; align-items:center; gap:18px; flex-wrap:wrap; opacity:0; animation:riseIn .7s ease forwards .4s;}
+  @keyframes riseIn{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+
+  .btn-primary{
+    background:var(--up); color:#06140F; font-family:'Space Grotesk'; font-weight:700; font-size:15px;
+    padding:14px 26px; border-radius:7px; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 30px var(--up-glow);}
+  .btn-primary svg{transition:transform .15s ease;}
+  .btn-primary:hover svg{transform:translateX(3px);}
+  .btn-secondary{color:var(--muted); font-size:14px; border-bottom:1px solid var(--line); padding-bottom:2px; transition:color .15s ease, border-color .15s ease;}
+  .btn-secondary:hover{color:var(--text); border-color:var(--muted);}
+
+  /* stat strip under hero copy */
+  .hero-stats{display:flex; gap:32px; margin-top:40px; opacity:0; animation:riseIn .7s ease forwards .55s;}
+  .hero-stat .num{font-family:'JetBrains Mono'; font-size:22px; font-weight:600; color:var(--text);}
+  .hero-stat .num.up{color:var(--up);}
+  .hero-stat .label{font-size:12px; color:var(--muted); margin-top:2px;}
+
+  /* Chart visual */
+  .chart-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:22px;
+    opacity:0; animation:riseIn .8s ease forwards .3s;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+    position:relative; overflow:hidden;
+  }
+  .chart-card .ch-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;}
+  .ch-head .pair-block{display:flex; align-items:baseline; gap:10px;}
+  .ch-head .pair{font-family:'JetBrains Mono'; font-size:13px; color:var(--muted);}
+  .ch-head .price{font-family:'JetBrains Mono'; font-size:15px; font-weight:600; color:var(--up); transition:color .2s ease;}
+  .ch-head .price.flash-down{color:var(--down);}
+  .ch-head .status{font-family:'JetBrains Mono'; font-size:12px; color:var(--up); display:flex; align-items:center; gap:6px;}
+  svg{display:block; width:100%; height:auto;}
+  .wick{stroke:var(--muted); stroke-width:1.4;}
+  .sl-line{stroke:var(--down); stroke-width:1.2; stroke-dasharray:4 4; animation:march 1s linear infinite;}
+  .entry-line{stroke:var(--up); stroke-width:1.2; stroke-dasharray:4 4; animation:march 1s linear infinite reverse;}
+  @keyframes march{to{stroke-dashoffset:-16;}}
+  .marker-label{font-family:'JetBrains Mono'; font-size:9px; fill:var(--muted);}
+  .scan-line{stroke:var(--up); stroke-width:1; opacity:.55;}
+  .scan-line-glow{filter:drop-shadow(0 0 6px var(--up));}
+  .cursor-dot{fill:var(--up); filter:drop-shadow(0 0 6px var(--up));}
+
+  .chart-foot{display:flex; justify-content:space-between; align-items:center; margin-top:14px; padding-top:14px; border-top:1px solid var(--line);}
+  .chart-foot .mono{font-size:11px; color:var(--muted);}
+  .chart-foot .mono b{color:var(--text); font-weight:600;}
+
+  /* SECTION: log */
+  section.log{padding:88px 0; border-bottom:1px solid var(--line);}
+  .section-head{max-width:560px; margin-bottom:48px;}
+  .section-head .eyebrow{margin-bottom:16px;}
+  .section-head h2{font-size:32px; margin-bottom:14px;}
+  .section-head p{color:var(--muted); font-size:16px;}
+
+  /* mini terminal — simulated live scan output */
+  .terminal{
+    background:#0A0E13; border:1px solid var(--line); border-radius:10px;
+    padding:16px 18px; margin-bottom:44px; overflow:hidden;
+  }
+  .terminal .term-head{display:flex; align-items:center; gap:8px; margin-bottom:12px;}
+  .term-dot{width:9px; height:9px; border-radius:50%;}
+  .term-dot.r{background:#F0566B;} .term-dot.y{background:#E8B339;} .term-dot.g{background:#23D18B;}
+  .term-head span.mono{color:var(--muted); font-size:11px; margin-left:6px;}
+  .term-body{font-family:'JetBrains Mono'; font-size:12.5px; color:var(--up); min-height:78px; line-height:1.8;}
+  .term-body .line{opacity:.55;}
+  .term-body .line.current::before{content:"$ "; color:var(--muted);}
+  .term-body .line:not(.current)::before{content:"$ "; color:var(--muted);}
+  .term-cursor{display:inline-block; width:7px; height:13px; background:var(--up); vertical-align:middle; animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .log-entry{
+    display:grid; grid-template-columns:64px 1fr; gap:24px;
+    padding:26px 0; border-top:1px solid var(--line);
+    transition:background .3s ease;
+    opacity:0; transform:translateY(16px);
+  }
+  .log-entry.reveal{animation:riseIn .6s ease forwards;}
+  .log-entry:last-child{border-bottom:1px solid var(--line);}
+  .log-step{
+    font-family:'JetBrains Mono'; color:var(--muted); font-size:13px; padding-top:2px; transition:color .3s ease;
+  }
+  .log-body h3{font-size:19px; margin-bottom:6px; display:flex; align-items:center; gap:10px;}
+  .log-body h3 .tag{
+    font-family:'JetBrains Mono'; font-size:10px; color:var(--up); background:rgba(35,209,139,0.1);
+    border:1px solid rgba(35,209,139,0.25); padding:3px 8px; border-radius:4px; text-transform:uppercase; letter-spacing:.05em;
+    transition:background .3s ease, box-shadow .3s ease;
+  }
+  .log-body p{color:var(--muted); font-size:15px; max-width:560px;}
+
+  .log-entry.active{background:rgba(35,209,139,0.045);}
+  .log-entry.active .log-step{color:var(--up);}
+  .log-entry.active .log-body h3 .tag{box-shadow:0 0 14px var(--up-glow); background:rgba(35,209,139,0.18);}
+
+  /* SECTION: ticket */
+  section.ticket{padding:88px 0;}
+  .ticket-grid{display:grid; grid-template-columns:1fr 420px; gap:48px; align-items:start;}
+  .ticket-copy h2{font-size:30px; margin-bottom:16px;}
+  .ticket-copy p{color:var(--muted); font-size:16px; margin-bottom:20px; max-width:460px;}
+  .perk-list{list-style:none; display:flex; flex-direction:column; gap:12px;}
+  .perk-list li{display:flex; gap:10px; font-size:15px; color:var(--text);}
+  .perk-list li::before{content:"✓"; color:var(--up); font-weight:700;}
+
+  .order-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .order-head{
+    background:var(--panel-2); padding:18px 22px; border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .order-head .mono{font-size:12px; color:var(--muted);}
+  .order-head .live{display:flex; align-items:center; gap:6px; color:var(--up);}
+  .order-body{padding:22px;}
+  .order-row{display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px dashed var(--line); font-size:14px;}
+  .order-row:last-of-type{border-bottom:none;}
+  .order-row .k{color:var(--muted);}
+  .order-row .v{font-family:'JetBrains Mono';}
+  .order-row .v.up{color:var(--up);}
+  .order-row .v.counter{min-width:26px; display:inline-block; text-align:right;}
+  .buy-btn{
+    display:block; width:100%; text-align:center; margin-top:18px;
+    background:var(--up); color:#06140F; font-family:'Space Grotesk'; font-weight:700; font-size:16px;
+    padding:15px; border-radius:8px; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .buy-btn:hover{transform:translateY(-2px); box-shadow:0 12px 32px var(--up-glow);}
+  .fine{font-size:11px; color:var(--muted); text-align:center; margin-top:12px;}
+
+  /* generic scroll reveal */
+  .reveal-on-scroll{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal-on-scroll.in-view{opacity:1; transform:translateY(0);}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line); padding:36px 0;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap;}
+  footer .disclaimer{font-size:12px; color:var(--muted); max-width:640px; line-height:1.6;}
+  footer .brand{font-size:14px;}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:36px;}
+    .hero-stats{gap:22px;}
+    .ticket-grid{grid-template-columns:1fr;}
+    .log-entry{grid-template-columns:44px 1fr;}
+    .nav-status{display:none;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orb o1"></div>
+<div class="bg-orb o2"></div>
+
+<nav>
+  <div class="wrap">
+    <div style="display:flex; align-items:center;">
+      <div class="brand"><span class="dot"></span>SENTINEL</div>
+      <div class="nav-status">
+        <div class="bars"><span></span><span></span><span></span><span></span></div>
+        <span id="nav-pair">EUR/USD</span>
+        <span id="nav-price" style="color:var(--up);">1.08450</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-cta">Get Sentinel</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="pulse"></span>ACTIVE 24/5 · RULES-BASED ENGINE</div>
+      <h1>Your strategy, <span>running</span> while you're not watching.</h1>
+      <p class="lead">Sentinel is built on rules-based strategy logic that scans the market around the clock, so you don't have to sit in front of charts to catch a setup.</p>
+      <div class="hero-actions">
+        <a href="contact.html" class="btn-primary">Buy Sentinel
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="#06140F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#log" class="btn-secondary">See how it trades</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num up" data-counter data-target="1842">0</div>
+          <div class="label">Rules checked / hr</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num up" data-counter data-target="24">0</div>
+          <div class="label">Hours monitored / day</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num up">100%</div>
+          <div class="label">Trades with a stop-loss</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="ch-head">
+        <div class="pair-block">
+          <span class="pair">EUR/USD · H1</span>
+          <span class="price mono" id="chart-price">1.08450</span>
+        </div>
+        <span class="status"><span class="pulse" style="width:6px;height:6px;border-radius:50%;background:var(--up);"></span>Position open</span>
+      </div>
+      <svg id="chart-svg" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#1B2330" stroke-width="1">
+          <line x1="0" y1="40" x2="400" y2="40"/>
+          <line x1="0" y1="90" x2="400" y2="90"/>
+          <line x1="0" y1="140" x2="400" y2="140"/>
+          <line x1="0" y1="190" x2="400" y2="190"/>
+        </g>
+        <line class="scan-line scan-line-glow" id="scan-line" x1="0" y1="0" x2="0" y2="220"/>
+        <g id="candles"></g>
+        <line class="entry-line" x1="0" y1="126" x2="400" y2="126"/>
+        <text class="marker-label" x="6" y="121">ENTRY 1.0842</text>
+        <line class="sl-line" x1="0" y1="168" x2="400" y2="168"/>
+        <text class="marker-label" x="6" y="182">STOP 1.0798</text>
+        <circle class="cursor-dot" id="cursor-dot" cx="360" cy="40" r="3.4"/>
+      </svg>
+      <div class="chart-foot">
+        <span class="mono">Open P/L <b style="color:var(--up);" id="pl-value">+0.34%</b></span>
+        <span class="mono">Last scan <b id="scan-ago">just now</b></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="log" id="log">
+  <div class="wrap">
+    <div class="section-head reveal-on-scroll">
+      <div class="eyebrow"><span class="pulse"></span>HOW IT TRADES</div>
+      <h2>One loop, running non-stop.</h2>
+      <p>Every trade Sentinel takes follows the same disciplined sequence — no improvising, no second-guessing, no missed sessions.</p>
+    </div>
+
+    <div class="terminal reveal-on-scroll">
+      <div class="term-head">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="mono">sentinel-engine — live</span>
+      </div>
+      <div class="term-body" id="term-body"></div>
+    </div>
+
+    <div class="log-entry" data-step="0">
+      <div class="log-step">01</div>
+      <div class="log-body">
+        <h3>Scan <span class="tag">continuous</span></h3>
+        <p>Sentinel reads price action and indicators against a fixed set of criteria, watching for setups that match — every hour of every session, five days a week.</p>
+      </div>
+    </div>
+    <div class="log-entry" data-step="1">
+      <div class="log-step">02</div>
+      <div class="log-body">
+        <h3>Enter <span class="tag">automatic</span></h3>
+        <p>When conditions align with the strategy's rules, Sentinel opens the position itself. No manual click, no hesitation, no missed entry while you're asleep or away from the desk.</p>
+      </div>
+    </div>
+    <div class="log-entry" data-step="2">
+      <div class="log-step">03</div>
+      <div class="log-body">
+        <h3>Protect <span class="tag">on entry</span></h3>
+        <p>A stop-loss is attached the moment a trade opens, capping downside from the very first tick — every position, every time.</p>
+      </div>
+    </div>
+    <div class="log-entry" data-step="3">
+      <div class="log-step">04</div>
+      <div class="log-body">
+        <h3>Exit <span class="tag">rule-driven</span></h3>
+        <p>Sentinel closes the trade the instant the setup is invalidated or the target is reached, taking the emotion out of when to get out.</p>
+      </div>
+    </div>
+    <div class="log-entry" data-step="4">
+      <div class="log-step">05</div>
+      <div class="log-body">
+        <h3>Improve <span class="tag">ongoing</span></h3>
+        <p>Strategy logic keeps getting refined, and every update ships to you for the life of your license — no extra charge, no re-purchasing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ticket">
+  <div class="wrap ticket-grid">
+    <div class="ticket-copy reveal-on-scroll">
+      <div class="eyebrow"><span class="pulse"></span>WHY TRADERS RUN SENTINEL</div>
+      <h2>Built for consistency, not adrenaline.</h2>
+      <p>Sentinel doesn't get tired, doesn't skip its stop-loss, and doesn't chase a move out of boredom. It executes the same rules whether it's 3am or a Friday close.</p>
+      <ul class="perk-list">
+        <li>Runs 24/5 so you're not tied to the charts</li>
+        <li>Every entry follows predefined, testable criteria</li>
+        <li>Stop-loss attached on every single trade, automatically</li>
+        <li>Exits are rule-based — no emotional exits</li>
+        <li>Lifetime updates to the strategy logic included</li>
+      </ul>
+    </div>
+
+    <div class="order-card reveal-on-scroll">
+      <div class="order-head">
+        <span class="mono">ORDER TICKET</span>
+        <span class="mono live"><span class="eyebrow" style="padding:0; border:none; background:none; margin:0;"><span class="pulse" style="width:6px;height:6px;border-radius:50%;background:var(--up);"></span></span>SENTINEL</span>
+      </div>
+      <div class="order-body">
+        <div class="order-row"><span class="k">Engine</span><span class="v">Rules-based logic</span></div>
+        <div class="order-row"><span class="k">Uptime</span><span class="v">24/5</span></div>
+        <div class="order-row"><span class="k">Risk control</span><span class="v up">Auto stop-loss</span></div>
+        <div class="order-row"><span class="k">Exit logic</span><span class="v">Invalidation / target</span></div>
+        <div class="order-row"><span class="k">Trades today</span><span class="v up"><span class="counter" data-counter data-target="17">0</span></span></div>
+        <div class="order-row"><span class="k">Updates</span><span class="v up">Lifetime</span></div>
+        <a href="contact.html" class="buy-btn">Buy Sentinel →</a>
+        <div class="fine">Redirects to our contact page to complete your order.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">SENTINEL</div>
+    <p class="disclaimer">Trading forex and CFDs carries a high level of risk and may not be suitable for all investors. Automated execution does not eliminate market risk, and past performance of any strategy is not indicative of future results. Only trade with capital you can afford to lose.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- scroll reveal ---------- */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.reveal-on-scroll').forEach(function(el){ io.observe(el); });
+
+  var logEntries = document.querySelectorAll('.log-entry');
+  var ioLog = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('reveal');
+        ioLog.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.2});
+  logEntries.forEach(function(el, i){ el.style.animationDelay = (i*0.08)+'s'; ioLog.observe(el); });
+
+  /* ---------- number counters ---------- */
+  var counters = document.querySelectorAll('[data-counter]');
+  var ioCounter = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      ioCounter.unobserve(e.target);
+      var el = e.target;
+      var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      if(reduceMotion){ el.textContent = target.toLocaleString(); return; }
+      var start = 0, duration = 1100, startTime = null;
+      function step(ts){
+        if(!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(start + (target - start) * eased).toLocaleString();
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }, {threshold:0.4});
+  counters.forEach(function(el){ ioCounter.observe(el); });
+
+  /* ---------- live candlestick chart ---------- */
+  var candleGroup = document.getElementById('candles');
+  var scanLine = document.getElementById('scan-line');
+  var cursorDot = document.getElementById('cursor-dot');
+  var chartPriceEl = document.getElementById('chart-price');
+  var navPriceEl = document.getElementById('nav-price');
+  var plEl = document.getElementById('pl-value');
+  var scanAgoEl = document.getElementById('scan-ago');
+
+  var slotW = 20, slotCount = 20, basePrice = 1.08450;
+  var candles = [];
+
+  function seedCandles(){
+    var y = 175;
+    for(var i=0;i<slotCount;i++){
+      var open = y;
+      var drift = (Math.random() - 0.42) * 14;
+      var close = Math.max(20, Math.min(200, y + drift));
+      var high = Math.min(open, close) - (Math.random()*8+2);
+      var low = Math.max(open, close) + (Math.random()*8+2);
+      candles.push({open:open, close:close, high:Math.max(10,high), low:Math.min(210,low)});
+      y = close;
+    }
+  }
+  seedCandles();
+
+  function renderCandles(){
+    candleGroup.innerHTML = '';
+    candles.forEach(function(c, i){
+      var x = i * slotW + 20;
+      var up = c.close < c.open; /* smaller y = higher price */
+      var top = Math.min(c.open, c.close);
+      var height = Math.max(2, Math.abs(c.close - c.open));
+      var ns = 'http://www.w3.org/2000/svg';
+
+      var wick = document.createElementNS(ns, 'line');
+      wick.setAttribute('class', 'wick');
+      wick.setAttribute('x1', x); wick.setAttribute('x2', x);
+      wick.setAttribute('y1', c.high); wick.setAttribute('y2', c.low);
+      candleGroup.appendChild(wick);
+
+      var body = document.createElementNS(ns, 'rect');
+      body.setAttribute('class', up ? 'candle-up' : 'candle-down');
+      body.setAttribute('fill', up ? 'var(--up)' : 'var(--down)');
+      body.setAttribute('x', x-4); body.setAttribute('width', 8);
+      body.setAttribute('y', top); body.setAttribute('height', height);
+      candleGroup.appendChild(body);
+    });
+  }
+  renderCandles();
+
+  function currentPriceDisplay(delta){
+    var p = basePrice + delta;
+    return p.toFixed(5);
+  }
+
+  function tickChart(){
+    var last = candles[candles.length - 1];
+    var drift = (Math.random() - 0.46) * 12;
+    var open = last.close;
+    var close = Math.max(15, Math.min(205, open + drift));
+    var high = Math.min(open, close) - (Math.random()*7+2);
+    var low = Math.max(open, close) + (Math.random()*7+2);
+    candles.push({open:open, close:close, high:Math.max(8,high), low:Math.min(212,low)});
+    candles.shift();
+    renderCandles();
+
+    var priceDelta = (110 - close) * 0.0004;
+    var up = close < open;
+    var priceStr = currentPriceDisplay(priceDelta);
+    chartPriceEl.textContent = priceStr;
+    navPriceEl.textContent = priceStr;
+    chartPriceEl.classList.toggle('flash-down', !up);
+    navPriceEl.style.color = up ? 'var(--up)' : 'var(--down)';
+    plEl.textContent = (up ? '+' : '') + (priceDelta*100).toFixed(2) + '%';
+    plEl.style.color = up ? 'var(--up)' : 'var(--down)';
+
+    cursorDot.setAttribute('cy', close);
+    scanAgoEl.textContent = 'just now';
+  }
+
+  if(!reduceMotion){
+    setInterval(tickChart, 1400);
+
+    /* sweeping scan line across the chart */
+    var scanX = 0;
+    setInterval(function(){
+      scanX = (scanX + 4) % 420;
+      scanLine.setAttribute('x1', scanX);
+      scanLine.setAttribute('x2', scanX);
+      scanLine.style.opacity = (Math.sin(scanX/420*Math.PI) * 0.5 + 0.15).toFixed(2);
+    }, 40);
+
+    /* "last scan" relative time ticking up */
+    var secs = 0;
+    setInterval(function(){
+      secs += 1;
+      if(secs < 60){ scanAgoEl.textContent = secs + 's ago'; }
+      else { scanAgoEl.textContent = Math.floor(secs/60) + 'm ago'; }
+    }, 1000);
+  }
+
+  /* ---------- terminal typed scan log ---------- */
+  var termLines = [
+    'sentinel scan --pair EUR/USD --tf H1',
+    'checking 14 entry criteria ... 11/14 matched',
+    'no confluence yet, continuing scan',
+    'sentinel scan --pair EUR/USD --tf H1',
+    'checking 14 entry criteria ... 14/14 matched',
+    'entry confirmed @ 1.08420 — opening position',
+    'stop-loss attached @ 1.07980',
+    'monitoring open position for exit rule',
+    'target zone reached — closing position',
+    'trade logged — awaiting next setup'
+  ];
+  var termBody = document.getElementById('term-body');
+
+  function typeTerminal(){
+    var idx = 0;
+    var historyMax = 3;
+    var history = [];
+
+    function typeLine(text, cb){
+      var lineEl = document.createElement('div');
+      lineEl.className = 'line current';
+      var textSpan = document.createElement('span');
+      var cursor = document.createElement('span');
+      cursor.className = 'term-cursor';
+      lineEl.appendChild(textSpan);
+      lineEl.appendChild(cursor);
+      termBody.appendChild(lineEl);
+
+      if(reduceMotion){
+        textSpan.textContent = text;
+        setTimeout(cb, 20);
+        return;
+      }
+
+      var i = 0;
+      var typer = setInterval(function(){
+        textSpan.textContent = text.slice(0, i+1);
+        i++;
+        if(i >= text.length){
+          clearInterval(typer);
+          lineEl.classList.remove('current');
+          cursor.remove();
+          setTimeout(cb, 900);
+        }
+      }, 22);
+    }
+
+    function cycle(){
+      var text = termLines[idx % termLines.length];
+      idx++;
+      typeLine(text, function(){
+        history.push(text);
+        while(history.length > historyMax){ history.shift(); }
+        while(termBody.children.length > historyMax + 1){
+          termBody.removeChild(termBody.firstChild);
+        }
+        setTimeout(cycle, 300);
+      });
+    }
+    cycle();
+  }
+  typeTerminal();
+
+  /* ---------- cycle the "active" step in the process log ---------- */
+  if(!reduceMotion){
+    var steps = document.querySelectorAll('.log-entry');
+    var active = 0;
+    function cycleSteps(){
+      steps.forEach(function(s){ s.classList.remove('active'); });
+      steps[active].classList.add('active');
+      active = (active + 1) % steps.length;
+    }
+    cycleSteps();
+    setInterval(cycleSteps, 2200);
+  } else {
+    document.querySelector('.log-entry').classList.add('active');
+  }
+})();
+</script>
+
+</body>
+</html>
