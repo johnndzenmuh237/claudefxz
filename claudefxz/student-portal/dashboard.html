@@ -23,6 +23,38 @@
     .connection-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;}
     .connection-dot.online{background:var(--color-success);box-shadow:0 0 6px rgba(34,197,94,0.5);}
     .connection-dot.offline{background:var(--color-danger);}
+
+    /* ── Auto Trading Bot & Live Signals additions ─────────────── */
+    .bot-status-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+    .bot-status-left{display:flex;align-items:center;gap:.75rem;}
+    .bot-avatar{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(201,168,76,0.25),rgba(201,168,76,0.05));display:flex;align-items:center;justify-content:center;color:var(--color-gold);font-size:1.1rem;flex-shrink:0;}
+    .bot-strategy-name{font-weight:700;font-size:.95rem;color:var(--color-text-primary);}
+    .bot-strategy-sub{font-size:.75rem;color:var(--color-text-muted);margin-top:2px;}
+    .bot-toggle{position:relative;width:46px;height:26px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);cursor:pointer;flex-shrink:0;transition:background .2s ease;}
+    .bot-toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#9CA3B0;transition:transform .2s ease,background .2s ease;}
+    .bot-toggle.on{background:rgba(34,197,94,0.25);border-color:rgba(34,197,94,0.4);}
+    .bot-toggle.on::after{transform:translateX(20px);background:var(--color-success);}
+    .bot-toggle.pending{opacity:.6;pointer-events:none;}
+    .bot-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1.25rem;}
+    .bot-metric{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg,10px);padding:.75rem;text-align:center;}
+    .bot-metric-val{font-size:1.15rem;font-weight:800;color:var(--color-text-primary);}
+    .bot-metric-val.up{color:var(--color-success);}
+    .bot-metric-val.down{color:var(--color-danger);}
+    .bot-metric-label{font-size:.7rem;color:var(--color-text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.03em;}
+    .bot-trades-list{margin-top:1.25rem;display:flex;flex-direction:column;gap:.5rem;}
+    .bot-trade-row{display:flex;align-items:center;gap:.6rem;font-size:.8rem;padding:.5rem .6rem;border-radius:8px;background:rgba(255,255,255,0.02);}
+    .bot-trade-pair{font-weight:600;color:var(--color-text-primary);min-width:70px;}
+    .bot-trade-pnl{margin-left:auto;font-weight:700;}
+    .bot-empty,.signals-empty{text-align:center;padding:2rem;color:var(--color-text-muted);font-size:.875rem;}
+    .signal-card{display:flex;align-items:center;gap:.85rem;padding:.75rem .85rem;border-radius:var(--radius-lg,10px);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);margin-bottom:.6rem;}
+    .signal-dir{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+    .signal-dir.buy{background:rgba(34,197,94,0.15);color:var(--color-success);}
+    .signal-dir.sell{background:rgba(239,68,68,0.15);color:var(--color-danger);}
+    .signal-pair{font-weight:700;font-size:.85rem;color:var(--color-text-primary);}
+    .signal-meta{font-size:.7rem;color:var(--color-text-muted);margin-top:2px;}
+    .signal-levels{margin-left:auto;text-align:right;font-size:.7rem;color:var(--color-text-muted);line-height:1.5;}
+    .signal-levels b{color:var(--color-text-secondary);}
+    .signal-status{margin-left:.5rem;flex-shrink:0;}
   </style>
 </head>
 <body>
@@ -43,6 +75,11 @@
       <a href="my-courses.html" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
       <a href="live-sessions.html" class="sidebar-link"><i class="fas fa-video"></i><span class="link-text">Live Sessions</span><span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span></a>
       <a href="assignments.html" class="sidebar-link"><i class="fas fa-tasks"></i><span class="link-text">Assignments</span><span class="badge badge-danger" id="assignmentBadge" style="font-size:9px;margin-left:auto;display:none;">0</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Trading</div>
+      <a href="#auto-bot-section" class="sidebar-link"><i class="fas fa-robot"></i><span class="link-text">Auto Trading Bot</span></a>
+      <a href="#live-signals-section" class="sidebar-link"><i class="fas fa-signal"></i><span class="link-text">Live Signals</span></a>
     </div>
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Resources</div>
@@ -159,6 +196,46 @@
         <div class="dash-widget-body" id="activityList"><div style="text-align:center;padding:2rem;color:var(--color-text-muted);"><div class="loader-ring" style="margin:0 auto;"></div></div></div>
       </div>
     </div>
+
+    <!-- ═══════════ Auto Trading Bot + Live Signals ═══════════ -->
+    <div class="grid-2" style="gap:1.5rem;margin-bottom:1.5rem;">
+      <div class="dash-widget" id="auto-bot-section">
+        <div class="dash-widget-header">
+          <span class="dash-widget-title"><i class="fas fa-robot" style="color:var(--color-gold);margin-right:.4rem;"></i>Auto Trading Bot</span>
+          <span class="badge" id="botStatusBadge">—</span>
+        </div>
+        <div class="dash-widget-body" id="botWidgetBody">
+          <div class="bot-status-head">
+            <div class="bot-status-left">
+              <div class="bot-avatar"><i class="fas fa-robot"></i></div>
+              <div>
+                <div class="bot-strategy-name" id="botStrategyName">Loading…</div>
+                <div class="bot-strategy-sub" id="botStrategySub">—</div>
+              </div>
+            </div>
+            <div class="bot-toggle" id="botToggle" title="Enable / disable the auto trading bot"></div>
+          </div>
+          <div class="bot-metrics">
+            <div class="bot-metric"><div class="bot-metric-val" id="botWinRate">—</div><div class="bot-metric-label">Win Rate</div></div>
+            <div class="bot-metric"><div class="bot-metric-val" id="botTradesToday">—</div><div class="bot-metric-label">Trades Today</div></div>
+            <div class="bot-metric"><div class="bot-metric-val" id="botPnlToday">—</div><div class="bot-metric-label">P&amp;L Today</div></div>
+          </div>
+          <div class="bot-trades-list" id="botTradesList"></div>
+        </div>
+      </div>
+
+      <div class="dash-widget" id="live-signals-section">
+        <div class="dash-widget-header">
+          <span class="dash-widget-title"><i class="fas fa-signal" style="color:var(--color-gold);margin-right:.4rem;"></i>Live Signals</span>
+          <span class="badge badge-gold" id="signalsCountBadge">0 active</span>
+        </div>
+        <div class="dash-widget-body" id="signalsList">
+          <div class="signals-empty"><i class="fas fa-signal" style="font-size:2rem;display:block;margin-bottom:.75rem;opacity:.3;"></i>No live signals right now.</div>
+        </div>
+      </div>
+    </div>
+    <!-- ═══════════ /Auto Trading Bot + Live Signals ═══════════ -->
+
     <div class="grid-2" style="gap:1.5rem;margin-bottom:1.5rem;">
       <div class="dash-widget">
         <div class="dash-widget-header"><span class="dash-widget-title">Trading Performance</span><span class="badge badge-gold">Last 12 months</span></div>
@@ -207,6 +284,7 @@ import { populateUserUI, createUserProfile } from '../assets/js/firebase/auth-he
 let unsubscribe = null;
 let revenueChart = null, performanceChart = null;
 let currentUser = null;
+let botTogglePending = false;
 
 onAuthStateChanged(auth, (user) => {
   if (!user) { window.location.href = '../auth/login.html'; return; }
@@ -219,6 +297,22 @@ document.getElementById('logoutBtn').addEventListener('click', async (e) => {
   if (unsubscribe) unsubscribe();
   await signOut(auth);
   window.location.href = '../auth/login.html';
+});
+
+document.getElementById('botToggle').addEventListener('click', async () => {
+  if (!currentUser || botTogglePending) return;
+  const toggle = document.getElementById('botToggle');
+  const nextState = !toggle.classList.contains('on');
+  botTogglePending = true;
+  toggle.classList.add('pending');
+  try {
+    await updateDoc(doc(db, 'users', currentUser.uid), { 'autoBot.enabled': nextState });
+  } catch (err) {
+    console.error('Failed to toggle auto bot:', err);
+  } finally {
+    botTogglePending = false;
+    toggle.classList.remove('pending');
+  }
 });
 
 function startSync(uid) {
@@ -253,6 +347,8 @@ function startSync(uid) {
     renderActivity(p.recentActivity||[]);
     renderSessions(p.upcomingSessions||[]);
     renderNotifications(p.notifications||[]);
+    renderAutoBot(p.autoBot||{});
+    renderLiveSignals(p.liveSignals||[]);
     if (p.latestCertificate) { document.getElementById('certCard').style.display='block'; document.getElementById('certTitle').textContent=p.latestCertificate.title||'Certificate'; document.getElementById('certSub').textContent=p.latestCertificate.issued||'Forex Academy Pro'; }
     updateCharts(p.performanceData||{});
     updateDoc(doc(db,'users',uid),{lastSeen:serverTimestamp()}).catch(()=>{});
@@ -296,6 +392,81 @@ function renderNotifications(notifications) {
   list.innerHTML=notifications.slice(0,12).map(n=>`<div class="notif-item ${n.read?'':'unread'}"><div class="notif-item-icon ${clss[n.type]||'stat-card-gold'}"><i class="fas ${icons[n.type]||'fa-bell'}"></i></div><div><div class="notif-text">${n.text||''}</div><div class="notif-time">${n.time||''}</div></div></div>`).join('');
 }
 
+/* ── Auto Trading Bot ──────────────────────────────────────── */
+function renderAutoBot(bot) {
+  const enabled = !!bot.enabled;
+  const toggle = document.getElementById('botToggle');
+  toggle.classList.toggle('on', enabled);
+
+  const statusBadge = document.getElementById('botStatusBadge');
+  statusBadge.textContent = enabled ? 'Running' : 'Paused';
+  statusBadge.className = 'badge ' + (enabled ? 'badge-success' : 'badge-surface');
+
+  document.getElementById('botStrategyName').textContent = bot.strategy || 'No strategy selected';
+  document.getElementById('botStrategySub').textContent = bot.pairs?.length ? bot.pairs.join(' · ') : 'Configure a strategy in Settings';
+
+  document.getElementById('botWinRate').textContent = bot.winRate != null ? bot.winRate + '%' : '—';
+  document.getElementById('botTradesToday').textContent = bot.tradesToday != null ? bot.tradesToday : '—';
+
+  const pnlEl = document.getElementById('botPnlToday');
+  const pnl = bot.pnlToday;
+  if (pnl != null) {
+    pnlEl.textContent = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toLocaleString();
+    pnlEl.className = 'bot-metric-val ' + (pnl >= 0 ? 'up' : 'down');
+  } else {
+    pnlEl.textContent = '—';
+    pnlEl.className = 'bot-metric-val';
+  }
+
+  const list = document.getElementById('botTradesList');
+  const trades = bot.recentTrades || [];
+  if (!trades.length) {
+    list.innerHTML = '<div class="bot-empty">No bot trades yet. Turn the bot on to start auto-trading.</div>';
+    return;
+  }
+  list.innerHTML = trades.slice(0, 5).map(t => {
+    const win = (t.pnl||0) >= 0;
+    return `<div class="bot-trade-row">
+      <i class="fas ${t.direction==='sell'?'fa-arrow-down':'fa-arrow-up'}" style="color:${t.direction==='sell'?'var(--color-danger)':'var(--color-success)'};"></i>
+      <span class="bot-trade-pair">${t.pair||''}</span>
+      <span style="color:var(--color-text-muted);">${t.time||''}</span>
+      <span class="bot-trade-pnl" style="color:${win?'var(--color-success)':'var(--color-danger)'};">${win?'+':''}${(t.pnl||0).toFixed ? t.pnl.toFixed(2) : t.pnl}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ── Live Signals ──────────────────────────────────────────── */
+function renderLiveSignals(signals) {
+  const el = document.getElementById('signalsList');
+  const badge = document.getElementById('signalsCountBadge');
+  const active = signals.filter(s => (s.status||'active').toLowerCase() === 'active');
+  badge.textContent = active.length + ' active';
+
+  if (!signals.length) {
+    el.innerHTML = '<div class="signals-empty"><i class="fas fa-signal" style="font-size:2rem;display:block;margin-bottom:.75rem;opacity:.3;"></i>No live signals right now.</div>';
+    return;
+  }
+
+  const statusBadge = { active:'badge-success', closed:'badge-surface', pending:'badge-gold' };
+
+  el.innerHTML = signals.slice(0, 6).map(s => {
+    const dir = (s.direction||'buy').toLowerCase();
+    const status = (s.status||'active').toLowerCase();
+    return `<div class="signal-card">
+      <div class="signal-dir ${dir}"><i class="fas ${dir==='sell'?'fa-arrow-trend-down':'fa-arrow-trend-up'}"></i></div>
+      <div>
+        <div class="signal-pair">${s.pair||''} <span style="color:${dir==='sell'?'var(--color-danger)':'var(--color-success)'};font-weight:600;font-size:.7rem;">${dir.toUpperCase()}</span></div>
+        <div class="signal-meta">Entry ${s.entry ?? '—'} · ${s.time||''}</div>
+      </div>
+      <div class="signal-levels">
+        <div><b>TP</b> ${s.takeProfit ?? '—'}</div>
+        <div><b>SL</b> ${s.stopLoss ?? '—'}</div>
+      </div>
+      <span class="badge ${statusBadge[status]||'badge-info'} signal-status">${status}</span>
+    </div>`;
+  }).join('');
+}
+
 function updateCharts(data) {
   const rCtx=document.getElementById('revenueChart');
   if(rCtx&&window.Chart){
@@ -309,6 +480,8 @@ function updateCharts(data) {
   }
 }
 updateCharts({});
+renderAutoBot({});
+renderLiveSignals([]);
 </script>
 </body>
 </html>
