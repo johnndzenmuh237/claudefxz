@@ -1,110 +1,322 @@
-<!-- ═══════════════════════════════ HERO (photo-first, title overlaid) ══════ -->
-<style>
-  /* --- Hero: full-bleed photo with content overlaid on top --- */
-  .hero{
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-end;
-    overflow: hidden;
-    padding: 0;
-  }
-  .hero-photo-frame{
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-  .hero-photo-frame img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 22%;
-    display: block;
-  }
-  .hero-photo-overlay{
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(180deg, rgba(6,8,14,.35) 0%, rgba(6,8,14,.45) 40%, rgba(6,8,14,.92) 100%),
-      linear-gradient(90deg, rgba(6,8,14,.92) 0%, rgba(6,8,14,.55) 45%, rgba(6,8,14,.15) 75%);
-  }
-  .hero .hero-glow{ z-index: 1; }
-  .hero > .container{
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    padding-top: clamp(7rem, 14vw, 11rem);
-    padding-bottom: clamp(3rem, 6vw, 5rem);
-  }
-  .hero-inner{ display: block; }
-  .hero-content{ max-width: 720px; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Forex Academy Pro — Elite trading education, signals, mentorship, and funded account programs for serious traders worldwide.">
+  <title>Claudefx Academy Pro | Elite Trading Education</title>
 
-  /* --- Title reveal animation, staggered line by line on top of the photo --- */
-  .hero-title-reveal{ overflow: hidden; }
-  .hero-title-reveal .reveal-line{
-    display: block;
-    opacity: 0;
-    transform: translateY(32px);
-    animation: heroLineUp .9s cubic-bezier(.16,1,.3,1) forwards;
-    text-shadow: 0 4px 24px rgba(0,0,0,.45);
-  }
-  .hero-title-reveal .reveal-line:nth-child(1){ animation-delay: .15s; }
-  .hero-title-reveal .reveal-line:nth-child(2){ animation-delay: .35s; }
-  .hero-title-reveal .reveal-line:nth-child(3){ animation-delay: .55s; }
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo/favicon.png">
 
-  .hero-title-reveal .gradient-text{
-    background-image: linear-gradient(90deg, #ffb56b, #ffe0b3, #ffb56b);
-    background-size: 220% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation:
-      heroLineUp .9s cubic-bezier(.16,1,.3,1) forwards,
-      heroShimmer 5s linear infinite 1.4s;
-    animation-delay: .35s, 1.4s;
-  }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  @keyframes heroLineUp{
-    to{ opacity: 1; transform: translateY(0); }
-  }
-  @keyframes heroShimmer{
-    to{ background-position: -220% center; }
-  }
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  @media (prefers-reduced-motion: reduce){
-    .hero-title-reveal .reveal-line,
-    .hero-title-reveal .gradient-text{
-      animation: none !important;
-      opacity: 1;
-      transform: none;
+  <!-- Vendors -->
+  <link rel="stylesheet" href="assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="assets/vendors/swiper/swiper-bundle.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/darkmode.css">
+  <link rel="stylesheet" href="assets/css/themes.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <!-- ═══ FIX OVERRIDES (added) ═══
+       1) Ticker bar pinned to the very top of the header, above the navbar,
+          on both desktop and mobile.
+       2) Hero rebuilt as a photo-first section: the trader photo is now a
+          full-bleed background with the title animating on top of it.
+       3) Trust bar logos restyled into uniform, professional-looking cards.
+       These are appended last so they win the cascade over the external
+       stylesheets above.
+  -->
+  <style>
+    /* --- Ticker bar becomes part of the sticky header --- */
+    .ticker-bar{
+      position: sticky;
+      top: 0;
+      z-index: 1001; /* sits above the navbar */
+      width: 100%;
     }
-  }
+    .navbar{
+      position: sticky;
+      top: 0; /* stacks directly under the ticker because it comes after it in the DOM */
+      z-index: 1000;
+    }
 
-  /* Floating stat cards now sit on top of the photo, right-hand side */
-  .hero-photo-floats{
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-  }
-  .hero-photo-floats .hero-float-card{
-    position: absolute;
-    pointer-events: auto;
-  }
-  .hero-photo-floats .card-profit{ top: 16%; right: 6%; }
-  .hero-photo-floats .card-users{ bottom: 20%; right: 4%; }
-
-  @media (max-width: 991px){
-    .hero{ align-items: flex-end; min-height: 92vh; }
+    /* --- Hero: full-bleed photo with content overlaid on top --- */
+    .hero{
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      padding: 0;
+    }
+    .hero-photo-frame{
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-photo-frame img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 22%;
+      display: block;
+    }
     .hero-photo-overlay{
+      position: absolute;
+      inset: 0;
       background:
-        linear-gradient(180deg, rgba(6,8,14,.25) 0%, rgba(6,8,14,.55) 55%, rgba(6,8,14,.96) 100%);
+        linear-gradient(180deg, rgba(6,8,14,.35) 0%, rgba(6,8,14,.45) 40%, rgba(6,8,14,.92) 100%),
+        linear-gradient(90deg, rgba(6,8,14,.92) 0%, rgba(6,8,14,.55) 45%, rgba(6,8,14,.15) 75%);
     }
-    .hero > .container{ padding-top: 6rem; }
-    .hero-photo-floats{ display: none; } /* avoid clutter over text on small screens */
-  }
-</style>
+    .hero .hero-glow{ z-index: 1; }
+    .hero > .container{
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding-top: clamp(7rem, 14vw, 11rem);
+      padding-bottom: clamp(3rem, 6vw, 5rem);
+    }
+    .hero-inner{ display: block; }
+    .hero-content{ max-width: 720px; }
 
+    /* --- Title reveal animation, staggered line by line on top of the photo --- */
+    .hero-title-reveal{ overflow: hidden; }
+    .hero-title-reveal .reveal-line{
+      display: block;
+      opacity: 0;
+      transform: translateY(32px);
+      animation: heroLineUp .9s cubic-bezier(.16,1,.3,1) forwards;
+      text-shadow: 0 4px 24px rgba(0,0,0,.45);
+    }
+    .hero-title-reveal .reveal-line:nth-child(1){ animation-delay: .15s; }
+    .hero-title-reveal .reveal-line:nth-child(2){ animation-delay: .35s; }
+    .hero-title-reveal .reveal-line:nth-child(3){ animation-delay: .55s; }
+
+    .hero-title-reveal .gradient-text{
+      background-image: linear-gradient(90deg, #ffb56b, #ffe0b3, #ffb56b);
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation:
+        heroLineUp .9s cubic-bezier(.16,1,.3,1) forwards,
+        heroShimmer 5s linear infinite 1.4s;
+      animation-delay: .35s, 1.4s;
+    }
+
+    @keyframes heroLineUp{
+      to{ opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroShimmer{
+      to{ background-position: -220% center; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .hero-title-reveal .reveal-line,
+      .hero-title-reveal .gradient-text{
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Floating stat cards now sit on top of the photo, right-hand side */
+    .hero-photo-floats{
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-photo-floats .hero-float-card{
+      position: absolute;
+      pointer-events: auto;
+    }
+    .hero-photo-floats .card-profit{ top: 16%; right: 6%; }
+    .hero-photo-floats .card-users{ bottom: 20%; right: 4%; }
+
+    @media (max-width: 991px){
+      .hero{ align-items: flex-end; min-height: 92vh; }
+      .hero-photo-overlay{
+        background:
+          linear-gradient(180deg, rgba(6,8,14,.25) 0%, rgba(6,8,14,.55) 55%, rgba(6,8,14,.96) 100%);
+      }
+      .hero > .container{ padding-top: 6rem; }
+      .hero-photo-floats{ display: none; } /* avoid clutter over text on small screens */
+    }
+
+    /* --- Trust bar: professional, uniform logo cards --- */
+    .trust-bar{ padding: 3.5rem 0; }
+    .trust-label{
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--color-text-muted, rgba(255,255,255,.5));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .trust-label::before,
+    .trust-label::after{
+      content: "";
+      height: 1px;
+      width: 48px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.18));
+    }
+    .trust-label::after{ background: linear-gradient(90deg, rgba(255,255,255,.18), transparent); }
+
+    .trust-logos{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: center;
+      gap: 1.1rem;
+    }
+    .trust-logo-wrap{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 168px;
+      height: 84px;
+      padding: 1.1rem 1.6rem;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 1px 0 rgba(255,255,255,.04) inset;
+      transition: transform .35s cubic-bezier(.16,1,.3,1), border-color .35s ease, background .35s ease, box-shadow .35s ease;
+    }
+    .trust-logo-wrap:hover{
+      transform: translateY(-5px);
+      border-color: rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+      box-shadow: 0 16px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.06) inset;
+    }
+    .trust-logo{
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: grayscale(1) brightness(1.7) contrast(.85) opacity(.7);
+      transition: filter .4s ease, transform .4s ease;
+    }
+    .trust-logo-wrap:hover .trust-logo{
+      filter: grayscale(0) brightness(1) contrast(1) opacity(1);
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 640px){
+      .trust-logo-wrap{ width: 132px; height: 68px; padding: .85rem 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ PAGE LOADER ═══════════════════════════════ -->
+<div class="page-loader">
+  <div class="loader-ring"></div>
+</div>
+
+<!-- ═══════════════════════════════ TICKER (moved into header, sticky top) ═══ -->
+<div class="ticker-bar" aria-label="Live forex rates">
+  <div class="ticker-inner"></div>
+</div>
+
+<!-- ═══════════════════════════════ NAVBAR ═══════════════════════════════════ -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container">
+    <div class="navbar-inner">
+      <!-- Brand -->
+      <a href="index.html" class="navbar-brand">
+        <img src="assets/images/logo/logo-icon.jpg" alt="FAP Logo" class="brand-logo">
+        <span class="brand-name">Claudefx<span>Academy</span></span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <ul class="navbar-nav">
+        <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+        <li class="nav-item">
+          <a href="courses.html" class="nav-link">Courses <i class="fas fa-chevron-down" style="font-size:10px;"></i></a>
+          <div class="nav-dropdown">
+            <a href="courses.html"><i class="fas fa-layer-group"></i> All Courses</a>
+            <a href="forex-trading.html"><i class="fas fa-chart-line"></i> Forex Trading</a>
+            <a href="synthetic-indices.html"><i class="fas fa-wave-square"></i> Synthetic Indices</a>
+            <a href="course-single.html"><i class="fas fa-play-circle"></i> Course Preview</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="signals.html" class="nav-link">Services <i class="fas fa-chevron-down" style="font-size:10px;"></i></a>
+          <div class="nav-dropdown">
+            <a href="signals.html"><i class="fas fa-signal"></i> Live Signals</a>
+            <a href="mentorship.html"><i class="fas fa-user-tie"></i> Mentorship</a>
+            <a href="account-management.html"><i class="fas fa-briefcase"></i> Account Management</a>
+            <a href="funded-accounts.html"><i class="fas fa-money-bill-wave"></i> Funded Accounts</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="pricing.html" class="nav-link">Pricing</a></li>
+        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Actions -->
+      <div class="navbar-actions">
+        <button class="btn btn-icon" data-theme-toggle aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <a href="signup.html" class="btn btn-outline btn-sm">
+          <i class="fas fa-user"></i> Portal
+        </a>
+        <a href="pricing.html" class="btn btn-primary btn-sm">
+          Get Started
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" aria-hidden="true">
+  <div class="mobile-nav-inner">
+    <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="courses.html"><i class="fas fa-graduation-cap"></i> Courses</a>
+    <a href="forex-trading.html"><i class="fas fa-chart-line"></i> Forex Trading</a>
+    <a href="synthetic-indices.html"><i class="fas fa-wave-square"></i> Synthetic Indices</a>
+    <a href="signals.html"><i class="fas fa-signal"></i> Live Signals</a>
+    <a href="mentorship.html"><i class="fas fa-user-tie"></i> Mentorship</a>
+    <a href="account-management.html"><i class="fas fa-briefcase"></i> Account Management</a>
+    <a href="funded-accounts.html"><i class="fas fa-money-bill-wave"></i> Funded Accounts</a>
+    <a href="pricing.html"><i class="fas fa-tags"></i> Pricing</a>
+    <a href="blog.html"><i class="fas fa-newspaper"></i> Blog</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    <div class="mobile-nav-actions">
+      <a href="signup.html" class="btn btn-outline"><i class="fas fa-user"></i> Student Portal</a>
+      <a href="pricing.html" class="btn btn-primary"><i class="fas fa-rocket"></i> Get Started Free</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ HERO (photo-first, title overlaid) ══════ -->
 <section class="hero" id="hero">
   <div class="hero-photo-frame">
     <img src="assets/images/hero/hero-trader.jpg" alt="Professional Trader">
@@ -194,75 +406,6 @@
 </section>
 
 <!-- ═══════════════════════════════ TRUST BAR (professional logo cards) ═════ -->
-<style>
-  .trust-bar{ padding: 3.5rem 0; }
-  .trust-label{
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--color-text-muted, rgba(255,255,255,.5));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-  .trust-label::before,
-  .trust-label::after{
-    content: "";
-    height: 1px;
-    width: 48px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.18));
-  }
-  .trust-label::after{ background: linear-gradient(90deg, rgba(255,255,255,.18), transparent); }
-
-  .trust-logos{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    justify-content: center;
-    gap: 1.1rem;
-  }
-  .trust-logo-wrap{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 168px;
-    height: 84px;
-    padding: 1.1rem 1.6rem;
-    border-radius: 16px;
-    background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
-    border: 1px solid rgba(255,255,255,.08);
-    box-shadow: 0 1px 0 rgba(255,255,255,.04) inset;
-    transition: transform .35s cubic-bezier(.16,1,.3,1), border-color .35s ease, background .35s ease, box-shadow .35s ease;
-  }
-  .trust-logo-wrap:hover{
-    transform: translateY(-5px);
-    border-color: rgba(255,255,255,.22);
-    background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
-    box-shadow: 0 16px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.06) inset;
-  }
-  .trust-logo{
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    filter: grayscale(1) brightness(1.7) contrast(.85) opacity(.7);
-    transition: filter .4s ease, transform .4s ease;
-  }
-  .trust-logo-wrap:hover .trust-logo{
-    filter: grayscale(0) brightness(1) contrast(1) opacity(1);
-    transform: scale(1.05);
-  }
-
-  @media (max-width: 640px){
-    .trust-logo-wrap{ width: 132px; height: 68px; padding: .85rem 1.1rem; }
-  }
-</style>
-
 <section class="trust-bar bg-dark-2">
   <div class="container">
     <p class="trust-label">Trusted partners &amp; platforms</p>
