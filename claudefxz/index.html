@@ -27,12 +27,70 @@
   <link rel="stylesheet" href="assets/css/darkmode.css">
   <link rel="stylesheet" href="assets/css/themes.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <!-- ═══ FIX OVERRIDES (added) ═══
+       1) Ticker bar pinned to the very top of the header, above the navbar,
+          on both desktop and mobile.
+       2) Hero image forced visible on mobile in case responsive.css is
+          hiding/mis-sizing .hero-visual on smaller breakpoints.
+       These are appended last so they win the cascade over the external
+       stylesheets above. If style.css/responsive.css has a hard rule like
+       `.hero-visual{display:none}` inside a mobile media query, it's cleanest
+       to remove that rule at the source too — search those files for
+       ".hero-visual" and ".ticker-bar".
+  -->
+  <style>
+    /* --- Ticker bar becomes part of the sticky header --- */
+    .ticker-bar{
+      position: sticky;
+      top: 0;
+      z-index: 1001; /* sits above the navbar */
+      width: 100%;
+    }
+    .navbar{
+      position: sticky;
+      top: 0; /* stacks directly under the ticker because it comes after it in the DOM */
+      z-index: 1000;
+    }
+
+    /* --- Hero image visibility fix on mobile/tablet --- */
+    @media (max-width: 991px){
+      .hero-visual{
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 2rem auto 0 !important;
+      }
+      .hero-visual-card{
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        height: auto !important;
+      }
+      .hero-visual-card img{
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: unset !important;
+        object-fit: cover !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <!-- ═══════════════════════════════ PAGE LOADER ═══════════════════════════════ -->
 <div class="page-loader">
   <div class="loader-ring"></div>
+</div>
+
+<!-- ═══════════════════════════════ TICKER (moved into header, sticky top) ═══ -->
+<div class="ticker-bar" aria-label="Live forex rates">
+  <div class="ticker-inner"></div>
 </div>
 
 <!-- ═══════════════════════════════ NAVBAR ═══════════════════════════════════ -->
@@ -206,11 +264,6 @@
     </div>
   </div>
 </section>
-
-<!-- ═══════════════════════════════ TICKER ════════════════════════════════════ -->
-<div class="ticker-bar" aria-label="Live forex rates">
-  <div class="ticker-inner"></div>
-</div>
 
 <!-- ═══════════════════════════════ TRUST BAR ════════════════════════════════ -->
 <section class="trust-bar bg-dark-2">
