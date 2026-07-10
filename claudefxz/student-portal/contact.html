@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Get in touch with Claudefx Academy. We're available 7 days a week via email, WhatsApp, and Telegram.">
+<title>Contact Us — Claudefx Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root{
+    --color-bg:#0B0D12;
+    --color-panel:#12151C;
+    --color-panel-2:#171B24;
+    --color-line: rgba(255,255,255,0.08);
+    --color-text-primary:#ECEFF3;
+    --color-text-secondary:#B7BEC9;
+    --color-text-muted:#7A8394;
+    --color-gold:#C9A84C;
+    --color-gold-soft: rgba(201,168,76,0.12);
+    --color-gold-glow: rgba(201,168,76,0.22);
+    --color-success:#22C55E;
+    --color-success-soft: rgba(34,197,94,0.12);
+    --color-danger:#EF4444;
+    --color-danger-soft: rgba(239,68,68,0.12);
+    --radius-lg:10px;
+    --radius-xl:16px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--color-bg);
+    color:var(--color-text-primary);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Syne', sans-serif; font-weight:700; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+  button{font:inherit; cursor:pointer;}
+
+  .bot-icon{display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .bot-icon svg{display:block;}
+
+  /* NAV ------------------------------------------------------------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,13,18,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--color-line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:68px; gap:20px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Syne'; font-weight:700; font-size:18px; flex-shrink:0;}
+  .brand .bot-icon{width:26px; height:26px;}
+  .nav-links{display:flex; align-items:center; gap:28px; font-size:14px; color:var(--color-text-secondary);}
+  .nav-links a{transition:color .15s ease; padding:4px 0; border-bottom:1px solid transparent;}
+  .nav-links a:hover{color:var(--color-text-primary);}
+  .nav-links a.active{color:var(--color-gold); border-bottom-color:var(--color-gold);}
+  .nav-cta{
+    background:var(--color-gold); color:#1A1404; font-weight:700; font-size:14px;
+    padding:9px 18px; border-radius:var(--radius-lg); font-family:'Syne'; white-space:nowrap;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{transform:translateY(-1px); box-shadow:0 6px 20px var(--color-gold-glow);}
+
+  /* Shared eyebrow / badge language ---------------------------------- */
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono'; font-size:12px; letter-spacing:0.06em;
+    color:var(--color-gold); background:var(--color-gold-soft);
+    border:1px solid rgba(201,168,76,0.3); padding:6px 12px; border-radius:20px;
+    margin-bottom:22px;
+  }
+  .eyebrow .pulse{width:6px; height:6px; border-radius:50%; background:var(--color-gold); animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.3;}}
+
+  .btn-primary{
+    background:var(--color-gold); color:#1A1404; font-family:'Syne'; font-weight:700; font-size:15px;
+    padding:14px 26px; border-radius:var(--radius-lg); display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    border:none; transition:transform .15s ease, box-shadow .15s ease; width:100%;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 30px var(--color-gold-glow);}
+  .btn-primary.auto{width:auto;}
+
+  /* HERO -------------------------------------------------------------- */
+  header.hero{padding:72px 0 56px; border-bottom:1px solid var(--color-line);}
+  .hero-center{text-align:center;}
+  .breadcrumb{display:flex; align-items:center; justify-content:center; gap:8px; font-family:'JetBrains Mono'; font-size:12px; color:var(--color-text-muted); margin-bottom:18px;}
+  .breadcrumb a:hover{color:var(--color-gold);}
+  .hero h1{font-size:38px; line-height:1.12;}
+  .hero h1 span{color:var(--color-gold);}
+  .hero p.lead{font-size:16px; color:var(--color-text-muted); max-width:600px; margin:18px auto 0;}
+
+  /* SECTION shared ------------------------------------------------------ */
+  section{padding:64px 0; border-bottom:1px solid var(--color-line);}
+  section:last-of-type{border-bottom:none;}
+
+  /* CONTACT GRID ---------------------------------------------------------- */
+  .contact-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:start;}
+  .col-head h2{font-size:26px; margin-bottom:8px;}
+  .col-head p{color:var(--color-text-muted); font-size:14.5px; margin-bottom:30px;}
+
+  /* FORM --------------------------------------------------------------------- */
+  form{display:flex; flex-direction:column; gap:20px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .form-group{display:flex; flex-direction:column; gap:8px;}
+  .form-label{font-family:'JetBrains Mono'; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--color-text-secondary);}
+  .form-control{
+    background:var(--color-panel); border:1px solid var(--color-line); border-radius:var(--radius-lg);
+    padding:13px 15px; font-size:14px; font-family:'Inter'; color:var(--color-text-primary); width:100%;
+    transition:border-color .15s ease;
+  }
+  .form-control::placeholder{color:var(--color-text-muted);}
+  .form-control:focus{outline:none; border-color:var(--color-gold);}
+  select.form-control{appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%237A8394'><path d='M5 8l5 5 5-5H5z'/></svg>");
+    background-repeat:no-repeat; background-position:right 14px center; background-size:16px; padding-right:38px;
+  }
+  textarea.form-control{resize:vertical; min-height:120px; font-family:'Inter';}
+
+  /* CONTACT CARDS --------------------------------------------------------------- */
+  .contact-card{
+    display:flex; align-items:center; gap:16px; padding:18px 20px;
+    background:var(--color-panel); border:1px solid var(--color-line); border-radius:var(--radius-xl);
+    margin-bottom:12px; transition:border-color .2s ease, transform .2s ease;
+  }
+  .contact-card:hover{border-color:rgba(201,168,76,0.3); transform:translateY(-2px);}
+  .icon-box{
+    width:46px; height:46px; border-radius:var(--radius-lg); flex-shrink:0;
+    background:var(--color-gold-soft); border:1px solid rgba(201,168,76,0.3); color:var(--color-gold);
+    display:flex; align-items:center; justify-content:center; font-size:20px;
+  }
+  .contact-card .ct-title{font-weight:600; font-size:15px; margin-bottom:2px; font-family:'Syne';}
+  .contact-card .ct-value{font-size:13.5px; color:var(--color-text-secondary); font-family:'JetBrains Mono';}
+  .contact-card .ct-meta{font-size:11.5px; color:var(--color-text-muted); margin-top:2px;}
+
+  /* GOLD PANEL (support hours) ----------------------------------------------------- */
+  .gold-panel{
+    background:var(--color-panel); border:1px solid rgba(201,168,76,0.28); border-radius:var(--radius-xl);
+    padding:22px 24px; margin-top:20px;
+  }
+  .gold-panel h4{font-size:15px; display:flex; align-items:center; gap:8px; margin-bottom:14px;}
+  .hours-row{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px dashed var(--color-line); font-size:13.5px; color:var(--color-text-muted);}
+  .hours-row:last-child{border-bottom:none;}
+  .hours-row b{color:var(--color-text-primary); font-family:'JetBrains Mono'; font-weight:500;}
+
+  /* FOOTER ---------------------------------------------------------------------- */
+  footer{border-top:1px solid var(--color-line); padding:56px 0 28px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:40px; margin-bottom:40px;}
+  .footer-brand-name{display:flex; align-items:center; gap:8px; font-family:'Syne'; font-weight:700; font-size:16px; margin-bottom:14px;}
+  .footer-brand-name .bot-icon{width:22px; height:22px;}
+  .footer-desc{font-size:13.5px; color:var(--color-text-muted); line-height:1.7; margin-bottom:18px; max-width:280px;}
+  .footer-social{display:flex; gap:10px;}
+  .footer-social a{
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--color-line);
+    display:flex; align-items:center; justify-content:center; color:var(--color-text-secondary); font-size:14px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .footer-social a:hover{border-color:var(--color-gold); color:var(--color-gold);}
+  .footer-col-title{font-family:'JetBrains Mono'; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--color-text-muted); margin-bottom:16px;}
+  .footer-links{list-style:none; display:flex; flex-direction:column; gap:11px;}
+  .footer-links a{font-size:13.5px; color:var(--color-text-secondary); display:flex; align-items:center; gap:8px; transition:color .15s ease;}
+  .footer-links a:hover{color:var(--color-gold);}
+  .footer-links a i{font-size:9px; color:var(--color-gold);}
+  .newsletter-form{display:flex; gap:8px;}
+  .newsletter-form input{
+    background:var(--color-panel); border:1px solid var(--color-line); border-radius:var(--radius-lg);
+    padding:11px 13px; font-size:13px; color:var(--color-text-primary); flex:1; min-width:0;
+  }
+  .newsletter-form input::placeholder{color:var(--color-text-muted);}
+  .newsletter-form button{
+    background:var(--color-gold); color:#1A1404; border:none; border-radius:var(--radius-lg);
+    width:42px; flex-shrink:0; font-size:14px;
+  }
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+    padding-top:24px; border-top:1px solid var(--color-line); font-size:12.5px; color:var(--color-text-muted);
+  }
+  .footer-bottom-links{display:flex; gap:20px; flex-wrap:wrap;}
+  .footer-bottom-links a:hover{color:var(--color-gold);}
+  .footer-disclaimer{
+    margin-top:22px; font-size:11.5px; color:var(--color-text-muted); line-height:1.7;
+    border-top:1px solid var(--color-line); padding-top:18px;
+  }
+  .footer-disclaimer strong{color:var(--color-text-secondary);}
+
+  /* RESPONSIVE ------------------------------------------------------------------- */
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .hero h1{font-size:30px;}
+    .contact-grid{grid-template-columns:1fr; gap:44px;}
+    .form-row{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr; gap:32px;}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 18px;}
+    .footer-grid{grid-template-columns:1fr;}
+    .footer-bottom{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="bot-icon">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--color-gold-soft)" stroke="var(--color-gold)" stroke-width="1.2"/>
+          <circle cx="16" cy="11.5" r="4.6" stroke="var(--color-gold)" stroke-width="1.3"/>
+          <circle cx="14.2" cy="11.3" r="0.9" fill="var(--color-gold)"/>
+          <circle cx="17.8" cy="11.3" r="0.9" fill="var(--color-gold)"/>
+          <line x1="16" y1="6.9" x2="16" y2="5.2" stroke="var(--color-gold)" stroke-width="1.2"/>
+          <circle cx="16" cy="4.6" r="0.9" fill="var(--color-gold)"/>
+          <path d="M9 26 L12 20 L14.5 22.5 L18 16.5 L21 19.5 L23 15.5" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      Claudefx Academy
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="signals.html">Live Signals</a>
+      <a href="bot.html">SyntheticBot</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+    <a href="pricing.html" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-center">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--color-gold);">Get In Touch</span></div>
+    <div class="eyebrow" style="margin:0 auto 22px; width:fit-content;"><span class="pulse"></span>GET IN TOUCH</div>
+    <h1>We're here to <span>help you succeed</span></h1>
+    <p class="lead">Whether you have questions about our courses, signals, or account management — our team responds within 2 hours.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap contact-grid">
+
+    <!-- Contact Form -->
+    <div>
+      <div class="col-head">
+        <h2>Send us a message</h2>
+        <p>We typically respond within 2 hours during business hours (Mon–Sat, 8am–8pm WAT).</p>
+      </div>
+      <form>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First name *</label>
+            <input type="text" class="form-control" placeholder="John" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last name *</label>
+            <input type="text" class="form-control" placeholder="Doe" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address *</label>
+          <input type="email" class="form-control" placeholder="john@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone / WhatsApp</label>
+          <input type="tel" class="form-control" placeholder="+1 234 567 8900">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <select class="form-control">
+            <option value="">Select a topic...</option>
+            <option>Course Enquiry</option>
+            <option>Signals Subscription</option>
+            <option>SyntheticBot</option>
+            <option>Account Management</option>
+            <option>Funded Account Program</option>
+            <option>Mentorship</option>
+            <option>Technical Support</option>
+            <option>Billing &amp; Payments</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message *</label>
+          <textarea class="form-control" rows="5" placeholder="How can we help you?" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary auto"><i class="fas fa-paper-plane"></i> Send message</button>
+      </form>
+    </div>
+
+    <!-- Contact Info -->
+    <div>
+      <div class="col-head">
+        <h2>Contact information</h2>
+        <p>Multiple ways to reach our expert support team.</p>
+      </div>
+
+      <div class="contact-card">
+        <div class="icon-box"><i class="fab fa-whatsapp"></i></div>
+        <div>
+          <div class="ct-title">WhatsApp</div>
+          <div class="ct-value">+(237) 675-175534</div>
+          <div class="ct-meta">Response within 30 minutes</div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="icon-box"><i class="fab fa-telegram"></i></div>
+        <div>
+          <div class="ct-title">Telegram</div>
+          <div class="ct-value">@ClaudefxAcademy</div>
+          <div class="ct-meta">Response within 1 hour</div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="icon-box"><i class="fas fa-envelope"></i></div>
+        <div>
+          <div class="ct-title">Email</div>
+          <div class="ct-value">claudetechfx@gmail.com</div>
+          <div class="ct-meta">Response within 2 hours</div>
+        </div>
+      </div>
+
+      <div class="gold-panel">
+        <h4><i class="fas fa-clock" style="color:var(--color-gold);"></i> Support hours</h4>
+        <div class="hours-row"><span>Monday – Friday</span><b>8:00 AM – 10:00 PM WAT</b></div>
+        <div class="hours-row"><span>Saturday</span><b>9:00 AM – 6:00 PM WAT</b></div>
+        <div class="hours-row"><span>Sunday</span><b>10:00 AM – 4:00 PM WAT</b></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">
+          <span class="bot-icon">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="13" r="5" stroke="var(--color-gold)" stroke-width="1.3"/>
+              <circle cx="13.8" cy="12.7" r="1" fill="var(--color-gold)"/>
+              <circle cx="18.2" cy="12.7" r="1" fill="var(--color-gold)"/>
+              <path d="M9 26 L12.5 20 L15 22.5 L18.5 16.5 L21.5 19.5 L24 15.5" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          Claudefx Academy Pro
+        </div>
+        <p class="footer-desc">The premier trading education platform for Forex, Synthetic Indices, and funded account traders worldwide.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+          <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter/X"><i class="fab fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Education</div>
+        <ul class="footer-links">
+          <li><a href="courses.html"><i class="fas fa-chevron-right"></i> All courses</a></li>
+          <li><a href="forex-trading.html"><i class="fas fa-chevron-right"></i> Forex trading</a></li>
+          <li><a href="synthetic-indices.html"><i class="fas fa-chevron-right"></i> Synthetic indices</a></li>
+          <li><a href="mentorship.html"><i class="fas fa-chevron-right"></i> Mentorship</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="signals.html"><i class="fas fa-chevron-right"></i> Live signals</a></li>
+          <li><a href="bot.html"><i class="fas fa-chevron-right"></i> SyntheticBot</a></li>
+          <li><a href="account-management.html"><i class="fas fa-chevron-right"></i> Account management</a></li>
+          <li><a href="funded-accounts.html"><i class="fas fa-chevron-right"></i> Funded accounts</a></li>
+          <li><a href="pricing.html"><i class="fas fa-chevron-right"></i> Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Newsletter</div>
+        <p style="font-size:13.5px; color:var(--color-text-muted); margin-bottom:14px; line-height:1.6;">Weekly trading insights delivered free.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email" required>
+          <button type="submit"><i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Claudefx Academy Pro. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <strong>Risk warning:</strong> Trading Forex and Synthetic Indices involves significant risk and may not be suitable for all investors. Past performance is not indicative of future results. For educational purposes only.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
