@@ -96,6 +96,16 @@ export async function createUserProfile(uid, data) {
     recentActivity: [],
     upcomingSessions: [],
     notifications: [],
+    autoBot: {
+      enabled:      false,
+      strategy:     '',
+      pairs:        [],
+      winRate:      null,
+      tradesToday:  null,
+      pnlToday:     null,
+      recentTrades: [],
+    },
+    liveSignals: [],
     adminNotes: '',
     isActive: true,
   };
