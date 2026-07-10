@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Profile | Full Coures & Mentorship</title>
+  <title>My Profile | Forex Academy Pro</title>
   <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,50 +30,31 @@
   <nav class="sidebar-nav">
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Main</div>
-      <a href="dashboard.html" class="sidebar-link ">
-        <i class="fas fa-th-large"></i><span class="link-text">Dashboard</span>
-      </a>
-      <a href="my-courses.html" class="sidebar-link ">
-        <i class="fas fa-graduation-cap"></i><span class="link-text">Courses</span>
-      </a>
-      <a href="live-sessions.html" class="sidebar-link ">
-        <i class="fas fa-video"></i><span class="link-text">Live Sessions</span>
-        <span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span>
-      </a>
-      <a href="assignments.html" class="sidebar-link ">
-        <i class="fas fa-tasks"></i><span class="link-text">Assignments</span>
-        <span class="badge badge-danger" style="font-size:9px;margin-left:auto;">3</span>
-      </a>
+      <a href="dashboard.html" class="sidebar-link "><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a>
+      <a href="my-courses.html" class="sidebar-link "><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
+      <a href="live-sessions.html" class="sidebar-link "><i class="fas fa-video"></i><span class="link-text">Live Sessions</span><span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span></a>
+      <a href="assignments.html" class="sidebar-link "><i class="fas fa-tasks"></i><span class="link-text">Assignments</span><span class="badge badge-danger" id="assignmentBadge" style="font-size:9px;margin-left:auto;display:none;">0</span></a>
     </div>
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Resources</div>
-      <a href="downloads.html" class="sidebar-link ">
-        <i class="fas fa-download"></i><span class="link-text">Downloads</span>
-      </a>
-      <a href="certificates.html" class="sidebar-link ">
-        <i class="fas fa-certificate"></i><span class="link-text">Certificates</span>
-      </a>
+      <a href="downloads.html" class="sidebar-link "><i class="fas fa-download"></i><span class="link-text">Downloads</span></a>
+      <a href="certificates.html" class="sidebar-link "><i class="fas fa-certificate"></i><span class="link-text">Certificates</span></a>
     </div>
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Account</div>
-      <a href="profile.html" class="sidebar-link active">
-        <i class="fas fa-user"></i><span class="link-text">My Profile</span>
-      </a>
-      <a href="settings.html" class="sidebar-link ">
-        <i class="fas fa-cog"></i><span class="link-text">Settings</span>
-      </a>
-      <a href="../index.html" class="sidebar-link">
-        <i class="fas fa-globe"></i><span class="link-text">Back to Site</span>
-      </a>
+      <a href="profile.html" class="sidebar-link active"><i class="fas fa-user"></i><span class="link-text">My Profile</span></a>
+      <a href="settings.html" class="sidebar-link "><i class="fas fa-cog"></i><span class="link-text">Settings</span></a>
+      <a href="../index.html" class="sidebar-link"><i class="fas fa-globe"></i><span class="link-text">Back to Site</span></a>
+      <a href="#" class="sidebar-link" id="logoutBtn" style="color:var(--color-danger);"><i class="fas fa-sign-out-alt"></i><span class="link-text">Sign Out</span></a>
     </div>
   </nav>
   <div class="sidebar-footer">
     <div class="sidebar-user">
-      <img class="sidebar-user-avatar" src="../assets/images/hero/student-avatar.jpg"
-           alt="Student" onerror="this.src='data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;36&quot; height=&quot;36&quot; viewBox=&quot;0 0 36 36&quot;><rect width=&quot;36&quot; height=&quot;36&quot; fill=&quot;%23252B37&quot; rx=&quot;18&quot;/><text x=&quot;18&quot; y=&quot;23&quot; text-anchor=&quot;middle&quot; fill=&quot;%23C9A84C&quot; font-size=&quot;14&quot; font-family=&quot;sans-serif&quot;>AJ</text></svg>'">
+      <img class="sidebar-user-avatar" id="sidebarAvatar" src="../assets/images/traders/student-avatar.jpg"
+           alt="Student" onerror="this.style.display='none'">
       <div style="overflow:hidden;min-width:0;">
-        <div class="sidebar-user-name">Claudefx Academy Pro</div>
-        <div class="sidebar-user-role">Full Coures & Mentorship</div>
+        <div class="sidebar-user-name" data-user-name>Loading…</div>
+        <div class="sidebar-user-role" data-user-plan>—</div>
       </div>
       <i class="fas fa-chevron-right sidebar-user-icon"></i>
     </div>
@@ -92,41 +73,26 @@
   <div class="topbar-right">
     <button class="topbar-action" data-notif-toggle title="Notifications">
       <i class="fas fa-bell"></i>
-      <span class="notif-badge"></span>
+      <span class="notif-badge" id="notifBadge" style="display:none;"></span>
     </button>
     <button class="topbar-action" data-theme-toggle title="Toggle theme">
       <i class="fas fa-moon"></i>
     </button>
     <div class="topbar-user">
-      <img src="../assets/images/traders/student-avatar.jpg" alt="User"
+      <img id="topbarAvatar" src="../assets/images/traders/student-avatar.jpg" alt="User"
            onerror="this.style.display='none'"
            style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
-      <span class="topbar-user-name">Claudefx A.</span>
+      <span class="topbar-user-name" data-user-name>…</span>
       <i class="fas fa-chevron-down" style="font-size:10px;color:var(--color-text-muted);"></i>
     </div>
   </div>
 </div>
-    <div class="notif-drawer">
+    <div class="notif-drawer" id="notifDrawer">
   <div class="notif-drawer-header">
     <span class="notif-drawer-title">Notifications</span>
     <button class="btn btn-ghost btn-sm" data-notif-toggle>Close</button>
   </div>
-  <div class="notif-item unread">
-    <div class="notif-item-icon stat-card-gold"><i class="fas fa-signal"></i></div>
-    <div><div class="notif-text"><strong>New Signal:</strong> EUR/USD BUY @ 1.08450</div><div class="notif-time">2 min ago</div></div>
-  </div>
-  <div class="notif-item unread">
-    <div class="notif-item-icon stat-card-blue"><i class="fas fa-video"></i></div>
-    <div><div class="notif-text"><strong>Live Session</strong> starts in 30 minutes</div><div class="notif-time">28 min ago</div></div>
-  </div>
-  <div class="notif-item">
-    <div class="notif-item-icon stat-card-green"><i class="fas fa-check"></i></div>
-    <div><div class="notif-text">Assignment graded — <strong>92/100</strong></div><div class="notif-time">1 hour ago</div></div>
-  </div>
-  <div class="notif-item">
-    <div class="notif-item-icon stat-card-gold"><i class="fas fa-trophy"></i></div>
-    <div><div class="notif-text">You earned the <strong>Consistent Trader</strong> badge!</div><div class="notif-time">3 hours ago</div></div>
-  </div>
+  <div id="notifList"><div style="padding:2rem;text-align:center;color:var(--color-text-muted);font-size:.875rem;"><i class="fas fa-bell" style="font-size:2rem;display:block;margin-bottom:.75rem;"></i>No notifications yet</div></div>
 </div>
     <div class="dashboard-content">
 
@@ -142,20 +108,16 @@
     <div class="dash-widget">
       <div class="dash-widget-body" style="text-align:center;padding:2rem;">
         <div style="position:relative;display:inline-block;margin-bottom:1.25rem;">
-          <img src="../assets/images/traders/student-avatar.jpg" alt="Profile"
+          <img src="../assets/images/traders/student-avatar.jpg" alt="Profile" id="profileAvatar"
                onerror="this.style.background='var(--color-dark-3)'"
                style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid var(--color-gold);">
-          <button style="position:absolute;bottom:0;right:0;width:32px;height:32px;border-radius:50%;background:var(--color-gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#000;">
+          <button type="button" title="Photo upload coming soon" style="position:absolute;bottom:0;right:0;width:32px;height:32px;border-radius:50%;background:var(--color-gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#000;">
             <i class="fas fa-camera" style="font-size:12px;"></i>
           </button>
         </div>
-        <h3 style="margin-bottom:.25rem;">Alex Johnson</h3>
-        <p style="font-size:.875rem;color:var(--color-text-muted);margin-bottom:.75rem;">Professional Plan Member since Oct 2024</p>
-        <div style="display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;">
-          <span class="badge badge-gold"><i class="fas fa-star"></i> Top Student</span>
-          <span class="badge badge-success"><i class="fas fa-certificate"></i> 2 Certs</span>
-          <span class="badge badge-info"><i class="fas fa-fire"></i> 12-day streak</span>
-        </div>
+        <h3 style="margin-bottom:.25rem;" id="profileFullName">Loading…</h3>
+        <p style="font-size:.875rem;color:var(--color-text-muted);margin-bottom:.75rem;" id="profileMemberSince">—</p>
+        <div style="display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;" id="profileBadges"></div>
       </div>
     </div>
 
@@ -164,71 +126,152 @@
       <div class="dash-widget-body" style="display:flex;flex-direction:column;gap:.875rem;">
         <div style="display:flex;justify-content:space-between;font-size:.875rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,0.04);">
           <span style="color:var(--color-text-muted);">Account Type</span>
-          <span style="font-weight:600;color:var(--color-gold);">Live Trader</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:.875rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,0.04);">
-          <span style="color:var(--color-text-muted);">Preferred Market</span>
-          <span style="font-weight:600;">Forex + Synthetics</span>
+          <span style="font-weight:600;color:var(--color-gold);" data-user-plan>—</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:.875rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,0.04);">
           <span style="color:var(--color-text-muted);">Trading Style</span>
-          <span style="font-weight:600;">Swing + Intraday</span>
+          <span style="font-weight:600;" id="statTradingStyle">—</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:.875rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,0.04);">
           <span style="color:var(--color-text-muted);">Lessons Completed</span>
-          <span style="font-weight:600;color:var(--color-success);">67 / 188</span>
+          <span style="font-weight:600;color:var(--color-success);" data-stat-lessons>0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.875rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,0.04);">
+          <span style="color:var(--color-text-muted);">Courses Enrolled</span>
+          <span style="font-weight:600;" data-stat-courses>0</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:.875rem;">
           <span style="color:var(--color-text-muted);">Certificates</span>
-          <span style="font-weight:600;color:var(--color-gold);">2 earned</span>
+          <span style="font-weight:600;color:var(--color-gold);" data-stat-certs>0</span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="dash-widget">
-    <div class="dash-widget-header"><span class="dash-widget-title">Personal Information</span></div>
+    <div class="dash-widget-header">
+      <span class="dash-widget-title">Personal Information</span>
+      <span class="badge badge-success" id="saveStatusBadge" style="display:none;"><i class="fas fa-check"></i> Saved</span>
+    </div>
     <div class="dash-widget-body">
-      <form style="display:flex;flex-direction:column;gap:1.25rem;" onsubmit="event.preventDefault(); window.Toast && Toast.show('Profile saved successfully!','success');">
+      <form id="profileForm" style="display:flex;flex-direction:column;gap:1.25rem;">
         <div class="grid-2" style="gap:1rem;">
           <div class="form-group">
             <label class="form-label">First Name</label>
-            <input type="text" class="form-control" value="Alex">
+            <input type="text" class="form-control" id="firstName" placeholder="First name">
           </div>
           <div class="form-group">
             <label class="form-label">Last Name</label>
-            <input type="text" class="form-control" value="Johnson">
+            <input type="text" class="form-control" id="lastName" placeholder="Last name">
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Email Address</label>
-          <input type="email" class="form-control" value="alex.johnson@email.com">
+          <input type="email" class="form-control" id="emailField" disabled style="opacity:.6;cursor:not-allowed;">
+          <div style="font-size:.75rem;color:var(--color-text-muted);margin-top:.35rem;">Email is tied to your login and can't be changed here.</div>
         </div>
         <div class="form-group">
           <label class="form-label">Phone / WhatsApp</label>
-          <input type="tel" class="form-control" value="+1 234 567 8900">
+          <input type="tel" class="form-control" id="phoneField" placeholder="+1 234 567 8900">
         </div>
         <div class="form-group">
           <label class="form-label">Country</label>
-          <select class="form-control">
-            <option>Ghana</option><option selected>Nigeria</option><option>Kenya</option><option>South Africa</option><option>United Kingdom</option><option>United States</option><option>Other</option>
+          <select class="form-control" id="countryField">
+            <option value="">Select your country</option>
+            <option value="AF">Afghanistan</option><option value="AL">Albania</option><option value="DZ">Algeria</option>
+            <option value="AD">Andorra</option><option value="AO">Angola</option><option value="AG">Antigua and Barbuda</option>
+            <option value="AR">Argentina</option><option value="AM">Armenia</option><option value="AU">Australia</option>
+            <option value="AT">Austria</option><option value="AZ">Azerbaijan</option><option value="BS">Bahamas</option>
+            <option value="BH">Bahrain</option><option value="BD">Bangladesh</option><option value="BB">Barbados</option>
+            <option value="BY">Belarus</option><option value="BE">Belgium</option><option value="BZ">Belize</option>
+            <option value="BJ">Benin</option><option value="BT">Bhutan</option><option value="BO">Bolivia</option>
+            <option value="BA">Bosnia and Herzegovina</option><option value="BW">Botswana</option><option value="BR">Brazil</option>
+            <option value="BN">Brunei</option><option value="BG">Bulgaria</option><option value="BF">Burkina Faso</option>
+            <option value="BI">Burundi</option><option value="CV">Cabo Verde</option><option value="KH">Cambodia</option>
+            <option value="CM">Cameroon</option><option value="CA">Canada</option><option value="CF">Central African Republic</option>
+            <option value="TD">Chad</option><option value="CL">Chile</option><option value="CN">China</option>
+            <option value="CO">Colombia</option><option value="KM">Comoros</option><option value="CG">Congo (Congo-Brazzaville)</option>
+            <option value="CD">Congo (DRC)</option><option value="CR">Costa Rica</option><option value="CI">Côte d'Ivoire</option>
+            <option value="HR">Croatia</option><option value="CU">Cuba</option><option value="CY">Cyprus</option>
+            <option value="CZ">Czechia</option><option value="DK">Denmark</option><option value="DJ">Djibouti</option>
+            <option value="DM">Dominica</option><option value="DO">Dominican Republic</option><option value="EC">Ecuador</option>
+            <option value="EG">Egypt</option><option value="SV">El Salvador</option><option value="GQ">Equatorial Guinea</option>
+            <option value="ER">Eritrea</option><option value="EE">Estonia</option><option value="SZ">Eswatini</option>
+            <option value="ET">Ethiopia</option><option value="FJ">Fiji</option><option value="FI">Finland</option>
+            <option value="FR">France</option><option value="GA">Gabon</option><option value="GM">Gambia</option>
+            <option value="GE">Georgia</option><option value="DE">Germany</option><option value="GH">Ghana</option>
+            <option value="GR">Greece</option><option value="GD">Grenada</option><option value="GT">Guatemala</option>
+            <option value="GN">Guinea</option><option value="GW">Guinea-Bissau</option><option value="GY">Guyana</option>
+            <option value="HT">Haiti</option><option value="HN">Honduras</option><option value="HU">Hungary</option>
+            <option value="IS">Iceland</option><option value="IN">India</option><option value="ID">Indonesia</option>
+            <option value="IR">Iran</option><option value="IQ">Iraq</option><option value="IE">Ireland</option>
+            <option value="IL">Israel</option><option value="IT">Italy</option><option value="JM">Jamaica</option>
+            <option value="JP">Japan</option><option value="JO">Jordan</option><option value="KZ">Kazakhstan</option>
+            <option value="KE">Kenya</option><option value="KI">Kiribati</option><option value="KP">Korea (North)</option>
+            <option value="KR">Korea (South)</option><option value="KW">Kuwait</option><option value="KG">Kyrgyzstan</option>
+            <option value="LA">Laos</option><option value="LV">Latvia</option><option value="LB">Lebanon</option>
+            <option value="LS">Lesotho</option><option value="LR">Liberia</option><option value="LY">Libya</option>
+            <option value="LI">Liechtenstein</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option>
+            <option value="MG">Madagascar</option><option value="MW">Malawi</option><option value="MY">Malaysia</option>
+            <option value="MV">Maldives</option><option value="ML">Mali</option><option value="MT">Malta</option>
+            <option value="MH">Marshall Islands</option><option value="MR">Mauritania</option><option value="MU">Mauritius</option>
+            <option value="MX">Mexico</option><option value="FM">Micronesia</option><option value="MD">Moldova</option>
+            <option value="MC">Monaco</option><option value="MN">Mongolia</option><option value="ME">Montenegro</option>
+            <option value="MA">Morocco</option><option value="MZ">Mozambique</option><option value="MM">Myanmar</option>
+            <option value="NA">Namibia</option><option value="NR">Nauru</option><option value="NP">Nepal</option>
+            <option value="NL">Netherlands</option><option value="NZ">New Zealand</option><option value="NI">Nicaragua</option>
+            <option value="NE">Niger</option><option value="NG">Nigeria</option><option value="MK">North Macedonia</option>
+            <option value="NO">Norway</option><option value="OM">Oman</option><option value="PK">Pakistan</option>
+            <option value="PW">Palau</option><option value="PS">Palestine</option><option value="PA">Panama</option>
+            <option value="PG">Papua New Guinea</option><option value="PY">Paraguay</option><option value="PE">Peru</option>
+            <option value="PH">Philippines</option><option value="PL">Poland</option><option value="PT">Portugal</option>
+            <option value="QA">Qatar</option><option value="RO">Romania</option><option value="RU">Russia</option>
+            <option value="RW">Rwanda</option><option value="KN">Saint Kitts and Nevis</option><option value="LC">Saint Lucia</option>
+            <option value="VC">Saint Vincent and the Grenadines</option><option value="WS">Samoa</option><option value="SM">San Marino</option>
+            <option value="ST">Sao Tome and Principe</option><option value="SA">Saudi Arabia</option><option value="SN">Senegal</option>
+            <option value="RS">Serbia</option><option value="SC">Seychelles</option><option value="SL">Sierra Leone</option>
+            <option value="SG">Singapore</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option>
+            <option value="SB">Solomon Islands</option><option value="SO">Somalia</option><option value="ZA">South Africa</option>
+            <option value="SS">South Sudan</option><option value="ES">Spain</option><option value="LK">Sri Lanka</option>
+            <option value="SD">Sudan</option><option value="SR">Suriname</option><option value="SE">Sweden</option>
+            <option value="CH">Switzerland</option><option value="SY">Syria</option><option value="TW">Taiwan</option>
+            <option value="TJ">Tajikistan</option><option value="TZ">Tanzania</option><option value="TH">Thailand</option>
+            <option value="TL">Timor-Leste</option><option value="TG">Togo</option><option value="TO">Tonga</option>
+            <option value="TT">Trinidad and Tobago</option><option value="TN">Tunisia</option><option value="TR">Turkey</option>
+            <option value="TM">Turkmenistan</option><option value="TV">Tuvalu</option><option value="UG">Uganda</option>
+            <option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option><option value="GB">United Kingdom</option>
+            <option value="US">United States</option><option value="UY">Uruguay</option><option value="UZ">Uzbekistan</option>
+            <option value="VU">Vanuatu</option><option value="VA">Vatican City</option><option value="VE">Venezuela</option>
+            <option value="VN">Vietnam</option><option value="YE">Yemen</option><option value="ZM">Zambia</option>
+            <option value="ZW">Zimbabwe</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Trading Style</label>
+          <select class="form-control" id="tradingStyleField">
+            <option value="">Not set</option>
+            <option value="Scalping">Scalping</option>
+            <option value="Intraday">Intraday</option>
+            <option value="Swing">Swing</option>
+            <option value="Position">Position</option>
+            <option value="Swing + Intraday">Swing + Intraday</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Trading Experience</label>
-          <select class="form-control">
-            <option>Complete Beginner</option>
-            <option selected>Intermediate (1–3 years)</option>
-            <option>Advanced (3+ years)</option>
+          <select class="form-control" id="experienceField">
+            <option value="beginner">Complete Beginner</option>
+            <option value="intermediate">Intermediate (1–3 years)</option>
+            <option value="advanced">Advanced (3+ years)</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Bio / Trading Goals</label>
-          <textarea class="form-control" rows="4">Working towards becoming a full-time funded trader. Goal: pass FTMO challenge by Q2 2025 and grow a $50K account consistently.</textarea>
+          <textarea class="form-control" id="bioField" rows="4" placeholder="Tell us about your trading goals..."></textarea>
         </div>
         <div style="display:flex;gap:.75rem;">
-          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
-          <button type="reset" class="btn btn-ghost">Reset</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> Save Changes</button>
+          <button type="button" class="btn btn-ghost" id="resetBtn">Reset</button>
         </div>
       </form>
     </div>
@@ -241,5 +284,119 @@
 <script src="../assets/vendors/chartjs/chart.umd.min.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/dashboard.js"></script>
+
+<script type="module">
+import { auth, db } from '../assets/js/firebase/firebase-config.js';
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, onSnapshot, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { populateUserUI, createUserProfile } from '../assets/js/firebase/auth-helpers.js';
+
+let unsubscribe = null;
+let currentUser = null;
+let lastProfile = null; // last value loaded from Firestore, used by Reset
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) { window.location.href = '../auth/login.html'; return; }
+  currentUser = user;
+  startSync(user.uid);
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+  e.preventDefault();
+  if (unsubscribe) unsubscribe();
+  await signOut(auth);
+  window.location.href = '../auth/login.html';
+});
+
+function startSync(uid) {
+  unsubscribe = onSnapshot(doc(db, 'users', uid), async (snap) => {
+    if (!snap.exists()) {
+      // Self-heal: authenticated user with no profile doc yet
+      await createUserProfile(uid, {
+        displayName: currentUser?.displayName || '',
+        email: currentUser?.email || ''
+      });
+      return;
+    }
+    const profile = snap.data();
+    lastProfile = profile;
+    populateUserUI(profile);      // shared: sidebar/topbar name, plan, stats
+    populateProfilePage(profile); // page-specific fields
+  });
+}
+
+function populateProfilePage(p) {
+  const name = p.displayName || p.email?.split('@')[0] || 'Trader';
+  const [first, ...rest] = name.split(' ');
+  document.getElementById('profileFullName').textContent = name;
+  document.getElementById('firstName').value = first || '';
+  document.getElementById('lastName').value = rest.join(' ') || '';
+  document.getElementById('emailField').value = p.email || currentUser?.email || '';
+  document.getElementById('phoneField').value = p.phone || '';
+  document.getElementById('countryField').value = p.country || '';
+  document.getElementById('tradingStyleField').value = p.tradingStyle || '';
+  document.getElementById('experienceField').value = p.experience || 'beginner';
+  document.getElementById('bioField').value = p.bio || '';
+
+  // Member since — from Firestore createdAt (Timestamp) if present
+  const memberSinceEl = document.getElementById('profileMemberSince');
+  if (p.createdAt?.toDate) {
+    const d = p.createdAt.toDate();
+    memberSinceEl.textContent = `${p.plan || 'Starter'} Plan · Member since ${d.toLocaleString('en-US',{month:'short',year:'numeric'})}`;
+  } else {
+    memberSinceEl.textContent = `${p.plan || 'Starter'} Plan`;
+  }
+
+  // Trading Stats widget
+  const s = p.stats || {};
+  document.getElementById('statTradingStyle').textContent = p.tradingStyle || '—';
+
+  // Badges — only show what's actually true, no fabricated achievements
+  const badges = [];
+  if (p.plan && p.plan !== 'Starter') badges.push(`<span class="badge badge-gold"><i class="fas fa-star"></i> ${p.plan} Plan</span>`);
+  if ((s.certificatesEarned || 0) > 0) badges.push(`<span class="badge badge-success"><i class="fas fa-certificate"></i> ${s.certificatesEarned} Cert${s.certificatesEarned===1?'':'s'}</span>`);
+  if ((s.dayStreak || 0) > 0) badges.push(`<span class="badge badge-info"><i class="fas fa-fire"></i> ${s.dayStreak}-day streak</span>`);
+  document.getElementById('profileBadges').innerHTML = badges.join('') || '<span style="font-size:.8rem;color:var(--color-text-muted);">No badges yet — keep learning!</span>';
+}
+
+document.getElementById('profileForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!currentUser) return;
+  const saveBtn = document.getElementById('saveBtn');
+  const originalHTML = saveBtn.innerHTML;
+  saveBtn.disabled = true;
+  saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+  const displayName = [document.getElementById('firstName').value.trim(), document.getElementById('lastName').value.trim()]
+    .filter(Boolean).join(' ');
+
+  try {
+    await updateDoc(doc(db, 'users', currentUser.uid), {
+      displayName,
+      phone: document.getElementById('phoneField').value.trim(),
+      country: document.getElementById('countryField').value,
+      tradingStyle: document.getElementById('tradingStyleField').value,
+      experience: document.getElementById('experienceField').value,
+      bio: document.getElementById('bioField').value.trim(),
+      updatedAt: serverTimestamp()
+    });
+    const badge = document.getElementById('saveStatusBadge');
+    badge.style.display = 'inline-flex';
+    setTimeout(() => badge.style.display = 'none', 2500);
+    window.Toast && Toast.show('Profile saved successfully!', 'success');
+  } catch (err) {
+    window.Toast ? Toast.show('Could not save profile. Please try again.', 'error') : alert('Could not save profile.');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = originalHTML;
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  // Discard unsaved edits — restore the form to the last value loaded
+  // from Firestore, not a blank form.
+  if (lastProfile) populateProfilePage(lastProfile);
+});
+</script>
 </body>
 </html>
