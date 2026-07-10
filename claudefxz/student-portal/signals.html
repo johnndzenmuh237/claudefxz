@@ -492,6 +492,13 @@
      so it rotates every 24h), pulls live Forex rates for the Forex cards,
      and renders the grid, table, stats, filters, buy buttons, and the
      SyntheticBot panel (status line + activity feed).
+
+     FIX: the section previously depended entirely on an un-timed fetch()
+     to a third-party rates API. If that request stalled (slow network,
+     blocked domain, ad-blocker, dead API) the "await" never resolved and
+     the whole section stayed stuck on its loading state forever. The
+     fetch now races against a hard timeout, and init() is wrapped so any
+     failure still falls back to sample pricing and renders normally.
 -->
 <script>
 (function(){
@@ -540,7 +547,7 @@
     "Finalizing today's sample batch..."
   ];
 
-  let liveRates = null; // USD-based rates from the API, or null if fetch failed
+  let liveRates = null; // USD-based rates from the API, or null if fetch failed/timed out
 
   function pairPrice(pair, rates){
     if(!rates) return null;
@@ -821,27 +828,71 @@
     }
   }
 
+  // ---- FIX: race the rates fetch against a hard timeout so a slow or
+  // blocked third-party API can never stall the section indefinitely ----
+  function withTimeout(promise, ms){
+    return new Promise((resolve) => {
+      let done = false;
+      const timer = setTimeout(() => {
+        if(!done){ done = true; resolve(null); }
+      }, ms);
+      promise.then((val) => {
+        if(!done){ done = true; clearTimeout(timer); resolve(val); }
+      }).catch(() => {
+        if(!done){ done = true; clearTimeout(timer); resolve(null); }
+      });
+    });
+  }
+
   async function fetchLiveRates(){
     try{
-      const res = await fetch('https://open.er-api.com/v6/latest/USD');
+      const controller = new AbortController();
+      const abortTimer = setTimeout(() => controller.abort(), 4000);
+      const res = await fetch('https://open.er-api.com/v6/latest/USD', { signal: controller.signal });
+      clearTimeout(abortTimer);
       const data = await res.json();
       if(data && data.rates) return data.rates;
-    }catch(e){ /* fall through to null -> fallback rates used */ }
+    }catch(e){ /* network error, abort, or bad JSON -> fall through to null */ }
     return null;
   }
 
+  // ---- FIX: init() now always renders, even if the rates fetch fails,
+  // times out, or something unexpected throws along the way ----
   async function init(){
-    liveRates = await fetchLiveRates();
-    const batch = buildBatch();
-    renderCards(batch);
-    renderTable(batch);
-    renderStats(batch);
-    wireFilters();
-    startFlicker();
-    startBotPanel(batch);
+    try{
+      liveRates = await withTimeout(fetchLiveRates(), 4500);
+    }catch(e){
+      liveRates = null;
+    }
+
+    try{
+      const batch = buildBatch();
+      renderCards(batch);
+      renderTable(batch);
+      renderStats(batch);
+      wireFilters();
+      startFlicker();
+      startBotPanel(batch);
+    }catch(e){
+      // last-resort fallback: never leave the section stuck on the loader
+      console.error('Signals section failed to render, retrying with sample data only:', e);
+      liveRates = null;
+      const batch = buildBatch();
+      renderCards(batch);
+      renderTable(batch);
+      renderStats(batch);
+      wireFilters();
+      startFlicker();
+      startBotPanel(batch);
+    }
   }
 
-  document.addEventListener('DOMContentLoaded', init);
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    // DOM already parsed (e.g. script loaded/re-run after the fact) — run immediately
+    init();
+  }
 })();
 </script>
 </body>
