@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, shrink-to-fit=no">
 <title>Live Trading Signals — SyntheticBot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,14 +28,18 @@
     --radius-xl:16px;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden; width:100%;}
   body{
     background:var(--color-bg);
     color:var(--color-text-primary);
     font-family:'Inter', sans-serif;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    width:100%;
+    position:relative;
   }
+  img, svg{max-width:100%;}
   h1,h2,h3{font-family:'Syne', sans-serif; font-weight:700; letter-spacing:-0.01em;}
   .mono{font-family:'JetBrains Mono', monospace;}
   a{color:inherit; text-decoration:none;}
@@ -52,17 +56,18 @@
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--color-line);
   }
-  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:68px; gap:20px;}
-  .brand{display:flex; align-items:center; gap:10px; font-family:'Syne'; font-weight:700; font-size:18px; flex-shrink:0;}
-  .brand .bot-icon{width:26px; height:26px;}
-  .nav-links{display:flex; align-items:center; gap:28px; font-size:14px; color:var(--color-text-secondary);}
-  .nav-links a{transition:color .15s ease; padding:4px 0; border-bottom:1px solid transparent;}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:68px; gap:clamp(8px,3vw,20px); width:100%; max-width:1120px;}
+  .brand{display:flex; align-items:center; gap:8px; font-family:'Syne'; font-weight:700; font-size:clamp(14px,4vw,18px); flex-shrink:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .brand .bot-icon{width:26px; height:26px; flex-shrink:0;}
+  .nav-links{display:flex; align-items:center; gap:28px; font-size:14px; color:var(--color-text-secondary); flex-shrink:0;}
+  .nav-links a{transition:color .15s ease; padding:4px 0; border-bottom:1px solid transparent; white-space:nowrap;}
   .nav-links a:hover{color:var(--color-text-primary);}
   .nav-links a.active{color:var(--color-gold); border-bottom-color:var(--color-gold);}
   .nav-cta{
-    background:var(--color-gold); color:#1A1404; font-weight:700; font-size:14px;
-    padding:9px 18px; border-radius:var(--radius-lg); font-family:'Syne'; white-space:nowrap;
+    background:var(--color-gold); color:#1A1404; font-weight:700; font-size:clamp(12px,3vw,14px);
+    padding:clamp(7px,2vw,9px) clamp(12px,3.5vw,18px); border-radius:var(--radius-lg); font-family:'Syne'; white-space:nowrap;
     transition:transform .15s ease, box-shadow .15s ease;
+    flex-shrink:0;
   }
   .nav-cta:hover{transform:translateY(-1px); box-shadow:0 6px 20px var(--color-gold-glow);}
 
@@ -178,9 +183,10 @@
   .bot-metric .n{font-family:'JetBrains Mono'; font-weight:700; font-size:19px; color:var(--color-text-primary);}
   .bot-metric .l{font-size:10.5px; color:var(--color-text-muted); text-transform:uppercase; letter-spacing:.05em; margin-top:2px;}
   .bot-feed{position:relative; z-index:1; margin-top:20px; border-top:1px solid var(--color-line); padding-top:14px; display:flex; flex-direction:column; gap:8px; max-height:126px; overflow:hidden;}
-  .bot-feed-row{display:flex; align-items:center; gap:10px; font-size:12px; color:var(--color-text-muted); opacity:0; animation:feedRowIn .45s ease forwards;}
+  .bot-feed-row{display:flex; align-items:flex-start; gap:10px; font-size:12px; color:var(--color-text-muted); opacity:0; animation:feedRowIn .45s ease forwards;}
   @keyframes feedRowIn{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
   .bot-feed-row .t{font-family:'JetBrains Mono'; color:var(--color-gold); font-size:11px; flex:none; width:64px;}
+  .bot-feed-row .m{min-width:0; word-break:break-word;}
   .bot-feed-note{position:relative; z-index:1; font-size:11px; color:var(--color-text-muted); margin-top:12px;}
 
   /* SIGNAL CARDS ------------------------------------------------------------ */
@@ -211,6 +217,7 @@
   }
   .signal-bot-note .bot-icon svg{width:13px; height:13px;}
   .signal-bot-note b{color:var(--color-text-secondary); font-weight:600;}
+  .signal-bot-note span:last-child{min-width:0; word-break:break-word;}
   .signal-status-row{display:flex; align-items:center; justify-content:space-between;}
   .signal-status-row .meta{font-size:11px; color:var(--color-text-muted);}
 
@@ -246,8 +253,10 @@
   footer .brand .bot-icon{width:20px; height:20px;}
 
   /* RESPONSIVE ------------------------------------------------------------------- */
-  @media (max-width:860px){
+  @media (max-width:960px){
     .nav-links{display:none;}
+  }
+  @media (max-width:860px){
     .hero h1{font-size:30px;}
     .stats-grid{grid-template-columns:repeat(2,1fr);}
     .signals-grid{grid-template-columns:1fr;}
@@ -260,10 +269,20 @@
     .search-input{width:100%;}
     table{font-size:12px;}
     thead th, tbody td{padding:10px 10px;}
+    .bot-panel{padding:20px 18px;}
   }
   @media (max-width:520px){
     .stats-grid{grid-template-columns:1fr 1fr;}
     .wrap{padding:0 18px;}
+    .hero h1{font-size:26px;}
+    .hero-heading .bot-icon{width:38px; height:38px;}
+    nav .wrap{height:60px;}
+  }
+  @media (max-width:380px){
+    .wrap{padding:0 14px;}
+    .brand{font-size:14px; gap:6px;}
+    .brand .bot-icon{width:22px; height:22px;}
+    nav .wrap{gap:8px;}
   }
 </style>
 </head>
