@@ -546,6 +546,16 @@
 .notif-text { font-size: var(--text-sm); line-height: 1.5; }
 .notif-time { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 4px; }
 
+/* ── Auto Trading Bot & Live Signals (dashboard widgets) ──
+   Layout only; colors/animation for these live in each page's
+   inline <style> block since they're page-specific additions. ── */
+.bot-status-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.bot-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-top: var(--space-5); }
+.bot-trades-list { margin-top: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.bot-trade-row { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-sm); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); }
+.signal-card { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-lg); margin-bottom: var(--space-3); }
+.signal-levels { margin-left: auto; text-align: right; font-size: var(--text-xs); line-height: 1.5; }
+
 /* ── Dashboard Responsive ── */
 @media (max-width: 1200px) {
   .dash-stats { grid-template-columns: repeat(2, 1fr); }
@@ -577,10 +587,26 @@
   .dashboard-topbar  { padding-inline: var(--space-4); }
   .topbar-search     { display: none; }
   .dash-page-header  { flex-direction: column; gap: var(--space-3); }
+
+  /* Auto Trading Bot / Live Signals widgets */
+  .bot-metrics { grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+  .bot-metric  { padding: var(--space-2); }
+  .bot-metric-val { font-size: 1rem; }
+  .signal-card { flex-wrap: wrap; }
+  .signal-levels { margin-left: 0; text-align: left; flex-basis: 100%; display: flex; gap: var(--space-4); }
+  .signal-status { margin-left: auto; }
 }
 
 @media (max-width: 480px) {
   .dash-stats         { grid-template-columns: 1fr; }
   .stat-card-value    { font-size: var(--text-2xl); }
   .notif-drawer       { width: 100%; }
+
+  /* Auto Trading Bot / Live Signals widgets */
+  .bot-metrics { grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .bot-metrics .bot-metric:last-child { grid-column: 1 / -1; }
+  .bot-trade-row { flex-wrap: wrap; font-size: var(--text-xs); }
+  .bot-trade-pnl { margin-left: 0; }
+  .signal-card { padding: var(--space-3); }
+  .signal-pair { font-size: var(--text-sm); }
 }
