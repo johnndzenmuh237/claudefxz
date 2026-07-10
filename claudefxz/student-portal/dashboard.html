@@ -55,6 +55,14 @@
     .signal-levels{margin-left:auto;text-align:right;font-size:.7rem;color:var(--color-text-muted);line-height:1.5;}
     .signal-levels b{color:var(--color-text-secondary);}
     .signal-status{margin-left:.5rem;flex-shrink:0;}
+
+    /* ── Sidebar Contact section ───────────────────────────────── */
+    .sidebar-contact{margin:0 .75rem 1rem;padding:.9rem .9rem;border-radius:var(--radius-lg,10px);background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);}
+    .sidebar-contact-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-muted);margin-bottom:.6rem;}
+    .sidebar-contact-link{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--color-text-secondary);padding:.4rem 0;text-decoration:none;transition:color .15s ease;}
+    .sidebar-contact-link:hover{color:var(--color-gold);}
+    .sidebar-contact-link i{width:16px;text-align:center;color:var(--color-gold);font-size:.8rem;}
+    .sidebar.collapsed .sidebar-contact{display:none;}
   </style>
 </head>
 <body>
@@ -87,6 +95,11 @@
       <a href="certificates.html" class="sidebar-link"><i class="fas fa-certificate"></i><span class="link-text">Certificates</span></a>
     </div>
     <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Support</div>
+      <a href="contact.html" class="sidebar-link"><i class="fas fa-headset"></i><span class="link-text">Contact Us</span></a>
+      <a href="faq.html" class="sidebar-link"><i class="fas fa-circle-question"></i><span class="link-text">Help &amp; FAQ</span></a>
+    </div>
+    <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Account</div>
       <a href="profile.html" class="sidebar-link"><i class="fas fa-user"></i><span class="link-text">My Profile</span></a>
       <a href="settings.html" class="sidebar-link"><i class="fas fa-cog"></i><span class="link-text">Settings</span></a>
@@ -94,6 +107,11 @@
       <a href="#" class="sidebar-link" id="logoutBtn" style="color:var(--color-danger);"><i class="fas fa-sign-out-alt"></i><span class="link-text">Sign Out</span></a>
     </div>
   </nav>
+  <div class="sidebar-contact">
+    <div class="sidebar-contact-title">Need Help?</div>
+    <a href="mailto:support@forexacademypro.com" class="sidebar-contact-link"><i class="fas fa-envelope"></i><span class="link-text">support@forexacademypro.com</span></a>
+    <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="sidebar-contact-link"><i class="fab fa-whatsapp"></i><span class="link-text">WhatsApp Support</span></a>
+  </div>
   <div class="sidebar-footer">
     <div class="sidebar-user" onclick="window.location='profile.html'" style="cursor:pointer;">
       <img class="sidebar-user-avatar" id="sidebarAvatar" src="../assets/images/traders/student-avatar.jpg" alt="Student" onerror="this.style.display='none'">
