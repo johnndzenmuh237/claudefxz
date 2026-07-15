@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Transparent, flexible pricing. From free starter to all-access professional plans.">
+  <meta name="description" content="Transparent, flexible pricing. From free starter to all-access professional plans, individual courses, mentorship, ebooks and the auto trading bot.">
   <title>Pricing | Forex Academy Pro</title>
   <link rel="icon" type="image/png" href="assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +17,18 @@
   <link rel="stylesheet" href="assets/css/darkmode.css">
   <link rel="stylesheet" href="assets/css/themes.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
+  <style>
+    /* Local helpers for the pricing-page-only sections (courses / mentorship / ebooks).
+       Everything here reuses existing .card / .pricing-card / .badge / .grid-3 tokens
+       already defined in style.css, so it stays visually consistent with the rest
+       of the site — this block only adds the couple of bits those sections need. */
+    .subsection-head{ text-align:center; margin-bottom:2rem; }
+    .subsection-head h3{ font-size:1.75rem; margin-bottom:.5rem; }
+    .subsection-head p{ color:var(--color-text-secondary); max-width:620px; margin:0 auto; }
+    .price-block{ display:flex; align-items:baseline; gap:.5rem; }
+    .price-block .now{ font-size:1.35rem; font-weight:800; color:var(--color-gold); }
+    .price-block .was{ font-size:.8rem; color:var(--color-text-muted); text-decoration:line-through; }
+  </style>
 </head>
 <body>
 <div class="page-loader"><div class="loader-ring"></div></div>
@@ -82,7 +94,7 @@
       </div>
       <span class="section-label" style="justify-content:center;">Simple Pricing</span>
       <h1 class="display-2" data-aos="fade-up">Invest in Your<br><span class="gradient-text">Trading Future</span></h1>
-      <p style="font-size:1.125rem;color:var(--color-text-secondary);max-width:600px;margin:1rem auto 0;" data-aos="fade-up" data-aos-delay="100">Choose the plan that fits your goals. Upgrade or cancel anytime. 30-day money-back guarantee on all paid plans.</p>
+      <p style="font-size:1.125rem;color:var(--color-text-secondary);max-width:600px;margin:1rem auto 0;" data-aos="fade-up" data-aos-delay="100">Choose the plan that fits your goals — membership, a single course, dedicated mentorship, or a standalone guide. Upgrade or cancel anytime. 30-day money-back guarantee on all paid plans.</p>
     </div>
   </div>
 </section>
@@ -157,34 +169,275 @@
       </div>
     </div>
 
-    <!-- Add-Ons -->
+    <!-- ═══════════════════════════════════════════════════
+         INDIVIDUAL COURSES — pulled from course-single.html
+         (flagship bundle + the "Explore More Courses" grid)
+    ════════════════════════════════════════════════════ -->
     <div style="margin-top:5rem;" data-aos="fade-up">
-      <h3 style="text-align:center; font-size:1.75rem; margin-bottom:.5rem;">Optional Add-Ons</h3>
-      <p style="text-align:center; color:var(--color-text-secondary); max-width:600px; margin:0 auto 2rem;">
-        Available on top of any plan above.
-      </p>
-      <div class="grid-2" style="max-width:800px; margin:0 auto; gap:1.5rem;">
+      <div class="subsection-head">
+        <span class="badge badge-gold" style="margin-bottom:1rem;">Pay Per Course</span>
+        <h3>Individual Courses</h3>
+        <p>Not ready for a full membership? Enroll in exactly the course you need — every course includes lifetime access and 1-on-1 mentorship.</p>
+      </div>
+      <div class="grid-3">
 
-        <!-- Live Signals Subscription -->
-        <div class="pricing-card">
-          <div class="pricing-name">Live Signals Subscription</div>
-          <div class="pricing-price"><sup>$</sup><span class="price-val" data-monthly="49" data-annual="35">49</span></div>
-          <div class="pricing-period">per month</div>
-          <p class="pricing-desc">Just want the signals? Get daily Forex & Synthetic Indices calls without a full course plan.</p>
-          <ul class="pricing-features">
-            <li class="pricing-feature"><i class="fas fa-check"></i> Daily Forex & Synthetic Indices signals</li>
-            <li class="pricing-feature"><i class="fas fa-check"></i> Entry, stop-loss & take-profit levels included</li>
-            <li class="pricing-feature"><i class="fas fa-check"></i> Delivered via private Telegram channel</li>
-            <li class="pricing-feature"><i class="fas fa-check"></i> Monthly win-rate transparency report</li>
-            <li class="pricing-feature"><i class="fas fa-check"></i> Cancel anytime, no long-term contract</li>
+        <!-- Flagship bundle -->
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/course-5.jpg" alt="Forex & Synthetic Indices Full Course + Mentorship" style="width:100%;height:180px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-success" style="margin-bottom:.75rem;">Beginner → Advanced</span>
+          <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Forex & Synthetic Indices — Full Course + Mentorship</h3>
+          <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">The complete trading path — master both Forex and Synthetic Indices from the ground up, then refine your edge with 1-on-1 mentorship from a senior analyst.</p>
+          <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
+            <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.9</span>
+            <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 154 lessons</span>
+            <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 44h</span>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0 0 1rem;display:flex;flex-direction:column;gap:.4rem;">
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Both Forex & Synthetic Indices curricula</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> 1-on-1 mentorship included</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> All ebook PDF guides included</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
           </ul>
-          <a href="signals.html" class="btn btn-outline-gold w-full" style="justify-content:center;"><i class="fas fa-signal"></i> Subscribe to Signals</a>
-          <p style="font-size:.7rem;color:var(--color-text-muted);line-height:1.5;margin-top:.875rem;text-align:center;">
-            Already included free with Professional & Elite plans.
-          </p>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <div class="price-block"><span class="now">$397</span><span class="was">$597</span></div>
+            <a href="course-single.html" class="btn btn-primary btn-sm">Enroll <i class="fas fa-arrow-right"></i></a>
+          </div>
         </div>
 
-        <!-- Bot Add-On -->
+        <!-- Forex Full Course & Mentorship -->
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/course-6.jpg" alt="Forex Trading Full Course" style="width:100%;height:180px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-success" style="margin-bottom:.75rem;">Beginner → Advanced</span>
+          <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Forex Trading — Full Course & Mentorship</h3>
+          <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">The complete Forex path from fundamentals to advanced Smart Money Concepts, order blocks, and live execution.</p>
+          <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
+            <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.9</span>
+            <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 67 lessons</span>
+            <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 28h</span>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0 0 1rem;display:flex;flex-direction:column;gap:.4rem;">
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Full lifetime course access</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Full-time 1-on-1 mentorship</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Bonus ebook PDF guides included</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Private Telegram community</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
+          </ul>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <div class="price-block"><span class="now">$297</span><span class="was">$497</span></div>
+            <a href="contact.html" class="btn btn-primary btn-sm">Enroll <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Synthetic Indices Full Course & Mentorship -->
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/course-7.jpg" alt="Synthetic Indices Full Course" style="width:100%;height:180px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-danger" style="margin-bottom:.75rem;">Advanced</span>
+          <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Synthetic Indices — Full Course & Mentorship</h3>
+          <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Master Volatility, Boom & Crash, and Step Indices with strategies built specifically for synthetic markets.</p>
+          <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
+            <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.8</span>
+            <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 58 lessons</span>
+            <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 16h</span>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0 0 1rem;display:flex;flex-direction:column;gap:.4rem;">
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Full lifetime course access</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Full-time 1-on-1 mentorship</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Bonus ebook PDF guides included</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Private Telegram community</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
+          </ul>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <div class="price-block"><span class="now">$297</span><span class="was">$497</span></div>
+            <a href="contact.html" class="btn btn-primary btn-sm">Enroll <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Technical Analysis Mastery -->
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/course-2.jpg" alt="Technical Analysis Course" style="width:100%;height:180px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-gold" style="margin-bottom:.75rem;">Intermediate</span>
+          <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Technical Analysis Mastery</h3>
+          <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Chart patterns, indicators, support & resistance, and multi-timeframe analysis for precision entries.</p>
+          <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
+            <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.9</span>
+            <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 40 lessons</span>
+            <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 11h</span>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0 0 1rem;display:flex;flex-direction:column;gap:.4rem;">
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Full lifetime course access</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Full-time 1-on-1 mentorship</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Bonus ebook PDF guide included</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
+          </ul>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <div class="price-block"><span class="now">$127</span><span class="was">$227</span></div>
+            <a href="contact.html" class="btn btn-primary btn-sm">Enroll <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Fundamental Analysis Mastery -->
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/course-1.jpg" alt="Fundamental Analysis Course" style="width:100%;height:180px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-gold" style="margin-bottom:.75rem;">Intermediate</span>
+          <h3 style="font-size:1.15rem;margin-bottom:.5rem;">Fundamental Analysis Mastery</h3>
+          <p style="font-size:.875rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Interest rates, central bank policy, economic calendars, and news-driven moves that shape market direction.</p>
+          <div style="display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--color-text-muted);margin-bottom:1rem;flex-wrap:wrap;">
+            <span><i class="fas fa-star" style="color:var(--color-gold);"></i> 4.8</span>
+            <span><i class="fas fa-play-circle" style="color:var(--color-gold);"></i> 34 lessons</span>
+            <span><i class="fas fa-clock" style="color:var(--color-gold);"></i> 9h</span>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0 0 1rem;display:flex;flex-direction:column;gap:.4rem;">
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Full lifetime course access</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Full-time 1-on-1 mentorship</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Bonus ebook PDF guide included</li>
+            <li style="font-size:.8rem;color:var(--color-text-secondary);display:flex;align-items:center;gap:.5rem;"><i class="fas fa-check" style="color:var(--color-success);width:14px;"></i> Certificate of completion</li>
+          </ul>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <div class="price-block"><span class="now">$127</span><span class="was">$227</span></div>
+            <a href="contact.html" class="btn btn-primary btn-sm">Enroll <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         MENTORSHIP PROGRAMS — pulled from mentorship.html
+         (standalone mentorship-only packages, no course bundle)
+    ════════════════════════════════════════════════════ -->
+    <div style="margin-top:5rem;" data-aos="fade-up">
+      <div class="subsection-head">
+        <span class="badge badge-gold" style="margin-bottom:1rem;">Mentorship Only</span>
+        <h3>Mentorship Programs</h3>
+        <p>Already comfortable with the course material and just want direct, ongoing coaching? Pick a dedicated mentorship package.</p>
+      </div>
+      <div class="grid-3">
+        <div class="pricing-card">
+          <div class="pricing-name">Starter Mentorship</div>
+          <div class="pricing-price"><sup>$</sup>149</div>
+          <div class="pricing-period">lifetime</div>
+          <p class="pricing-desc">Great for beginners who want guided learning with expert support.</p>
+          <ul class="pricing-features">
+            <li class="pricing-feature"><i class="fas fa-check"></i> 1x 60-min session/month</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Personal trading plan</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> WhatsApp check-ins (2x/week)</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Trade journal review</li>
+            <li class="pricing-feature disabled"><i class="fas fa-times"></i> Chart marking service</li>
+            <li class="pricing-feature disabled"><i class="fas fa-times"></i> Live trade room access</li>
+          </ul>
+          <a href="contact.html" class="btn btn-outline w-full" style="justify-content:center;">Get Started</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Most Popular</div>
+          <div class="pricing-name">Professional Mentorship</div>
+          <div class="pricing-price"><sup>$</sup>297</div>
+          <div class="pricing-period">lifetime</div>
+          <p class="pricing-desc">For intermediate traders ready to level up and trade live markets profitably.</p>
+          <ul class="pricing-features">
+            <li class="pricing-feature"><i class="fas fa-check"></i> 2x 60-min sessions/month</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Custom strategy development</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Daily WhatsApp access</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Weekly trade review</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Chart marking service</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Funded account preparation</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary w-full" style="justify-content:center;"><i class="fas fa-rocket"></i> Get Started</a>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-name">Elite Mentorship</div>
+          <div class="pricing-price"><sup>$</sup>497</div>
+          <div class="pricing-period">lifetime</div>
+          <p class="pricing-desc">Full immersive mentorship. Maximum support for serious funded traders.</p>
+          <ul class="pricing-features">
+            <li class="pricing-feature"><i class="fas fa-check"></i> 4x 90-min sessions/month</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> 24/7 WhatsApp access</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Daily chart analysis</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Live trade room (all sessions)</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Prop firm challenge coaching</li>
+            <li class="pricing-feature"><i class="fas fa-check"></i> Priority email & phone support</li>
+          </ul>
+          <a href="contact.html" class="btn btn-outline-gold w-full" style="justify-content:center;">Get Elite Access</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         EBOOKS & GUIDES — pulled from the student dashboard
+         (my-courses.html "Available Ebooks & Resources")
+    ════════════════════════════════════════════════════ -->
+    <div style="margin-top:5rem;" data-aos="fade-up">
+      <div class="subsection-head">
+        <span class="badge badge-gold" style="margin-bottom:1rem;">Standalone Downloads</span>
+        <h3>Ebooks & Guides</h3>
+        <p>Premium PDF guides you can buy individually — no membership required.</p>
+      </div>
+      <div class="grid-3">
+
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/course-4.jpg" alt="Risk Management Guide" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-success" style="margin-bottom:.75rem;">PDF Guide</span>
+          <h3 style="font-size:1.05rem;margin-bottom:.5rem;">Risk Management Guide</h3>
+          <p style="font-size:.85rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Position sizing, stop-loss placement, and capital protection strategies to trade safely.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$29</span>
+            <a href="contact.html" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Buy</a>
+          </div>
+        </div>
+
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/ebook-technical-analysis.jpg" alt="Technical Analysis Guide" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-gold" style="margin-bottom:.75rem;">PDF Guide</span>
+          <h3 style="font-size:1.05rem;margin-bottom:.5rem;">Technical Analysis Guide</h3>
+          <p style="font-size:.85rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Chart patterns, indicators, and support/resistance breakdowns to sharpen your entries.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$29</span>
+            <a href="contact.html" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Buy</a>
+          </div>
+        </div>
+
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/ebook-fundamental-analysis.jpg" alt="Fundamental Analysis Guide" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-gold" style="margin-bottom:.75rem;">PDF Guide</span>
+          <h3 style="font-size:1.05rem;margin-bottom:.5rem;">Fundamental Analysis Guide</h3>
+          <p style="font-size:.85rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">Understand how news, interest rates, and economic data move currency markets.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$29</span>
+            <a href="contact.html" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Buy</a>
+          </div>
+        </div>
+
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/ebook-psychology.jpg" alt="Psychology vs Physiology in Trading" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-success" style="margin-bottom:.75rem;">PDF Guide</span>
+          <h3 style="font-size:1.05rem;margin-bottom:.5rem;">Psychology vs Physiology in Trading</h3>
+          <p style="font-size:.85rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">How mindset and body state both drive trading discipline and decision-making.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$29</span>
+            <a href="contact.html" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Buy</a>
+          </div>
+        </div>
+
+        <div class="card" style="padding:1.25rem;">
+          <img src="assets/images/courses/ebook-strategy.jpg" alt="Trading Strategy Playbook" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-lg);margin-bottom:1rem;" onerror="this.style.background='var(--color-dark-3)'">
+          <span class="badge badge-gold" style="margin-bottom:.75rem;">PDF Guide</span>
+          <h3 style="font-size:1.05rem;margin-bottom:.5rem;">Trading Strategy Playbook</h3>
+          <p style="font-size:.85rem;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem;">A step-by-step framework for building and testing your own repeatable trading strategy.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+            <span style="font-size:1.15rem;font-weight:800;color:var(--color-gold);">$39</span>
+            <a href="contact.html" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Buy</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bot Add-On -->
+    <div style="margin-top:5rem;" data-aos="fade-up">
+      <h3 style="text-align:center; font-size:1.75rem; margin-bottom:.5rem;">Optional Add-On</h3>
+      <p style="text-align:center; color:var(--color-text-secondary); max-width:600px; margin:0 auto 2rem;">
+        A one-time purchase, available on top of any plan above.
+      </p>
+      <div style="max-width:380px; margin:0 auto;">
         <div class="pricing-card">
           <div class="pricing-name">Auto Trading Bot</div>
           <div class="pricing-price"><sup>$</sup><span class="price-val">249</span></div>
@@ -202,7 +455,6 @@
             89% confirmed technical Analysis.
           </p>
         </div>
-
       </div>
     </div>
 
@@ -231,7 +483,7 @@
           </thead>
           <tbody>
             <tr><td>Course Library</td><td style="text-align:center;">5 courses</td><td style="text-align:center; color:var(--color-gold);">52+ courses</td><td style="text-align:center;">52+ courses</td></tr>
-            <tr><td>Daily Signals</td><td style="text-align:center; color:var(--color-text-muted);">Add-on ($49/mo)</td><td style="text-align:center;"><i class="fas fa-check" style="color:var(--color-success);"></i></td><td style="text-align:center;"><i class="fas fa-check" style="color:var(--color-success);"></i></td></tr>
+            <tr><td>Daily Signals</td><td style="text-align:center; color:var(--color-text-muted);">—</td><td style="text-align:center;"><i class="fas fa-check" style="color:var(--color-success);"></i></td><td style="text-align:center;"><i class="fas fa-check" style="color:var(--color-success);"></i></td></tr>
             <tr><td>Live Sessions</td><td style="text-align:center; color:var(--color-text-muted);">—</td><td style="text-align:center;">2x / week</td><td style="text-align:center;">2x / week</td></tr>
             <tr><td>1-on-1 Mentorship</td><td style="text-align:center; color:var(--color-text-muted);">—</td><td style="text-align:center; color:var(--color-text-muted);">—</td><td style="text-align:center;">2x / month</td></tr>
             <tr><td>Community Access</td><td style="text-align:center;"><i class="fas fa-check" style="color:var(--color-success);"></i></td><td style="text-align:center;"><i class="fas fa-check" style="color:var(--color-success);"></i></td><td style="text-align:center;"><i class="fas fa-check" style="color:var(--color-success);"></i></td></tr>
@@ -240,6 +492,9 @@
           </tbody>
         </table>
       </div>
+      <p style="text-align:center;font-size:.8rem;color:var(--color-text-muted);margin-top:1.25rem;">
+        Prefer to buy individually instead of a membership? See <a href="#" onclick="document.querySelector('.subsection-head').scrollIntoView({behavior:'smooth'});return false;" style="color:var(--color-gold);">Individual Courses</a>, <a href="#" style="color:var(--color-gold);" onclick="document.querySelectorAll('.subsection-head')[1].scrollIntoView({behavior:'smooth'});return false;">Mentorship Programs</a>, and <a href="#" style="color:var(--color-gold);" onclick="document.querySelectorAll('.subsection-head')[2].scrollIntoView({behavior:'smooth'});return false;">Ebooks &amp; Guides</a> above.
+      </p>
     </div>
   </div>
 </section>
