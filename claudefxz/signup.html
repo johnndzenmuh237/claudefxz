@@ -42,7 +42,6 @@
   .spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;
            animation:spin .7s linear infinite;display:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  #debugBox{margin-top:1rem;font-size:.7rem;color:var(--text-muted);background:var(--dark3);border-radius:6px;padding:.6rem;display:none;white-space:pre-wrap;word-break:break-all;}
 </style>
 </head>
 <body>
@@ -82,7 +81,6 @@
     </form>
 
     <div class="foot">Already have an account? <a href="login.html">Sign in →</a></div>
-    <div id="debugBox"></div>
   </div>
 </div>
 
@@ -90,14 +88,10 @@
   // ── This page is fully self-contained: Firebase config is inlined below,
   //    no imports from any other local file in your project. ──
 
-  const debugBox = document.getElementById('debugBox');
+  // Debug logging goes to the browser console only — nothing is shown on the page.
   function debugLog(text) {
     console.log(text);
-    debugBox.style.display = 'block';
-    debugBox.textContent += text + '\n';
   }
-
-  debugLog('[signup] module script starting…');
 
   try {
     const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
@@ -114,8 +108,6 @@
       serverTimestamp
     } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
 
-    debugLog('[signup] Firebase SDK modules loaded OK');
-
     const firebaseConfig = {
       apiKey: "AIzaSyB4zLVvw6SVuFa7TxU4Ee7Ic7381K6Kz0s",
       authDomain: "swiftchain-827f2.firebaseapp.com",
@@ -130,8 +122,6 @@
     const app  = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db   = getFirestore(app);
-
-    debugLog('[signup] Firebase app initialised: ' + app.options.projectId);
 
     const form      = document.getElementById('signupForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -152,14 +142,12 @@
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        debugLog('[signup] already logged in as ' + user.email + ', redirecting');
         window.location.href = '../student-portal/dashboard.html';
       }
     });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      debugLog('[signup] form submitted');
 
       const name     = document.getElementById('name').value.trim();
       const email    = document.getElementById('email').value.trim();
@@ -176,12 +164,9 @@
       setLoading(true);
 
       try {
-        debugLog('[signup] calling createUserWithEmailAndPassword…');
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
-        debugLog('[signup] Auth user created: ' + user.uid);
 
         await updateProfile(user, { displayName: name });
-        debugLog('[signup] display name set');
 
         await setDoc(doc(db, 'users', user.uid), {
           uid: user.uid,
@@ -199,7 +184,6 @@
           notifications: [],
           isActive: true
         }, { merge: true });
-        debugLog('[signup] Firestore profile written');
 
         showMsg('Account created! Redirecting…', 'success');
         setTimeout(() => {
@@ -222,14 +206,10 @@
 
   } catch (fatalErr) {
     debugLog('[signup] FATAL — Firebase SDK failed to load: ' + fatalErr.message);
-    showTopMsg('Could not load Firebase. Check your internet connection and console for details.');
-  }
-
-  function showTopMsg(text) {
     const msg = document.getElementById('msg');
     const msgText = document.getElementById('msgText');
     msg.className = 'msg error';
-    msgText.textContent = text;
+    msgText.textContent = 'Could not load Firebase. Check your internet connection and try again.';
   }
 </script>
 </body>
