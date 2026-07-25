@@ -178,6 +178,259 @@
     .ticket-grid{grid-template-columns:1fr;}
     .log-entry{grid-template-columns:40px 1fr;}
   }
+  .bot-terminal{
+
+background:#0d1117;
+border:1px solid rgba(212,175,55,.3);
+border-radius:20px;
+padding:22px;
+overflow:hidden;
+position:relative;
+
+}
+
+.terminal-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+
+}
+
+.bot-left{
+
+display:flex;
+align-items:center;
+gap:14px;
+
+}
+
+.ai-core{
+
+width:48px;
+height:48px;
+border-radius:50%;
+background:#D4AF37;
+box-shadow:0 0 35px #D4AF37;
+animation:pulse 2s infinite;
+
+}
+
+.live-status{
+
+color:#38d996;
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:700;
+
+}
+
+.live-dot{
+
+width:10px;
+height:10px;
+background:#38d996;
+border-radius:50%;
+animation:pulse 1s infinite;
+
+}
+
+.scanner{
+
+height:90px;
+position:relative;
+margin-bottom:18px;
+overflow:hidden;
+border-radius:12px;
+background:#111820;
+
+}
+
+.market-grid{
+
+position:absolute;
+inset:0;
+background-image:
+linear-gradient(#1f2d3d 1px,transparent 1px),
+linear-gradient(90deg,#1f2d3d 1px,transparent 1px);
+
+background-size:20px 20px;
+
+}
+
+.scan-line{
+
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:3px;
+background:#00ffae;
+box-shadow:0 0 15px #00ffae;
+animation:scan 2s linear infinite;
+
+}
+
+@keyframes scan{
+
+0%{top:-10px;}
+
+100%{top:100%;}
+
+}
+
+.market-feed{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:18px;
+
+}
+
+.feed{
+
+display:flex;
+justify-content:space-between;
+padding:10px;
+background:#111820;
+border-radius:10px;
+
+}
+
+.buy{
+
+color:#00ff9d;
+
+}
+
+.sell{
+
+color:#ff5656;
+
+}
+
+.wait{
+
+color:#ffc857;
+
+}
+
+.chart{
+
+width:100%;
+height:220px;
+
+}
+
+.grid line{
+
+stroke:#1d2633;
+
+}
+
+.price-path{
+
+fill:none;
+stroke:#D4AF37;
+stroke-width:3;
+stroke-linecap:round;
+stroke-linejoin:round;
+stroke-dasharray:800;
+stroke-dashoffset:800;
+animation:draw 4s linear infinite;
+
+}
+
+.price-fill{
+
+fill:url(#profit);
+opacity:.25;
+
+}
+
+@keyframes draw{
+
+to{
+
+stroke-dashoffset:0;
+
+}
+
+}
+
+.bot-stats{
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+margin-top:20px;
+gap:12px;
+
+}
+
+.bot-stats div{
+
+background:#111820;
+padding:12px;
+border-radius:12px;
+text-align:center;
+
+}
+
+.bot-stats strong{
+
+display:block;
+margin-top:6px;
+
+}
+
+.terminal-log{
+
+margin-top:20px;
+font-family:monospace;
+color:#00ff9d;
+font-size:13px;
+line-height:1.8;
+height:120px;
+overflow:hidden;
+
+}
+
+.terminal-log p{
+
+animation:fade 5s infinite;
+
+}
+
+@keyframes fade{
+
+0%,100%{
+
+opacity:.3;
+
+}
+
+50%{
+
+opacity:1;
+
+}
+
+}
+
+@keyframes pulse{
+
+50%{
+
+transform:scale(1.08);
+
+box-shadow:0 0 55px #D4AF37;
+
+}
+
+}
 </style>
 </head>
 <body>
@@ -234,56 +487,156 @@
       </div>
     </div>
 
-    <div class="chart-card">
-      <div class="ch-head">
-        <span class="pair">
-          <span class="bot-icon">
-            <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="2" width="28" height="28" rx="8" fill="var(--color-gold-soft)" stroke="var(--color-gold)" stroke-width="1.2"/>
-              <circle cx="16" cy="12" r="4.2" stroke="var(--color-gold)" stroke-width="1.2"/>
-              <circle cx="14.3" cy="11.8" r="0.8" fill="var(--color-gold)"/>
-              <circle cx="17.7" cy="11.8" r="0.8" fill="var(--color-gold)"/>
-              <path d="M9 25 L12.5 19.5 L15 22 L18.5 16.5 L21 19 L23 15.5" stroke="var(--color-gold)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          EUR/USD · H1
-        </span>
-        <span class="status"><span class="pulse" style="width:6px;height:6px;border-radius:50%;background:var(--color-success);"></span>Position open</span>
-      </div>
-      <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#1B2028" stroke-width="1">
-          <line x1="0" y1="40" x2="400" y2="40"/>
-          <line x1="0" y1="90" x2="400" y2="90"/>
-          <line x1="0" y1="140" x2="400" y2="140"/>
-          <line x1="0" y1="190" x2="400" y2="190"/>
-        </g>
-        <g>
-          <line class="wick" x1="20" y1="150" x2="20" y2="170"/><rect class="candle-down" x="16" y="155" width="8" height="10"/>
-          <line class="wick" x1="40" y1="140" x2="40" y2="165"/><rect class="candle-up" x="36" y="145" width="8" height="14"/>
-          <line class="wick" x1="60" y1="130" x2="60" y2="158"/><rect class="candle-down" x="56" y="135" width="8" height="16"/>
-          <line class="wick" x1="80" y1="120" x2="80" y2="148"/><rect class="candle-up" x="76" y="126" width="8" height="16"/>
-          <line class="wick" x1="100" y1="112" x2="100" y2="138"/><rect class="candle-up" x="96" y="116" width="8" height="18"/>
-          <line class="wick" x1="120" y1="100" x2="120" y2="128"/><rect class="candle-down" x="116" y="106" width="8" height="16"/>
-          <line class="wick" x1="140" y1="96" x2="140" y2="120"/><rect class="candle-up" x="136" y="100" width="8" height="16"/>
-          <line class="wick" x1="160" y1="86" x2="160" y2="112"/><rect class="candle-up" x="156" y="90" width="8" height="18"/>
-          <line class="wick" x1="180" y1="78" x2="180" y2="104"/><rect class="candle-up" x="176" y="82" width="8" height="18"/>
-          <line class="wick" x1="200" y1="70" x2="200" y2="96"/><rect class="candle-up" x="196" y="74" width="8" height="18"/>
-          <line class="wick" x1="220" y1="66" x2="220" y2="90"/><rect class="candle-down" x="216" y="70" width="8" height="16"/>
-          <line class="wick" x1="240" y1="60" x2="240" y2="84"/><rect class="candle-up" x="236" y="64" width="8" height="16"/>
-          <line class="wick" x1="260" y1="54" x2="260" y2="78"/><rect class="candle-up" x="256" y="58" width="8" height="16"/>
-          <line class="wick" x1="280" y1="48" x2="280" y2="72"/><rect class="candle-up" x="276" y="52" width="8" height="16"/>
-          <line class="wick" x1="300" y1="42" x2="300" y2="66"/><rect class="candle-up" x="296" y="46" width="8" height="16"/>
-          <line class="wick" x1="320" y1="38" x2="320" y2="60"/><rect class="candle-up" x="316" y="42" width="8" height="14"/>
-          <line class="wick" x1="340" y1="32" x2="340" y2="54"/><rect class="candle-up" x="336" y="36" width="8" height="14"/>
-          <line class="wick" x1="360" y1="28" x2="360" y2="48"/><rect class="candle-up" x="356" y="32" width="8" height="12"/>
-        </g>
-        <line class="entry-line" x1="0" y1="126" x2="400" y2="126"/>
-        <text class="marker-label" x="6" y="121">ENTRY 1.0842</text>
-        <line class="sl-line" x1="0" y1="168" x2="400" y2="168"/>
-        <text class="marker-label" x="6" y="182">STOP 1.0798</text>
-      </svg>
+ <div class="chart-card bot-terminal">
+
+    <div class="terminal-header">
+
+        <div class="bot-left">
+            <div class="ai-core"></div>
+
+            <div>
+                <h3>ClaudeFX AI Engine</h3>
+                <small>Quantum Market Scanner</small>
+            </div>
+        </div>
+
+        <div class="live-status">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
+
     </div>
-  </div>
+
+    <div class="scanner">
+
+        <div class="scan-line"></div>
+
+        <div class="market-grid"></div>
+
+    </div>
+
+    <div class="market-feed">
+
+        <div class="feed">
+            <span>EUR/USD</span>
+            <span class="buy">BUY</span>
+        </div>
+
+        <div class="feed">
+            <span>GBP/USD</span>
+            <span class="sell">SELL</span>
+        </div>
+
+        <div class="feed">
+            <span>XAU/USD</span>
+            <span class="buy">BUY</span>
+        </div>
+
+        <div class="feed">
+            <span>USD/JPY</span>
+            <span class="wait">WAIT</span>
+        </div>
+
+    </div>
+
+    <svg class="chart" viewBox="0 0 400 220">
+
+        <defs>
+
+            <linearGradient id="profit" x1="0" x2="0" y1="0" y2="1">
+
+                <stop offset="0%" stop-color="#D4AF37"/>
+
+                <stop offset="100%" stop-color="transparent"/>
+
+            </linearGradient>
+
+        </defs>
+
+        <g class="grid">
+
+            <line x1="0" y1="40" x2="400" y2="40"/>
+            <line x1="0" y1="90" x2="400" y2="90"/>
+            <line x1="0" y1="140" x2="400" y2="140"/>
+            <line x1="0" y1="190" x2="400" y2="190"/>
+
+        </g>
+
+        <path
+        class="price-path"
+        d="M0 180
+        L40 165
+        L70 150
+        L95 155
+        L130 130
+        L165 115
+        L195 125
+        L225 90
+        L255 100
+        L290 70
+        L330 60
+        L370 45
+        L400 28"/>
+
+        <path
+        class="price-fill"
+        d="M0 180
+        L40 165
+        L70 150
+        L95 155
+        L130 130
+        L165 115
+        L195 125
+        L225 90
+        L255 100
+        L290 70
+        L330 60
+        L370 45
+        L400 28
+        L400 220
+        L0 220Z"/>
+
+    </svg>
+
+    <div class="bot-stats">
+
+        <div>
+            <small>AI Confidence</small>
+            <strong>98.7%</strong>
+        </div>
+
+        <div>
+            <small>Trend</small>
+            <strong class="buy">Bullish</strong>
+        </div>
+
+        <div>
+            <small>Pattern</small>
+            <strong>Breakout</strong>
+        </div>
+
+        <div>
+            <small>P/L</small>
+            <strong class="buy">+$2,481</strong>
+        </div>
+
+    </div>
+
+    <div class="terminal-log">
+
+        <p>> Scanning liquidity...</p>
+
+        <p>> Detecting Smart Money...</p>
+
+        <p>> Order Block confirmed.</p>
+
+        <p>> AI Confidence 98.7%</p>
+
+        <p>> BUY EXECUTED</p>
+
+    </div>
+
+</div>
 </header>
 
 <section class="log" id="log">
