@@ -44,7 +44,6 @@
   .spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;
            animation:spin .7s linear infinite;display:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  #debugBox{margin-top:1rem;font-size:.7rem;color:var(--text-muted);background:var(--dark3);border-radius:6px;padding:.6rem;display:none;white-space:pre-wrap;word-break:break-all;}
 </style>
 </head>
 <body>
@@ -76,7 +75,6 @@
     </form>
 
     <div class="foot">Don't have an account? <a href="signup.html">Create one free →</a></div>
-    <div id="debugBox"></div>
   </div>
 </div>
 
@@ -84,14 +82,10 @@
   // ── This page is fully self-contained: Firebase config is inlined below,
   //    no imports from any other local file in your project. ──
 
-  const debugBox = document.getElementById('debugBox');
+  // Debug logging goes to the browser console only — nothing is shown on the page.
   function debugLog(text) {
     console.log(text);
-    debugBox.style.display = 'block';
-    debugBox.textContent += text + '\n';
   }
-
-  debugLog('[login] module script starting…');
 
   try {
     const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
@@ -111,8 +105,6 @@
       serverTimestamp
     } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
 
-    debugLog('[login] Firebase SDK modules loaded OK');
-
     const firebaseConfig = {
       apiKey: "AIzaSyB4zLVvw6SVuFa7TxU4Ee7Ic7381K6Kz0s",
       authDomain: "swiftchain-827f2.firebaseapp.com",
@@ -127,8 +119,6 @@
     const app  = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db   = getFirestore(app);
-
-    debugLog('[login] Firebase app initialised: ' + app.options.projectId);
 
     const form      = document.getElementById('loginForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -163,7 +153,6 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      debugLog('[login] form submitted');
 
       const email    = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
@@ -174,12 +163,9 @@
       setLoading(true);
 
       try {
-        debugLog('[login] setting persistence…');
         await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
 
-        debugLog('[login] calling signInWithEmailAndPassword…');
         const { user } = await signInWithEmailAndPassword(auth, email, password);
-        debugLog('[login] signed in: ' + user.uid);
 
         updateDoc(doc(db, 'users', user.uid), { lastLogin: serverTimestamp() }).catch((e) => {
           debugLog('[login] lastLogin update failed (non-fatal): ' + e.message);
@@ -187,7 +173,6 @@
 
         const snap = await getDoc(doc(db, 'users', user.uid));
         const profile = snap.exists() ? snap.data() : {};
-        debugLog('[login] profile loaded, role: ' + (profile.role || 'student'));
 
         showMsg('Login successful! Redirecting…', 'success');
         setTimeout(() => {
@@ -216,7 +201,7 @@
     const msg = document.getElementById('msg');
     const msgText = document.getElementById('msgText');
     msg.className = 'msg error';
-    msgText.textContent = 'Could not load Firebase. Check your internet connection and console for details.';
+    msgText.textContent = 'Could not load Firebase. Check your internet connection and try again.';
   }
 </script>
 </body>
