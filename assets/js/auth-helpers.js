@@ -22,7 +22,7 @@ export function requireUser() {
     const unsub = onAuthStateChanged(auth, async (user) => {
       unsub();
       if (!user) {
-        window.location.href = '../login.html';
+        window.location.href = '../auth/login.html';
         return reject('not-authenticated');
       }
       const snap = await getDoc(doc(db, 'users', user.uid));
@@ -42,14 +42,14 @@ export function requireAdmin() {
     const unsub = onAuthStateChanged(auth, async (user) => {
       unsub();
       if (!user) {
-        window.location.href = '../login.html';
+        window.location.href = '../auth/admin-login.html';
         return reject('not-authenticated');
       }
       const snap = await getDoc(doc(db, 'users', user.uid));
       const profile = snap.exists() ? snap.data() : {};
       if (profile.role !== 'admin') {
         await signOut(auth);
-        window.location.href = '../login.html';
+        window.location.href = '../auth/admin-login.html';
         return reject('not-admin');
       }
       resolve({ user, profile });
@@ -63,7 +63,7 @@ export function requireAdmin() {
 ──────────────────────────────────────────────────────────── */
 export async function signOutUser(isAdmin = false) {
   await signOut(auth);
-  window.location.href = isAdmin ? '../login.html' : '../login.html';
+  window.location.href = isAdmin ? '../auth/admin-login.html' : '../auth/login.html';
 }
 
 /* ────────────────────────────────────────────────────────────
