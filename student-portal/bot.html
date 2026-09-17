@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SyntheticBot — Rules-Based Auto-Trading Bot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-bg:#0B0D12;
+    --color-panel:#12151C;
+    --color-panel-2:#171B24;
+    --color-line: rgba(255,255,255,0.08);
+    --color-text-primary:#ECEFF3;
+    --color-text-secondary:#B7BEC9;
+    --color-text-muted:#7A8394;
+    --color-gold:#C9A84C;
+    --color-gold-soft: rgba(201,168,76,0.12);
+    --color-gold-glow: rgba(201,168,76,0.22);
+    --color-success:#22C55E;
+    --color-danger:#EF4444;
+    --radius-lg:10px;
+    --radius-xl:16px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--color-bg);
+    color:var(--color-text-primary);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Syne', sans-serif; font-weight:700; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+
+  /* Reusable bot icon badge -------------------------------------------- */
+  .bot-icon{display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .bot-icon svg{display:block;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,13,18,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--color-line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Syne'; font-weight:700; font-size:18px;}
+  .brand .bot-icon{width:26px; height:26px;}
+  .nav-cta{
+    background:var(--color-gold); color:#1A1404; font-weight:700; font-size:14px;
+    padding:9px 18px; border-radius:var(--radius-lg); font-family:'Syne';
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{transform:translateY(-1px); box-shadow:0 6px 20px var(--color-gold-glow);}
+
+  /* HERO */
+  header.hero{padding:88px 0 72px; border-bottom:1px solid var(--color-line); position:relative; overflow:hidden;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono'; font-size:12px; letter-spacing:0.06em;
+    color:var(--color-gold); background:var(--color-gold-soft);
+    border:1px solid rgba(201,168,76,0.3); padding:6px 12px; border-radius:20px;
+    margin-bottom:22px;
+  }
+  .eyebrow .pulse{width:6px; height:6px; border-radius:50%; background:var(--color-gold); animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.3;}}
+
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;}
+  .hero-heading{display:flex; align-items:flex-start; gap:18px; margin-bottom:20px;}
+  .hero-heading .bot-icon{width:56px; height:56px; margin-top:4px;}
+  .hero h1{font-size:46px; line-height:1.08;}
+  .hero h1 span{color:var(--color-gold);}
+  .hero p.lead{font-size:17px; color:var(--color-text-muted); max-width:480px; margin-bottom:32px;}
+  .hero-actions{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--color-gold); color:#1A1404; font-family:'Syne'; font-weight:700; font-size:15px;
+    padding:14px 26px; border-radius:var(--radius-lg); display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 30px var(--color-gold-glow);}
+  .btn-secondary{color:var(--color-text-muted); font-size:14px; border-bottom:1px solid var(--color-line); padding-bottom:2px;}
+  .btn-secondary:hover{color:var(--color-text-primary); border-color:var(--color-text-muted);}
+
+  /* Chart visual */
+  .chart-card{
+    background:var(--color-panel); border:1px solid var(--color-line); border-radius:var(--radius-xl); padding:22px;
+  }
+  .chart-card .ch-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;}
+  .ch-head .pair{font-family:'JetBrains Mono'; font-size:13px; color:var(--color-text-muted); display:flex; align-items:center; gap:8px;}
+  .ch-head .pair .bot-icon{width:20px; height:20px;}
+  .ch-head .status{font-family:'JetBrains Mono'; font-size:12px; color:var(--color-success); display:flex; align-items:center; gap:6px;}
+  svg{width:100%; height:auto;}
+  .candle-up{fill:var(--color-success);}
+  .candle-down{fill:var(--color-danger);}
+  .wick{stroke:var(--color-text-muted); stroke-width:1.4;}
+  .sl-line{stroke:var(--color-danger); stroke-width:1.2; stroke-dasharray:4 4;}
+  .entry-line{stroke:var(--color-gold); stroke-width:1.2; stroke-dasharray:4 4;}
+  .marker-label{font-family:'JetBrains Mono'; font-size:9px; fill:var(--color-text-muted);}
+
+  /* badges (matches dashboard badge language) */
+  .badge{display:inline-flex; align-items:center; gap:4px; font-family:'JetBrains Mono'; font-size:10px; text-transform:uppercase; letter-spacing:.05em; padding:4px 9px; border-radius:999px;}
+  .badge-gold{background:var(--color-gold-soft); color:var(--color-gold); border:1px solid rgba(201,168,76,0.3);}
+  .badge-success{background:rgba(34,197,94,0.12); color:var(--color-success); border:1px solid rgba(34,197,94,0.3);}
+
+  /* SECTION: log */
+  section.log{padding:88px 0; border-bottom:1px solid var(--color-line);}
+  .section-head{max-width:560px; margin-bottom:56px;}
+  .section-head .eyebrow{margin-bottom:16px;}
+  .section-head h2{font-size:32px; margin-bottom:14px;}
+  .section-head p{color:var(--color-text-muted); font-size:16px;}
+
+  .log-entry{
+    display:grid; grid-template-columns:52px 1fr; gap:24px;
+    padding:26px 0; border-top:1px solid var(--color-line);
+  }
+  .log-entry:last-child{border-bottom:1px solid var(--color-line);}
+  .log-step{padding-top:2px;}
+  .log-step .bot-icon{
+    width:40px; height:40px; border-radius:var(--radius-lg);
+    background:var(--color-gold-soft); border:1px solid rgba(201,168,76,0.25);
+  }
+  .log-body h3{font-size:19px; margin-bottom:6px; display:flex; align-items:center; gap:10px;}
+  .log-body h3 .tag{
+    font-family:'JetBrains Mono'; font-size:10px; color:var(--color-gold); background:var(--color-gold-soft);
+    border:1px solid rgba(201,168,76,0.25); padding:3px 8px; border-radius:4px; text-transform:uppercase; letter-spacing:.05em;
+  }
+  .log-body p{color:var(--color-text-muted); font-size:15px; max-width:560px;}
+
+  /* SECTION: ticket */
+  section.ticket{padding:88px 0;}
+  .ticket-grid{display:grid; grid-template-columns:1fr 420px; gap:48px; align-items:start;}
+  .ticket-copy h2{font-size:30px; margin-bottom:16px;}
+  .ticket-copy p{color:var(--color-text-muted); font-size:16px; margin-bottom:20px; max-width:460px;}
+  .perk-list{list-style:none; display:flex; flex-direction:column; gap:14px;}
+  .perk-list li{display:flex; align-items:center; gap:10px; font-size:15px; color:var(--color-text-primary);}
+  .perk-list li .bot-icon{width:22px; height:22px;}
+
+  .order-card{
+    background:var(--color-panel); border:1px solid var(--color-line); border-radius:var(--radius-xl); overflow:hidden;
+  }
+  .order-head{
+    background:var(--color-panel-2); padding:18px 22px; border-bottom:1px solid var(--color-line);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .order-head .mono{font-size:12px; color:var(--color-text-muted);}
+  .order-head .brand-mark{display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono'; font-size:12px; color:var(--color-gold);}
+  .order-head .brand-mark .bot-icon{width:18px; height:18px;}
+  .order-body{padding:22px;}
+  .order-row{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px dashed var(--color-line); font-size:14px;}
+  .order-row:last-of-type{border-bottom:none;}
+  .order-row .k{color:var(--color-text-muted);}
+  .order-row .v{font-family:'JetBrains Mono';}
+  .order-row .v.up{color:var(--color-gold);}
+  .buy-btn{
+    display:block; width:100%; text-align:center; margin-top:18px;
+    background:var(--color-gold); color:#1A1404; font-family:'Syne'; font-weight:700; font-size:16px;
+    padding:15px; border-radius:var(--radius-lg); transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .buy-btn:hover{transform:translateY(-2px); box-shadow:0 12px 32px var(--color-gold-glow);}
+  .fine{font-size:11px; color:var(--color-text-muted); text-align:center; margin-top:12px;}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--color-line); padding:36px 0;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap;}
+  footer .disclaimer{font-size:12px; color:var(--color-text-muted); max-width:640px; line-height:1.6;}
+  footer .brand{font-size:14px;}
+  footer .brand .bot-icon{width:20px; height:20px;}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:34px;}
+    .ticket-grid{grid-template-columns:1fr;}
+    .log-entry{grid-template-columns:40px 1fr;}
+  }
+  .bot-terminal{
+
+background:#0d1117;
+border:1px solid rgba(212,175,55,.3);
+border-radius:20px;
+padding:22px;
+overflow:hidden;
+position:relative;
+
+}
+
+.terminal-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+
+}
+
+.bot-left{
+
+display:flex;
+align-items:center;
+gap:14px;
+
+}
+
+.ai-core{
+
+width:48px;
+height:48px;
+border-radius:50%;
+background:#D4AF37;
+box-shadow:0 0 35px #D4AF37;
+animation:pulse 2s infinite;
+
+}
+
+.live-status{
+
+color:#38d996;
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:700;
+
+}
+
+.live-dot{
+
+width:10px;
+height:10px;
+background:#38d996;
+border-radius:50%;
+animation:pulse 1s infinite;
+
+}
+
+.scanner{
+
+height:90px;
+position:relative;
+margin-bottom:18px;
+overflow:hidden;
+border-radius:12px;
+background:#111820;
+
+}
+
+.market-grid{
+
+position:absolute;
+inset:0;
+background-image:
+linear-gradient(#1f2d3d 1px,transparent 1px),
+linear-gradient(90deg,#1f2d3d 1px,transparent 1px);
+
+background-size:20px 20px;
+
+}
+
+.scan-line{
+
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:3px;
+background:#00ffae;
+box-shadow:0 0 15px #00ffae;
+animation:scan 2s linear infinite;
+
+}
+
+@keyframes scan{
+
+0%{top:-10px;}
+
+100%{top:100%;}
+
+}
+
+.market-feed{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:18px;
+
+}
+
+.feed{
+
+display:flex;
+justify-content:space-between;
+padding:10px;
+background:#111820;
+border-radius:10px;
+
+}
+
+.buy{
+
+color:#00ff9d;
+
+}
+
+.sell{
+
+color:#ff5656;
+
+}
+
+.wait{
+
+color:#ffc857;
+
+}
+
+.chart{
+
+width:100%;
+height:220px;
+
+}
+
+.grid line{
+
+stroke:#1d2633;
+
+}
+
+.price-path{
+
+fill:none;
+stroke:#D4AF37;
+stroke-width:3;
+stroke-linecap:round;
+stroke-linejoin:round;
+stroke-dasharray:800;
+stroke-dashoffset:800;
+animation:draw 4s linear infinite;
+
+}
+
+.price-fill{
+
+fill:url(#profit);
+opacity:.25;
+
+}
+
+@keyframes draw{
+
+to{
+
+stroke-dashoffset:0;
+
+}
+
+}
+
+.bot-stats{
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+margin-top:20px;
+gap:12px;
+
+}
+
+.bot-stats div{
+
+background:#111820;
+padding:12px;
+border-radius:12px;
+text-align:center;
+
+}
+
+.bot-stats strong{
+
+display:block;
+margin-top:6px;
+
+}
+
+.terminal-log{
+
+margin-top:20px;
+font-family:monospace;
+color:#00ff9d;
+font-size:13px;
+line-height:1.8;
+height:120px;
+overflow:hidden;
+
+}
+
+.terminal-log p{
+
+animation:fade 5s infinite;
+
+}
+
+@keyframes fade{
+
+0%,100%{
+
+opacity:.3;
+
+}
+
+50%{
+
+opacity:1;
+
+}
+
+}
+
+@keyframes pulse{
+
+50%{
+
+transform:scale(1.08);
+
+box-shadow:0 0 55px #D4AF37;
+
+}
+
+}
+</style>
+</head>
+<body>
+
+<!-- ═════ Reusable inline bot icon (professional monoline mark: robot head reading a live candlestick chart) ═════ -->
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <span class="bot-icon">
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--color-gold-soft)" stroke="var(--color-gold)" stroke-width="1.2"/>
+          <circle cx="16" cy="11.5" r="4.6" stroke="var(--color-gold)" stroke-width="1.3"/>
+          <circle cx="14.2" cy="11.3" r="0.9" fill="var(--color-gold)"/>
+          <circle cx="17.8" cy="11.3" r="0.9" fill="var(--color-gold)"/>
+          <line x1="16" y1="6.9" x2="16" y2="5.2" stroke="var(--color-gold)" stroke-width="1.2"/>
+          <circle cx="16" cy="4.6" r="0.9" fill="var(--color-gold)"/>
+          <path d="M9 26 L12 20 L14.5 22.5 L18 16.5 L21 19.5 L23 15.5" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      SyntheticBot
+    </div>
+    <a href="../contact.html" class="nav-cta">Get SyntheticBot</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="pulse"></span>ACTIVE 24/5 · RULES-BASED ENGINE</div>
+
+      <div class="hero-heading">
+        <span class="bot-icon">
+          <svg width="56" height="56" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="60" height="60" rx="16" fill="var(--color-gold-soft)" stroke="var(--color-gold)" stroke-width="1.4"/>
+            <rect x="20" y="14" width="24" height="18" rx="6" fill="none" stroke="var(--color-gold)" stroke-width="1.6"/>
+            <circle cx="26.5" cy="22.5" r="1.8" fill="var(--color-gold)"/>
+            <circle cx="37.5" cy="22.5" r="1.8" fill="var(--color-gold)"/>
+            <line x1="32" y1="14" x2="32" y2="9" stroke="var(--color-gold)" stroke-width="1.6"/>
+            <circle cx="32" cy="7.5" r="1.6" fill="var(--color-gold)"/>
+            <line x1="15" y1="23" x2="20" y2="23" stroke="var(--color-gold)" stroke-width="1.6"/>
+            <line x1="44" y1="23" x2="49" y2="23" stroke="var(--color-gold)" stroke-width="1.6"/>
+            <rect x="24" y="32" width="16" height="10" rx="3" fill="none" stroke="var(--color-gold)" stroke-width="1.4"/>
+            <path d="M17 52 L23 43 L27 47 L34 36 L39 41 L47 30" stroke="var(--color-gold)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <h1>Your strategy, <span>running</span> while you're not watching.</h1>
+      </div>
+
+      <p class="lead">SyntheticBot is built on rules-based strategy logic that scans the market around the clock, so you don't have to sit in front of charts to catch a setup.</p>
+      <div class="hero-actions">
+        <a href="../contact.html" class="btn-primary">Buy SyntheticBot →</a>
+        <a href="#log" class="btn-secondary">See how it trades</a>
+      </div>
+    </div>
+<div class="chart-card bot-terminal">
+    <div class="terminal-header">
+        <div class="bot-left">
+            <div class="ai-core"></div>
+            <div>
+                <h3>ClaudeFX AI Engine</h3>
+                <small>Quantum Market Scanner</small>
+            </div>
+        </div>
+        <div class="live-status">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
+    </div>
+    <div class="scanner">
+        <div class="scan-line"></div>
+        <div class="market-grid"></div>
+    </div>
+    <svg class="chart" viewBox="0 0 400 220">
+        <defs>
+            <linearGradient id="profit" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#D4AF37"/>
+                <stop offset="100%" stop-color="transparent"/>
+            </linearGradient>
+        </defs>
+        <g class="grid">
+            <line x1="0" y1="40" x2="400" y2="40"/>
+            <line x1="0" y1="90" x2="400" y2="90"/>
+            <line x1="0" y1="140" x2="400" y2="140"/>
+            <line x1="0" y1="190" x2="400" y2="190"/>
+        </g>
+        <path
+        class="price-path"
+        d="M0 180
+        L40 165
+        L70 150
+        L95 155
+        L130 130
+        L165 115
+        L195 125
+        L225 90
+        L255 100
+        L290 70
+        L330 60
+        L370 45
+        L400 28"/>
+        <path
+        class="price-fill"
+        d="M0 180
+        L40 165
+        L70 150
+        L95 155
+        L130 130
+        L165 115
+        L195 125
+        L225 90
+        L255 100
+        L290 70
+        L330 60
+        L370 45
+        L400 28
+        L400 220
+        L0 220Z"/>
+    </svg>
+    <div class="bot-stats">
+        <div>
+            <small>Instruments Scanned</small>
+            <strong>247</strong>
+        </div>
+        <div>
+            <small>Data Points / sec</small>
+            <strong>1,842</strong>
+        </div>
+        <div>
+            <small>Latency</small>
+            <strong>12ms</strong>
+        </div>
+        <div>
+            <small>Uptime</small>
+            <strong class="buy">99.9%</strong>
+        </div>
+    </div>
+    <div class="terminal-log">
+        <p>> Scanning liquidity zones...</p>
+        <p>> Analyzing order flow...</p>
+        <p>> Mapping volatility bands...</p>
+        <p>> Cross-referencing timeframes...</p>
+        <p>> Refreshing market structure...</p>
+    </div>
+</div>
+</header>
+
+<section class="log" id="log">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="pulse"></span>HOW IT TRADES</div>
+      <h2>One loop, running non-stop.</h2>
+      <p>Every trade SyntheticBot takes follows the same disciplined sequence — no improvising, no second-guessing, no missed sessions.</p>
+    </div>
+
+    <div class="log-entry">
+      <div class="log-step">
+        <span class="bot-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="15" r="5.5" stroke="var(--color-gold)" stroke-width="1.4"/>
+            <circle cx="17.8" cy="14.7" r="1" fill="var(--color-gold)"/>
+            <circle cx="22.2" cy="14.7" r="1" fill="var(--color-gold)"/>
+            <path d="M9 30 L13 23 L16 26 L20 19" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="log-body">
+        <h3>Scan <span class="tag">continuous</span></h3>
+        <p>SyntheticBot reads price action and indicators against a fixed set of criteria, watching for setups that match — every hour of every session, five days a week.</p>
+      </div>
+    </div>
+    <div class="log-entry">
+      <div class="log-step">
+        <span class="bot-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="10" width="16" height="12" rx="3" stroke="var(--color-gold)" stroke-width="1.4"/>
+            <circle cx="17" cy="16" r="1.1" fill="var(--color-gold)"/>
+            <circle cx="23" cy="16" r="1.1" fill="var(--color-gold)"/>
+            <path d="M14 30 L18 24 L22 27 L27 20" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <circle cx="27" cy="20" r="1.4" fill="var(--color-gold)"/>
+          </svg>
+        </span>
+      </div>
+      <div class="log-body">
+        <h3>Enter <span class="tag">automatic</span></h3>
+        <p>When conditions align with the strategy's rules, SyntheticBot opens the position itself. No manual click, no hesitation, no missed entry while you're asleep or away from the desk.</p>
+      </div>
+    </div>
+    <div class="log-entry">
+      <div class="log-step">
+        <span class="bot-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 8 L28 11 V19 C28 25 24.5 29 20 31 C15.5 29 12 25 12 19 V11 L20 8Z" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+            <path d="M16.5 19.5 L19 22 L23.5 15.5" stroke="var(--color-gold)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="log-body">
+        <h3>Protect <span class="tag">on entry</span></h3>
+        <p>A stop-loss is attached the moment a trade opens, capping downside from the very first tick — every position, every time.</p>
+      </div>
+    </div>
+    <div class="log-entry">
+      <div class="log-step">
+        <span class="bot-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="9" stroke="var(--color-gold)" stroke-width="1.4"/>
+            <path d="M20 14 V20 L24 23" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="log-body">
+        <h3>Exit <span class="tag">rule-driven</span></h3>
+        <p>SyntheticBot closes the trade the instant the setup is invalidated or the target is reached, taking the emotion out of when to get out.</p>
+      </div>
+    </div>
+    <div class="log-entry">
+      <div class="log-step">
+        <span class="bot-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 10 a10 10 0 1 1 -7.07 2.93" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <path d="M13 8 V13 H18" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="log-body">
+        <h3>Improve <span class="tag">ongoing</span></h3>
+        <p>Strategy logic keeps getting refined, and every update ships to you for the life of your license — no extra charge, no re-purchasing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ticket">
+  <div class="wrap ticket-grid">
+    <div class="ticket-copy">
+      <div class="eyebrow"><span class="pulse"></span>WHY TRADERS RUN SYNTHETICBOT</div>
+      <h2>Built for consistency, not adrenaline.</h2>
+      <p>SyntheticBot doesn't get tired, doesn't skip its stop-loss, and doesn't chase a move out of boredom. It executes the same rules whether it's 3am or a Friday close.</p>
+      <ul class="perk-list">
+        <li><span class="bot-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--color-gold)" stroke-width="1.4"/><path d="M8 12.5 L10.5 15 L16 9" stroke="var(--color-gold)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Runs 24/5 so you're not tied to the charts</li>
+        <li><span class="bot-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--color-gold)" stroke-width="1.4"/><path d="M8 12.5 L10.5 15 L16 9" stroke="var(--color-gold)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Every entry follows predefined, testable criteria</li>
+        <li><span class="bot-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--color-gold)" stroke-width="1.4"/><path d="M8 12.5 L10.5 15 L16 9" stroke="var(--color-gold)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Stop-loss attached on every single trade, automatically</li>
+        <li><span class="bot-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--color-gold)" stroke-width="1.4"/><path d="M8 12.5 L10.5 15 L16 9" stroke="var(--color-gold)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Exits are rule-based — no emotional exits</li>
+        <li><span class="bot-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--color-gold)" stroke-width="1.4"/><path d="M8 12.5 L10.5 15 L16 9" stroke="var(--color-gold)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Lifetime updates to the strategy logic included</li>
+      </ul>
+    </div>
+
+    <div class="order-card">
+      <div class="order-head">
+        <span class="mono">ORDER TICKET</span>
+        <span class="brand-mark">
+          <span class="bot-icon">
+            <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="13" r="5" stroke="var(--color-gold)" stroke-width="1.3"/>
+              <circle cx="13.8" cy="12.7" r="1" fill="var(--color-gold)"/>
+              <circle cx="18.2" cy="12.7" r="1" fill="var(--color-gold)"/>
+              <path d="M9 26 L12.5 20 L15 22.5 L18.5 16.5 L21.5 19.5 L24 15.5" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          SYNTHETICBOT
+        </span>
+      </div>
+      <div class="order-body">
+        <div class="order-row"><span class="k">Engine</span><span class="v">Rules-based logic</span></div>
+        <div class="order-row"><span class="k">Uptime</span><span class="v">24/5</span></div>
+        <div class="order-row"><span class="k">Risk control</span><span class="v up">Auto stop-loss</span></div>
+        <div class="order-row"><span class="k">Exit logic</span><span class="v">Invalidation / target</span></div>
+        <div class="order-row"><span class="k">Updates</span><span class="v up">Lifetime</span></div>
+        <a href="../contact.html" class="buy-btn">Buy SyntheticBot →</a>
+        <div class="fine">Redirects to our contact page to complete your order.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand" style="display:flex; align-items:center; gap:8px;">
+      <span class="bot-icon">
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="13" r="5" stroke="var(--color-gold)" stroke-width="1.3"/>
+          <circle cx="13.8" cy="12.7" r="1" fill="var(--color-gold)"/>
+          <circle cx="18.2" cy="12.7" r="1" fill="var(--color-gold)"/>
+          <path d="M9 26 L12.5 20 L15 22.5 L18.5 16.5 L21.5 19.5 L24 15.5" stroke="var(--color-gold)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      SYNTHETICBOT
+    </div>
+    <p class="disclaimer">Trading forex and CFDs carries a high level of risk and may not be suitable for all investors. Automated execution does not eliminate market risk, and past performance of any strategy is not indicative of future results. Only trade with capital you can afford to lose.</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Keep auth, account, and admin surfaces out of search results
+Disallow: /login.html
+Disallow: /signup.html
+Disallow: /admin-reviews.html
+Disallow: /student-portal/
+
+Sitemap: https://www.claudefxacademy.com/sitemap.xml

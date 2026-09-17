@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to your Claudefx Academy Pro student portal to access courses, live signals, and mentorship resources.">
+  <link rel="canonical" href="https://www.claudefxacademy.com/login.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sign In | Forex Academy Pro">
+  <meta property="og:description" content="Sign in to your Claudefx Academy Pro student portal to access courses, live signals, and mentorship resources.">
+  <meta property="og:url" content="https://www.claudefxacademy.com/login.html">
+  <meta property="og:image" content="https://www.claudefxacademy.com/assets/images/og/og-default.jpg">
+  <meta property="og:site_name" content="Claudefx Academy Pro">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sign In | Forex Academy Pro">
+  <meta name="twitter:description" content="Sign in to your Claudefx Academy Pro student portal to access courses, live signals, and mentorship resources.">
+  <meta name="twitter:image" content="https://www.claudefxacademy.com/assets/images/og/og-default.jpg">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Sign In | Forex Academy Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root{
+    --gold:#C9A84C; --dark:#0A0B0D; --dark2:#111318; --dark3:#1F242E;
+    --text:#F4F5F7; --text-sec:#9CA3B0; --text-muted:#6B7280;
+    --danger:#EF4444; --success:#22C55E;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);}
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;}
+  .box{width:100%;max-width:420px;background:var(--dark2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2.5rem;}
+  .logo{width:48px;height:48px;background:var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;
+        font-family:'Syne',sans-serif;font-weight:800;color:#000;font-size:1.25rem;margin:0 auto 1rem;}
+  h1{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;text-align:center;margin:0 0 .25rem;}
+  .sub{text-align:center;color:var(--text-sec);font-size:.875rem;margin:0 0 1.75rem;}
+  label{display:block;font-size:.8rem;font-weight:600;margin-bottom:.375rem;color:var(--text-sec);}
+  .field{margin-bottom:1rem;}
+  input{width:100%;padding:.75rem .875rem;border-radius:8px;border:1px solid rgba(255,255,255,.1);
+        background:var(--dark3);color:var(--text);font-size:.9rem;font-family:inherit;}
+  input:focus{outline:none;border-color:var(--gold);}
+  .btn{width:100%;padding:.85rem;border:none;border-radius:8px;background:var(--gold);color:#000;
+       font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+  .btn:disabled{opacity:.6;cursor:not-allowed;}
+  .btn:hover:not(:disabled){filter:brightness(1.05);}
+  .msg{padding:.75rem 1rem;border-radius:8px;font-size:.85rem;margin-bottom:1.25rem;display:none;gap:.5rem;align-items:center;}
+  .msg.error{display:flex;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;}
+  .msg.success{display:flex;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#86efac;}
+  .row{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;margin-bottom:1.5rem;}
+  .row a{color:var(--gold);text-decoration:none;font-weight:600;}
+  .row label{display:flex;align-items:center;gap:.4rem;color:var(--text-sec);cursor:pointer;margin:0;font-weight:400;}
+  .row input{width:auto;accent-color:var(--gold);}
+  .foot{text-align:center;margin-top:1.5rem;font-size:.875rem;color:var(--text-muted);}
+  .foot a{color:var(--gold);font-weight:600;text-decoration:none;}
+  .foot a:hover{text-decoration:underline;}
+  .spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;
+           animation:spin .7s linear infinite;display:none;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+<link rel="stylesheet" href="assets/css/enhancements.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="box">
+    <div class="logo">F</div>
+    <h1>Welcome back</h1>
+    <p class="sub">Sign in to your student dashboard</p>
+
+    <div class="msg" id="msg"><i class="fas fa-circle-exclamation"></i><span id="msgText"></span></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password" autocomplete="current-password" required>
+      </div>
+      <div class="row">
+        <label><input type="checkbox" id="remember"> Remember me</label>
+        <a href="forgot-password.html">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn" id="submitBtn">
+        <div class="spinner" id="spinner"></div>
+        <span id="btnText">Sign In</span>
+      </button>
+    </form>
+
+    <div class="foot">Don't have an account? <a href="signup.html">Create one free →</a></div>
+  </div>
+</div>
+
+<script type="module">
+  // ── This page is fully self-contained: Firebase config is inlined below,
+  //    no imports from any other local file in your project. ──
+
+  // Debug logging goes to the browser console only — nothing is shown on the page.
+  function debugLog(text) {
+    console.log(text);
+  }
+
+  try {
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+    const {
+      getAuth,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      setPersistence,
+      browserLocalPersistence,
+      browserSessionPersistence
+    } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+    const {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      serverTimestamp
+    } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4zLVvw6SVuFa7TxU4Ee7Ic7381K6Kz0s",
+      authDomain: "swiftchain-827f2.firebaseapp.com",
+      databaseURL: "https://swiftchain-827f2-default-rtdb.firebaseio.com",
+      projectId: "swiftchain-827f2",
+      storageBucket: "swiftchain-827f2.firebasestorage.app",
+      messagingSenderId: "709059558659",
+      appId: "1:709059558659:web:7c3eb1d6ddba07bb14bd36",
+      measurementId: "G-5SSGXJL3DS"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const form      = document.getElementById('loginForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const spinner   = document.getElementById('spinner');
+    const btnText   = document.getElementById('btnText');
+    const msg       = document.getElementById('msg');
+    const msgText   = document.getElementById('msgText');
+
+    function showMsg(text, type = 'error') {
+      msg.className = 'msg ' + type;
+      msgText.textContent = text;
+    }
+    function setLoading(on) {
+      submitBtn.disabled = on;
+      spinner.style.display = on ? 'inline-block' : 'none';
+      btnText.textContent = on ? 'Signing in…' : 'Sign In';
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return;
+      debugLog('[login] already logged in as ' + user.email);
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        const profile = snap.exists() ? snap.data() : {};
+        window.location.href = profile.role === 'admin'
+          ? 'admin-reviews.html'
+          : 'student-portal/dashboard.html';
+      } catch {
+        window.location.href = 'student-portal/dashboard.html';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const remember = document.getElementById('remember').checked;
+
+      if (!email || !password) return showMsg('Please fill in all fields.');
+
+      setLoading(true);
+
+      try {
+        await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
+
+        const { user } = await signInWithEmailAndPassword(auth, email, password);
+
+        updateDoc(doc(db, 'users', user.uid), { lastLogin: serverTimestamp() }).catch((e) => {
+          debugLog('[login] lastLogin update failed (non-fatal): ' + e.message);
+        });
+
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        const profile = snap.exists() ? snap.data() : {};
+
+        showMsg('Login successful! Redirecting…', 'success');
+        setTimeout(() => {
+          window.location.href = profile.role === 'admin'
+            ? 'admin-reviews.html'
+            : 'student-portal/dashboard.html';
+        }, 700);
+
+      } catch (err) {
+        debugLog('[login] ERROR: ' + err.code + ' — ' + err.message);
+        setLoading(false);
+        const msgs = {
+          'auth/user-not-found':        'No account found with this email.',
+          'auth/wrong-password':        'Incorrect password. Please try again.',
+          'auth/invalid-email':         'Please enter a valid email address.',
+          'auth/too-many-requests':     'Too many attempts. Please try again later.',
+          'auth/invalid-credential':    'Invalid email or password.',
+          'auth/network-request-failed':'Network error. Check your connection and try again.',
+        };
+        showMsg(msgs[err.code] || `Login failed: ${err.message}`);
+      }
+    });
+
+  } catch (fatalErr) {
+    debugLog('[login] FATAL — Firebase SDK failed to load: ' + fatalErr.message);
+    const msg = document.getElementById('msg');
+    const msgText = document.getElementById('msgText');
+    msg.className = 'msg error';
+    msgText.textContent = 'Could not load Firebase. Check your internet connection and try again.';
+  }
+</script>
+<script src="assets/js/enhancements.js" defer></script>
+</body>
+</html>

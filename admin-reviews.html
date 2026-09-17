@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.claudefxacademy.com/admin-reviews.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Review Moderation | Claudefx Academy Pro">
+  <meta property="og:description" content="Professional Forex and Synthetic Indices trading education.">
+  <meta property="og:url" content="https://www.claudefxacademy.com/admin-reviews.html">
+  <meta property="og:image" content="https://www.claudefxacademy.com/assets/images/og/og-default.jpg">
+  <meta property="og:site_name" content="Claudefx Academy Pro">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Review Moderation | Claudefx Academy Pro">
+  <meta name="twitter:description" content="Professional Forex and Synthetic Indices trading education.">
+  <meta name="twitter:image" content="https://www.claudefxacademy.com/assets/images/og/og-default.jpg">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Review Moderation | Claudefx Academy Pro</title>
+<link rel="icon" type="image/png" href="assets/images/logo/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/logo/apple-touch-icon.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/darkmode.css">
+<link rel="stylesheet" href="assets/css/themes.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/enhancements.css">
+<style>
+  body{padding:2rem;max-width:1000px;margin:0 auto;}
+  .adm-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.25rem;margin-bottom:1rem;}
+  .adm-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:flex-start;}
+  .adm-actions button{margin-left:.4rem;}
+  .adm-tabs{display:flex;gap:.5rem;margin:1.5rem 0;}
+  .adm-tabs button{background:var(--color-dark-3);border:1px solid rgba(255,255,255,.08);color:var(--color-text-secondary);padding:.5rem 1rem;border-radius:8px;cursor:pointer;}
+  .adm-tabs button.active{color:var(--color-gold);border-color:var(--color-gold);}
+  #loginBox{max-width:360px;margin:4rem auto;}
+  #loginBox input{width:100%;margin-bottom:.75rem;}
+  .badge-pending{color:var(--color-warning);}
+  .badge-approved{color:var(--color-success);}
+  .badge-rejected{color:var(--color-danger);}
+</style>
+</head>
+<body>
+
+<div id="loginBox" class="adm-card">
+  <h2 style="margin-bottom:1rem;">Admin Sign In</h2>
+  <p style="color:var(--color-text-secondary);font-size:.85rem;margin-bottom:1rem;">Review moderation is restricted to admin accounts (checked against the <code>users/{uid}.role == "admin"</code> field in Firestore).</p>
+  <input class="form-control" type="email" id="admEmail" placeholder="Admin email">
+  <input class="form-control" type="password" id="admPassword" placeholder="Password">
+  <button class="btn btn-primary" style="width:100%;" id="admLoginBtn">Sign In</button>
+  <div id="admLoginMsg" style="margin-top:.75rem;font-size:.85rem;color:var(--color-danger);"></div>
+</div>
+
+<div id="admPanel" style="display:none;">
+  <div class="adm-row" style="align-items:center;">
+    <h1 style="font-size:1.5rem;">Review Moderation</h1>
+    <button class="btn btn-outline btn-sm" id="admLogout">Sign Out</button>
+  </div>
+  <div class="adm-tabs">
+    <button data-tab="pending" class="active">Pending</button>
+    <button data-tab="approved">Approved</button>
+    <button data-tab="rejected">Rejected</button>
+  </div>
+  <div id="admList"></div>
+</div>
+
+<script type="module">
+  import { auth, db } from "./assets/js/firebase-config.js";
+  import { signInWithEmailAndPassword, onAuthStateChanged, signOut }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { collection, query, where, orderBy, getDocs, doc, updateDoc, deleteDoc, getDoc }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const loginBox = document.getElementById('loginBox');
+  const admPanel = document.getElementById('admPanel');
+  let currentTab = 'pending';
+
+  document.getElementById('admLoginBtn').addEventListener('click', async () => {
+    const email = document.getElementById('admEmail').value.trim();
+    const password = document.getElementById('admPassword').value;
+    const msg = document.getElementById('admLoginMsg');
+    msg.textContent = '';
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      msg.textContent = 'Sign in failed: ' + err.message;
+    }
+  });
+
+  document.getElementById('admLogout').addEventListener('click', () => signOut(auth));
+
+  document.querySelectorAll('.adm-tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.adm-tabs button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentTab = btn.getAttribute('data-tab');
+      loadReviews();
+    });
+  });
+
+  async function loadReviews() {
+    const list = document.getElementById('admList');
+    list.innerHTML = '<p style="color:var(--color-text-secondary);">Loading…</p>';
+    const q = query(collection(db, 'reviews'), where('status', '==', currentTab), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    if (snap.empty) {
+      list.innerHTML = '<p style="color:var(--color-text-secondary);">No ' + currentTab + ' reviews.</p>';
+      return;
+    }
+    list.innerHTML = '';
+    snap.forEach(d => {
+      const r = d.data();
+      const card = document.createElement('div');
+      card.className = 'adm-card';
+      card.innerHTML = `
+        <div class="adm-row">
+          <div>
+            <strong>${r.name || 'Anonymous'}</strong> — ${'★'.repeat(r.rating || 0)}${'☆'.repeat(5-(r.rating||0))}
+            <span class="badge-${currentTab}"> (${currentTab})</span>
+            ${r.featured ? '<span style="color:var(--color-gold);"> • Featured</span>' : ''}
+            <p style="margin-top:.5rem;color:var(--color-text-secondary);font-size:.9rem;">${(r.comment||'').replace(/</g,'&lt;')}</p>
+            <p style="font-size:.75rem;color:var(--color-text-muted);">${r.email || 'no email provided'}</p>
+          </div>
+          <div class="adm-actions" style="flex-shrink:0;">
+            <button class="btn btn-sm btn-outline" data-act="approve">Approve</button>
+            <button class="btn btn-sm btn-outline" data-act="reject">Reject</button>
+            <button class="btn btn-sm btn-outline" data-act="feature">${r.featured ? 'Unfeature' : 'Feature'}</button>
+            <button class="btn btn-sm btn-outline" data-act="delete">Delete</button>
+          </div>
+        </div>`;
+      card.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const act = btn.getAttribute('data-act');
+          const ref = doc(db, 'reviews', d.id);
+          if (act === 'approve') await updateDoc(ref, { status: 'approved' });
+          if (act === 'reject') await updateDoc(ref, { status: 'rejected' });
+          if (act === 'feature') await updateDoc(ref, { featured: !r.featured });
+          if (act === 'delete') { if (confirm('Delete this review permanently?')) await deleteDoc(ref); }
+          loadReviews();
+        });
+      });
+      list.appendChild(card);
+    });
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      loginBox.style.display = 'block';
+      admPanel.style.display = 'none';
+      return;
+    }
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    const profile = snap.exists() ? snap.data() : {};
+    if (profile.role !== 'admin') {
+      document.getElementById('admLoginMsg').textContent = 'This account does not have admin access.';
+      await signOut(auth);
+      return;
+    }
+    loginBox.style.display = 'none';
+    admPanel.style.display = 'block';
+    loadReviews();
+  });
+</script>
+</body>
+</html>
