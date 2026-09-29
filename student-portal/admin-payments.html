@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Verification | Claudefx Academy Pro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/darkmode.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <style>
+    body{padding:2rem;max-width:1100px;margin:0 auto;}
+    .adm-tabs{display:flex;gap:.5rem;margin:1.5rem 0;}
+    .adm-tabs button{background:var(--color-dark-3);border:1px solid rgba(255,255,255,.08);color:var(--color-text-secondary);padding:.5rem 1rem;border-radius:8px;cursor:pointer;}
+    .adm-tabs button.active{color:var(--color-gold);border-color:var(--color-gold);}
+    .adm-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.25rem;margin-bottom:1rem;}
+    .adm-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:flex-start;}
+    .adm-meta{font-size:.8rem;color:var(--color-text-secondary);line-height:1.7;}
+    .adm-meta strong{color:var(--color-text-primary);}
+    .adm-actions{display:flex;gap:.5rem;flex-shrink:0;}
+    .adm-reject-box{display:none;margin-top:1rem;}
+    .adm-reject-box.open{display:block;}
+    .adm-reject-box select,.adm-reject-box textarea{width:100%;margin-bottom:.5rem;}
+    .badge-method{font-size:.65rem;padding:.15rem .5rem;border-radius:999px;background:rgba(255,255,255,.08);}
+  </style>
+</head>
+<body>
+<div class="page-loader"><div class="loader-ring"></div></div>
+
+<div class="adm-row" style="align-items:center;margin-bottom:1rem;">
+  <h1 style="font-size:1.5rem;">Payment Verification</h1>
+  <a href="dashboard.html" class="btn btn-outline btn-sm">← Back to Dashboard</a>
+</div>
+
+<div class="adm-tabs">
+  <button data-tab="pending" class="active">Pending</button>
+  <button data-tab="audit">Audit Log</button>
+</div>
+
+<div id="admPending"></div>
+<div id="admAudit" style="display:none;"></div>
+
+<script type="module">
+  import { auth } from "../assets/js/firebase-config.js";
+  import { requireAdmin } from "../assets/js/auth-helpers.js";
+
+  // ⚠️ Must match the URL from `wrangler deploy` (see CLOUDFLARE_SETUP.md)
+  const WORKER_BASE_URL = "https://claudefx-crypto-checkout.YOUR-SUBDOMAIN.workers.dev";
+
+  async function authedFetch(path, options = {}) {
+    const user = auth.currentUser;
+    const idToken = await user.getIdToken();
+    const res = await fetch(WORKER_BASE_URL + path, {
+      ...options,
+      headers: { ...(options.headers || {}), Authorization: 'Bearer ' + idToken },
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+    return data;
+  }
+
+  const REJECT_REASONS = [
+    'Transaction could not be verified',
+    'Incorrect amount',
+    'Invalid transaction ID',
+    'Transaction already used',
+    'Wrong payment recipient / wallet',
+    'Wrong network',
+    'Payment not received',
+    'Other',
+  ];
+
+  function methodLabel(order) {
+    if (order.method === 'mtn') return 'MTN MoMo';
+    if (order.method === 'orange') return 'Orange Money';
+    return 'Crypto — ' + (order.cryptoAsset || '');
+  }
+
+  async function loadPending() {
+    const container = document.getElementById('admPending');
+    container.innerHTML = '<p style="color:var(--color-text-secondary);">Loading…</p>';
+    const { orders } = await authedFetch('/api/admin/pending-payments');
+    if (orders.length === 0) {
+      container.innerHTML = '<p style="color:var(--color-text-secondary);">No pending payments. 🎉</p>';
+      return;
+    }
+    container.innerHTML = '';
+    orders.forEach((order) => {
+      const card = document.createElement('div');
+      card.className = 'adm-card';
+      card.innerHTML = `
+        <div class="adm-row">
+          <div class="adm-meta">
+            <div><strong>${order.email || order.uid}</strong> — <span class="badge-method">${methodLabel(order)}</span></div>
+            <div><strong>Product:</strong> ${order.productTitle}</div>
+            <div><strong>Amount:</strong> $${order.amountUSD}${order.amountXAF ? ' (' + order.amountXAF.toLocaleString() + ' XAF)' : ''}</div>
+            <div><strong>Reference:</strong> ${order.reference}</div>
+            ${order.senderPhone ? `<div><strong>Sender phone:</strong> ${order.senderPhone}</div>` : ''}
+            ${order.senderWallet ? `<div><strong>Sender wallet:</strong> ${order.senderWallet}</div>` : ''}
+            ${order.cryptoNetwork ? `<div><strong>Network:</strong> ${order.cryptoNetwork}</div>` : ''}
+            <div><strong>Submitted:</strong> ${new Date(order.submittedAt).toLocaleString()}</div>
+            <div><strong>Order ID:</strong> ${order.orderId}</div>
+          </div>
+          <div class="adm-actions">
+            <button class="btn btn-primary btn-sm" data-approve="${order.orderId}"><i class="fas fa-check"></i> Approve</button>
+            <button class="btn btn-outline btn-sm" data-reject-toggle="${order.orderId}"><i class="fas fa-times"></i> Reject</button>
+          </div>
+        </div>
+        <div class="adm-reject-box" id="reject-${order.orderId}">
+          <select id="reason-select-${order.orderId}">
+            ${REJECT_REASONS.map((r) => `<option>${r}</option>`).join('')}
+          </select>
+          <textarea id="reason-notes-${order.orderId}" rows="2" placeholder="Additional notes (optional)"></textarea>
+          <button class="btn btn-danger btn-sm" data-confirm-reject="${order.orderId}">Confirm Rejection</button>
+        </div>`;
+      container.appendChild(card);
+    });
+
+    container.querySelectorAll('[data-approve]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Confirm that you have verified this payment through your own MTN/Orange/crypto records?')) return;
+        btn.disabled = true;
+        try {
+          await authedFetch('/api/admin/approve-payment', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderId: btn.dataset.approve }),
+          });
+          loadPending();
+        } catch (err) { alert(err.message); btn.disabled = false; }
+      });
+    });
+    container.querySelectorAll('[data-reject-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.getElementById('reject-' + btn.dataset.rejectToggle).classList.toggle('open');
+      });
+    });
+    container.querySelectorAll('[data-confirm-reject]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const orderId = btn.dataset.confirmReject;
+        const reasonSelect = document.getElementById('reason-select-' + orderId).value;
+        const notes = document.getElementById('reason-notes-' + orderId).value.trim();
+        const reason = notes ? `${reasonSelect}: ${notes}` : reasonSelect;
+        btn.disabled = true;
+        try {
+          await authedFetch('/api/admin/reject-payment', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderId, reason }),
+          });
+          loadPending();
+        } catch (err) { alert(err.message); btn.disabled = false; }
+      });
+    });
+  }
+
+  async function loadAudit() {
+    const container = document.getElementById('admAudit');
+    container.innerHTML = '<p style="color:var(--color-text-secondary);">Loading…</p>';
+    const { entries } = await authedFetch('/api/admin/audit-log');
+    if (entries.length === 0) {
+      container.innerHTML = '<p style="color:var(--color-text-secondary);">No activity yet.</p>';
+      return;
+    }
+    container.innerHTML = entries.map((e) => `
+      <div class="adm-card" style="padding:.85rem 1.25rem;">
+        <div class="adm-meta">
+          <strong>${e.action.toUpperCase()}</strong> by ${e.by} — Order ${e.orderId}
+          ${e.reason ? `<br>Reason: ${e.reason}` : ''}
+          <br><span style="color:var(--color-text-muted);">${new Date(e.at).toLocaleString()}</span>
+        </div>
+      </div>`).join('');
+  }
+
+  document.querySelectorAll('.adm-tabs button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.adm-tabs button').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('admPending').style.display = btn.dataset.tab === 'pending' ? 'block' : 'none';
+      document.getElementById('admAudit').style.display = btn.dataset.tab === 'audit' ? 'block' : 'none';
+      if (btn.dataset.tab === 'audit') loadAudit();
+    });
+  });
+
+  requireAdmin().then(() => {
+    loadPending();
+  }).catch(() => {
+    // requireAdmin() already redirects to login
+  });
+</script>
+</body>
+</html>

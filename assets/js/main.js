@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
   FAQ.init();
   Tabs.init();
   Counter.init();
-  Ticker.init();
+  // Ticker.init(); // disabled — was displaying randomly-simulated prices labeled as "live forex rates", which is misleading. Wire this to a real market-data feed before re-enabling.
   ThemeToggle.init();
   StaggerObserver.init();
   SwiperInit.init();

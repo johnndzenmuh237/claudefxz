@@ -1,31 +1,10 @@
-HOW TO APPLY THESE RULES
-=========================
-1. Go to https://console.firebase.google.com/ → your project (swiftchain-827f2)
-2. Firestore Database → Rules tab
-3. Paste the rules below, replacing what's there → Publish
-
-WHY THIS MATTERS
-=================
-Your Firebase apiKey/project config in assets/js/firebase-config.js being visible
-in the page source is normal and expected for Firebase web apps — it is NOT a
-secret key. The real security boundary is the Firestore Rules below. Without
-rules like these, anyone can read/write ANY data in your database, including
-other users' profiles, or approve their own fake reviews.
-
-To make an account an admin: in Firestore, open the "users" collection, find
-that user's document (its ID is their Firebase Auth UID), and add a field
-role (string) = "admin".
-
-RULES
-=====
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Reviews: anyone can submit a new review as "pending".
-    // Only approved reviews are publicly readable.
-    // Only admins can change status/featured or delete.
+    /* ---------- Reviews ---------- */
+    // Anyone can submit a new review as "pending".
+    // Only approved reviews are publicly readable; admins can read all.
     match /reviews/{reviewId} {
       allow read: if resource.data.status == "approved"
                   || (request.auth != null
@@ -47,8 +26,9 @@ service cloud.firestore {
                     && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
     }
 
-    // Users: a user can read/update their own profile.
-    // Nobody can write their own "role" field (prevents self-promotion to admin).
+    /* ---------- Users ---------- */
+    // A user can read/update their own profile. Nobody can write their own
+    // "role" field (prevents self-promotion to admin).
     match /users/{userId} {
       allow read: if request.auth != null && request.auth.uid == userId;
       allow create: if request.auth != null && request.auth.uid == userId
@@ -57,15 +37,14 @@ service cloud.firestore {
                     && request.resource.data.role == resource.data.role;
     }
 
-    // Default deny everything else — add explicit rules for any other
-    // collection your dashboard/student-portal pages use (courses,
-    // signals, assignments, etc.) before relying on this in production.
+    /* ---------- Default deny ---------- */
+    // Add explicit rules above for any other collection your dashboard/
+    // student-portal pages use before relying on this in production.
+    // NOTE: crypto orders and ebook products are NOT stored here — they
+    // live in Cloudflare Workers KV (see cloudflare/src/index.js), which
+    // is why there's no "orders" or "products" collection in these rules.
     match /{document=**} {
       allow read, write: if false;
     }
   }
 }
-
-ALSO CHECK: your Realtime Database (databaseURL in firebase-config.js) has its
-own separate security rules under Realtime Database → Rules — lock that down
-the same way if you're using it.

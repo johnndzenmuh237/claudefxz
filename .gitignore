@@ -1,0 +1,22 @@
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Cloudflare Workers (wrangler)
+cloudflare/node_modules/
+cloudflare/.wrangler/
+cloudflare/.dev.vars
+
+# Node
+node_modules/
+
+# Secrets — NEVER commit these
+.env
+.env.local
+serviceAccountKey.json
+
+# OS junk
+.DS_Store
+Thumbs.db

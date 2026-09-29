@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create Account | Forex Academy Pro</title>
+  <meta name="description" content="Create your free Claudefx Academy Pro account to start learning Forex and Synthetic Indices trading.">
+  <link rel="canonical" href="https://www.claudefxacademy.com/signup.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Create Account | Forex Academy Pro">
+  <meta property="og:description" content="Create your free Claudefx Academy Pro account to start learning Forex and Synthetic Indices trading.">
+  <meta property="og:url" content="https://www.claudefxacademy.com/signup.html">
+  <meta property="og:image" content="https://www.claudefxacademy.com/assets/images/og/og-default.jpg">
+  <meta property="og:site_name" content="Claudefx Academy Pro">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Create Account | Forex Academy Pro">
+  <meta name="twitter:description" content="Create your free Claudefx Academy Pro account to start learning Forex and Synthetic Indices trading.">
+  <meta name="twitter:image" content="https://www.claudefxacademy.com/assets/images/og/og-default.jpg">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Create Account | Forex Academy Pro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -43,6 +56,7 @@
            animation:spin .7s linear infinite;display:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
 </style>
+<link rel="stylesheet" href="assets/css/enhancements.css">
 </head>
 <body>
 <div class="wrap">
@@ -142,7 +156,7 @@
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        window.location.href = '../student-portal/dashboard.html';
+        window.location.href = 'student-portal/dashboard.html';
       }
     });
 
@@ -187,7 +201,7 @@
 
         showMsg('Account created! Redirecting…', 'success');
         setTimeout(() => {
-          window.location.href = '../student-portal/dashboard.html';
+          window.location.href = 'student-portal/dashboard.html';
         }, 900);
 
       } catch (err) {
@@ -212,5 +226,6 @@
     msgText.textContent = 'Could not load Firebase. Check your internet connection and try again.';
   }
 </script>
+<script src="assets/js/enhancements.js" defer></script>
 </body>
 </html>

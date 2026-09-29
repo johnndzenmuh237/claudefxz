@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Library | Claudefx Academy Pro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/darkmode.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <style>
+    .lib-empty{text-align:center;padding:4rem 1.5rem;color:var(--color-text-secondary);}
+    .lib-empty i{font-size:2.5rem;color:var(--color-gold);margin-bottom:1rem;display:block;}
+    .lib-item{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:1.5rem;margin-bottom:1.25rem;}
+    .lib-item-head{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;}
+    .lib-item-head i{font-size:1.3rem;color:var(--color-gold);}
+    .lib-item-head h3{font-size:1.05rem;margin:0;}
+    .lib-item-head .type-badge{font-size:.65rem;background:rgba(201,168,76,.12);color:var(--color-gold);padding:.15rem .55rem;border-radius:999px;margin-left:auto;}
+    .lib-file-row{display:flex;align-items:center;gap:.75rem;padding:.65rem 0;border-top:1px solid rgba(255,255,255,.05);}
+    .lib-file-row:first-of-type{border-top:none;}
+    .lib-file-row .fname{flex:1;font-size:.88rem;color:var(--color-text-primary);}
+    .lib-file-row i.ftype{color:var(--color-text-muted);width:18px;}
+    .lib-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+    .lib-modal-overlay.open{display:flex;}
+    .lib-modal{background:var(--color-dark-2);border-radius:14px;width:100%;max-width:900px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+    .lib-modal-head{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.08);}
+    .lib-modal-head .title{font-weight:600;flex:1;}
+    .lib-modal-body{flex:1;overflow:auto;background:#000;display:flex;align-items:center;justify-content:center;min-height:300px;}
+    .lib-modal-body iframe,.lib-modal-body video{width:100%;height:70vh;border:none;}
+  </style>
+</head>
+<body>
+<div class="page-loader"><div class="loader-ring"></div></div>
+<div class="dashboard-layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="dashboard.html" class="sidebar-brand">
+      <img src="../assets/images/logo/logo-icon.jpg" alt="" class="brand-logo" style="width:32px;height:32px;border-radius:8px;">
+      <span class="sidebar-brand-name">Claudefx<span style="color:var(--color-gold);">Academy</span></span>
+    </a>
+    <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link"><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a>
+      <a href="my-courses.html" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
+      <a href="library.html" class="sidebar-link active"><i class="fas fa-book-open"></i><span class="link-text">My Library</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Resources</div>
+      <a href="downloads.html" class="sidebar-link"><i class="fas fa-download"></i><span class="link-text">Downloads</span></a>
+      <a href="crypto-guide.html" class="sidebar-link"><i class="fas fa-coins"></i><span class="link-text">Buy Crypto Guide</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Account</div>
+      <a href="profile.html" class="sidebar-link"><i class="fas fa-user"></i><span class="link-text">My Profile</span></a>
+      <a href="../index.html" class="sidebar-link"><i class="fas fa-globe"></i><span class="link-text">Back to Site</span></a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <img class="sidebar-user-avatar" src="../assets/images/traders/student-avatar.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">
+      <div><div class="sidebar-user-name" data-user-name>Loading…</div><div class="sidebar-user-role" data-user-plan>Starter</div></div>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<div class="dashboard-main" id="dashboard-main">
+  <div class="dashboard-topbar"><div class="topbar-left"><button class="topbar-mobile-toggle"><i class="fas fa-bars"></i></button></div></div>
+
+  <div class="dashboard-content">
+    <div class="dash-page-header">
+      <div><h1 class="dash-page-title">My Library</h1><p class="dash-page-sub">Your purchased ebooks and course videos — read, watch, or save to your device anytime.</p></div>
+      <a href="../pricing.html" class="btn btn-outline btn-sm"><i class="fas fa-plus"></i> Browse More</a>
+    </div>
+
+    <div id="libLoading" style="text-align:center;padding:3rem;color:var(--color-text-secondary);"><i class="fas fa-spinner fa-spin"></i> Loading your library…</div>
+    <div id="libEmpty" class="lib-empty" style="display:none;">
+      <i class="fas fa-book"></i>
+      <p>You haven't unlocked anything yet.</p>
+      <a href="../pricing.html" class="btn btn-primary" style="margin-top:1rem;">Browse Ebooks & Courses</a>
+    </div>
+    <div id="libItems"></div>
+  </div>
+</div>
+</div>
+
+<div class="lib-modal-overlay" id="libModalOverlay">
+  <div class="lib-modal">
+    <div class="lib-modal-head">
+      <span class="title" id="libModalTitle">Loading…</span>
+      <button class="btn btn-outline btn-sm" id="libModalDownload"><i class="fas fa-download"></i> Save to Device</button>
+      <button class="btn btn-ghost btn-sm" id="libModalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="lib-modal-body" id="libModalBody"></div>
+  </div>
+</div>
+
+<script src="../assets/vendors/aos/aos.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+<script type="module" src="../assets/js/library.js"></script>
+</body>
+</html>

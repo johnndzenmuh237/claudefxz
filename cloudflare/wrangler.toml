@@ -1,0 +1,20 @@
+name = "claudefx-crypto-checkout"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# Workers KV namespace — stores orders, download tokens, and the audit log.
+# Create with: wrangler kv namespace create ORDERS_KV
+# Then paste the printed "id" below.
+kv_namespaces = [
+  { binding = "ORDERS_KV", id = "e1c55e2dded747778ec60242dd2305af" }
+]
+
+# R2 bucket — stores BOTH ebook PDFs and course videos.
+# Create with: wrangler r2 bucket create claudefx-media
+r2_buckets = [
+  { binding = "MEDIA_BUCKET", bucket_name = "claudefx-media" }
+]
+
+# No secrets needed anymore — MTN/Orange/crypto details are configured
+# directly in src/index.js (see the top of that file), since payments are
+# verified manually rather than through a paid third-party API.

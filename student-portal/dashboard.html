@@ -71,7 +71,7 @@
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <a href="dashboard.html" class="sidebar-brand">
-      <img src="../assets/images/logo/logo-icon.png" alt="Logo" onerror="this.style.display='none'">
+      <img src="../assets/images/logo/logo-icon.jpg" alt="Logo" onerror="this.style.display='none'">
       <span class="sidebar-brand-name">Forex<span style="color:var(--color-gold);">Academy</span></span>
     </a>
     <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
@@ -81,6 +81,7 @@
       <div class="sidebar-nav-group-label">Main</div>
       <a href="dashboard.html" class="sidebar-link active"><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a>
       <a href="my-courses.html" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
+      <a href="library.html" class="sidebar-link"><i class="fas fa-book-open"></i><span class="link-text">My Library</span></a>
       <a href="live-sessions.html" class="sidebar-link"><i class="fas fa-video"></i><span class="link-text">Live Sessions</span><span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span></a>
       <a href="assignments.html" class="sidebar-link"><i class="fas fa-tasks"></i><span class="link-text">Assignments</span><span class="badge badge-danger" id="assignmentBadge" style="font-size:9px;margin-left:auto;display:none;">0</span></a>
     </div>
@@ -92,12 +93,13 @@
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Resources</div>
       <a href="downloads.html" class="sidebar-link"><i class="fas fa-download"></i><span class="link-text">Downloads</span></a>
+      <a href="crypto-guide.html" class="sidebar-link"><i class="fas fa-coins"></i><span class="link-text">Buy Crypto Guide</span></a>
       <a href="certificates.html" class="sidebar-link"><i class="fas fa-certificate"></i><span class="link-text">Certificates</span></a>
     </div>
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Support</div>
-      <a href="contact.html" class="sidebar-link"><i class="fas fa-headset"></i><span class="link-text">Contact Us</span></a>
-      <a href="faq.html" class="sidebar-link"><i class="fas fa-circle-question"></i><span class="link-text">Help &amp; FAQ</span></a>
+      <a href="../contact.html" class="sidebar-link"><i class="fas fa-headset"></i><span class="link-text">Contact Us</span></a>
+      <a href="../faq.html" class="sidebar-link"><i class="fas fa-circle-question"></i><span class="link-text">Help &amp; FAQ</span></a>
     </div>
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Account</div>
@@ -381,7 +383,7 @@ function flashUpdate(id) { const el=document.getElementById(id); if(!el)return; 
 function renderCourseProgress(courses) {
   const el = document.getElementById('courseProgressList');
   if (!courses.length) { el.innerHTML='<div style="text-align:center;padding:2rem;color:var(--color-text-muted);font-size:.875rem;"><i class="fas fa-graduation-cap" style="font-size:2rem;display:block;margin-bottom:.75rem;opacity:.3;"></i>No courses enrolled yet.<br><a href="../courses.html" style="color:var(--color-gold);">Browse courses →</a></div>'; return; }
-  el.innerHTML = courses.map(c=>`<div class="course-progress-item"><img class="course-progress-thumb" src="${c.thumb||'../assets/images/courses/placeholder.jpg'}" alt="${c.title}" onerror="this.style.background='var(--color-dark-3)'"><div class="course-progress-info"><div class="course-progress-name">${c.title}</div><div class="course-progress-bar-wrap"><div class="progress"><div class="progress-bar" style="width:${c.progress||0}%;${c.progress>=100?'background:var(--color-success);':''}"></div></div><span class="course-progress-pct" ${c.progress>=100?'style="color:var(--color-success);"':''}>${c.progress>=100?'✓':(c.progress||0)+'%'}</span></div></div></div>`).join('');
+  el.innerHTML = courses.map(c=>`<div class="course-progress-item"><img class="course-progress-thumb" src="${c.thumb||'../assets/images/courses/course-1.jpg'}" alt="${c.title}" onerror="this.style.background='var(--color-dark-3)'"><div class="course-progress-info"><div class="course-progress-name">${c.title}</div><div class="course-progress-bar-wrap"><div class="progress"><div class="progress-bar" style="width:${c.progress||0}%;${c.progress>=100?'background:var(--color-success);':''}"></div></div><span class="course-progress-pct" ${c.progress>=100?'style="color:var(--color-success);"':''}>${c.progress>=100?'✓':(c.progress||0)+'%'}</span></div></div></div>`).join('');
 }
 
 function renderActivity(activities) {

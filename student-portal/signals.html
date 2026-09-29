@@ -161,11 +161,6 @@
   .disclosure strong{color:var(--color-text-primary);}
   .disclosure .badge{margin:0 3px; vertical-align:1px;}
 
-  /* TRACK RECORD (previous batch) ----------------------------------------- */
-  .track-record-panel{margin-top:40px; padding-top:36px; border-top:1px dashed var(--color-line);}
-  .signal-card.tr-closed{opacity:.82;}
-  .signal-card.tr-closed:hover{transform:none; border-color:var(--color-line);}
-
   /* BOT PANEL (activity feed) -------------------------------------------- */
   .bot-panel{
     position:relative; overflow:hidden;
@@ -328,7 +323,7 @@
 
 <nav>
   <div class="wrap">
-    <a href="index.html" class="brand">
+    <a href="../index.html" class="brand">
       <span class="bot-icon">
         <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--color-gold-soft)" stroke="var(--color-gold)" stroke-width="1.2"/>
@@ -343,11 +338,11 @@
       Claudefx Academy
     </a>
     <div class="nav-links">
-      <a href="index.html">Home</a>
+      <a href="../index.html">Home</a>
       <a href="signals.html" class="active">Live Signals</a>
       <a href="bot.html">SyntheticBot</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="contact.html">Contact</a>
+      <a href="../pricing.html">Pricing</a>
+      <a href="../contact.html">Contact</a>
     </div>
     <a href="bot.html" class="nav-cta">Get SyntheticBot</a>
   </div>
@@ -355,7 +350,7 @@
 
 <header class="hero">
   <div class="wrap hero-center">
-    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span style="color:var(--color-gold);">Live Signals</span></div>
+    <div class="breadcrumb"><a href="../index.html">Home</a><span>/</span><span style="color:var(--color-gold);">Live Signals</span></div>
     <div class="eyebrow" style="margin:0 auto 22px; width:fit-content;"><span class="pulse"></span>POWERED BY SYNTHETICBOT</div>
     <div class="hero-heading">
       <span class="bot-icon">
@@ -453,20 +448,6 @@
       <div>
         <strong>What you're seeing:</strong> cards tagged <span class="badge badge-success"><span class="live-dot" style="margin-right:4px;"></span>Live</span> use real, currently-fetched Forex market rates as the entry price; cards tagged <span class="badge badge-gold">Sample</span> use a fallback rate if a live quote isn't available at that moment. TP/SL, outcomes, and SyntheticBot's notes on every card are <strong>illustrative example setups for education</strong>, and the batch intentionally includes wins, losses, and open trades — not a cherry-picked or verified trade history, and not a promise of results. The batch rotates automatically every 24 hours. Synthetic Indices and Gold aren't part of this free sample — they run as VIP-only Professional Bots, shown further down this page.
       </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════
-         TRACK RECORD — yesterday's finished batch,
-         shown before today's new batch below.
-    ═══════════════════════════════════════════ -->
-    <div class="track-record-panel" id="track-record-panel" style="display:none;">
-      <div class="section-head" style="margin-bottom:28px;">
-        <div class="eyebrow"><i class="fas fa-clock-rotate-left" style="margin-right:4px;"></i> TRACK RECORD</div>
-        <h2>Yesterday's finished batch</h2>
-        <p>Here's exactly how SyntheticBot's previous sample batch played out, wins and losses included, before today's new signals below.</p>
-      </div>
-      <div class="stats-grid" id="track-record-stats" style="margin-bottom:24px;"></div>
-      <div class="signals-grid" id="track-record-grid"></div>
     </div>
 
     <div class="section-toolbar" style="margin-top:48px;">
@@ -668,10 +649,6 @@
 (function(){
   "use strict";
 
-  const TRADE_NOW_URL = "https://partner-tracking.deriv.com/click?a=35362&o=1&c=3&link_id=1";
-  const HISTORY_KEY = "syntheticbot_signal_history";
-  const HISTORY_MAX_DAYS = 14;
-
   function mulberry32(seed){
     return function(){
       seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
@@ -716,29 +693,6 @@
   ];
 
   let liveRates = null;
-
-  /* ── Batch history (persisted so we can show yesterday's results) ── */
-  function loadHistory(){
-    try{
-      const raw = localStorage.getItem(HISTORY_KEY);
-      return raw ? JSON.parse(raw) : {};
-    }catch(e){
-      return {};
-    }
-  }
-  function saveHistory(history){
-    try{
-      const keys = Object.keys(history).map(Number).sort((a,b)=>b-a);
-      const pruned = {};
-      keys.slice(0, HISTORY_MAX_DAYS).forEach(k => { pruned[k] = history[k]; });
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(pruned));
-    }catch(e){ /* localStorage unavailable — history simply won't persist */ }
-  }
-  function getPreviousBatch(history, currentDayIndex){
-    const priorKeys = Object.keys(history).map(Number).filter(k => k < currentDayIndex);
-    if(!priorKeys.length) return null;
-    return history[Math.max(...priorKeys)] || null;
-  }
 
   function pairPrice(pair, rates){
     if(!rates) return null;
@@ -839,54 +793,7 @@
           <span><b>SyntheticBot:</b> ${s.note}</span>
         </div>
         <div class="signal-status-row">${statusBadge(s.status)}<span class="meta">Today</span></div>
-        <a href="${TRADE_NOW_URL}" target="_blank" rel="noopener noreferrer" class="btn-primary sm"><i class="fas fa-paper-plane"></i> Trade now</a>
-      </div>
-    `).join('');
-  }
-
-  function renderTrackRecord(batch){
-    const panel = document.getElementById('track-record-panel');
-    const statsEl = document.getElementById('track-record-stats');
-    const gridEl = document.getElementById('track-record-grid');
-    if(!panel || !statsEl || !gridEl) return;
-
-    if(!batch || !batch.length){
-      panel.style.display = 'none';
-      return;
-    }
-    panel.style.display = '';
-
-    const closed = batch.filter(s => s.status !== "active");
-    const wins = closed.filter(s => s.status === "tp").length;
-    const winRate = closed.length ? Math.round((wins/closed.length)*100) : 0;
-    const netPips = batch.reduce((a,s) => a + s.pips, 0);
-
-    statsEl.innerHTML = `
-      <div class="stat-card"><div class="n mono">${batch.length}</div><div class="l">Signals in that batch</div></div>
-      <div class="stat-card"><div class="n mono">${winRate}%</div><div class="l">Win rate</div><div class="c">Of closed setups</div></div>
-      <div class="stat-card"><div class="n mono" style="color:${netPips<0?'var(--color-danger)':'var(--color-gold)'};">${netPips>0?'+':''}${netPips}</div><div class="l">Net pips</div></div>
-      <div class="stat-card"><div class="n mono">${wins}/${closed.length}</div><div class="l">TP vs. closed</div></div>
-    `;
-
-    gridEl.innerHTML = batch.map(s => `
-      <div class="signal-card tr-closed" data-market="${s.market}">
-        <div class="signal-card-top">
-          <span class="signal-pair">${s.instrument}</span>
-          <span class="signal-dir ${s.type}">${s.type.toUpperCase()}</span>
-        </div>
-        <div class="signal-tagrow">
-          ${s.tag==="live"
-            ? `<span class="badge badge-success">Was Live</span>`
-            : `<span class="badge badge-gold">Sample</span>`}
-          <span class="mono" style="font-size:13px; color:var(--color-text-muted);">${fmt(s.entry, s.decimals)}</span>
-        </div>
-        <div>
-          <div class="signal-price-row"><span>Entry</span><b>${fmt(s.entry, s.decimals)}</b></div>
-          <div class="signal-price-row"><span>TP1</span><b style="color:var(--color-success);">${fmt(s.tp, s.decimals)}</b></div>
-          <div class="signal-price-row"><span>SL</span><b style="color:var(--color-danger);">${fmt(s.sl, s.decimals)}</b></div>
-          <div class="signal-price-row"><span>Pips / R:R</span><b style="color:${s.pips<0?'var(--color-danger)':'var(--color-success)'};">${s.pips>0?'+':''}${s.pips} · 1:${s.rr}</b></div>
-        </div>
-        <div class="signal-status-row">${statusBadge(s.status)}<span class="meta">Previous batch</span></div>
+        <a href="bot.html" class="btn-primary sm"><i class="fas fa-paper-plane"></i> Subscribe for signals like this</a>
       </div>
     `).join('');
   }
@@ -942,7 +849,7 @@
     function apply(){
       const active = document.querySelector('[data-signal-filter].is-active')?.dataset.signalFilter || 'all';
       const q = (search?.value || '').toLowerCase().trim();
-      document.querySelectorAll('#signals [data-signals-grid] .signal-card').forEach(card=>{
+      document.querySelectorAll('.signal-card').forEach(card=>{
         const status = card.dataset.status;
         const pair = card.dataset.pair;
         let show = true;
@@ -1072,37 +979,31 @@
   }
 
   async function init(){
-    const history = loadHistory();
-    const previousBatch = getPreviousBatch(history, dayIndex);
-    renderTrackRecord(previousBatch);
-
-    let todaysBatch = history[dayIndex];
-
-    if(!todaysBatch){
-      try{
-        liveRates = await withTimeout(fetchLiveRates(), 4500);
-      }catch(e){
-        liveRates = null;
-      }
-
-      try{
-        todaysBatch = buildBatch();
-      }catch(e){
-        console.error('Signals batch failed to build, retrying with sample data only:', e);
-        liveRates = null;
-        todaysBatch = buildBatch();
-      }
-
-      history[dayIndex] = todaysBatch;
-      saveHistory(history);
+    try{
+      liveRates = await withTimeout(fetchLiveRates(), 4500);
+    }catch(e){
+      liveRates = null;
     }
 
-    renderCards(todaysBatch);
-    renderTable(todaysBatch);
-    renderStats(todaysBatch);
-    wireFilters();
-    startFlicker();
-    startBotPanel(todaysBatch);
+    try{
+      const batch = buildBatch();
+      renderCards(batch);
+      renderTable(batch);
+      renderStats(batch);
+      wireFilters();
+      startFlicker();
+      startBotPanel(batch);
+    }catch(e){
+      console.error('Signals section failed to render, retrying with sample data only:', e);
+      liveRates = null;
+      const batch = buildBatch();
+      renderCards(batch);
+      renderTable(batch);
+      renderStats(batch);
+      wireFilters();
+      startFlicker();
+      startBotPanel(batch);
+    }
   }
 
   if(document.readyState === 'loading'){

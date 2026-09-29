@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In | Forex Academy Pro</title>
+  <meta name="description" content="Sign in to your Claudefx Academy Pro student portal to access courses, live signals, and mentorship resources.">
+  <link rel="canonical" href="https://www.claudefxacademy.com/login.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sign In | Forex Academy Pro">
+  <meta property="og:description" content="Sign in to your Claudefx Academy Pro student portal to access courses, live signals, and mentorship resources.">
+  <meta property="og:url" content="https://www.claudefxacademy.com/login.html">
+  <meta property="og:image" content="https://www.claudefxacademy.com/assets/images/og/og-default.jpg">
+  <meta property="og:site_name" content="Claudefx Academy Pro">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sign In | Forex Academy Pro">
+  <meta name="twitter:description" content="Sign in to your Claudefx Academy Pro student portal to access courses, live signals, and mentorship resources.">
+  <meta name="twitter:image" content="https://www.claudefxacademy.com/assets/images/og/og-default.jpg">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Sign In | Forex Academy Pro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -45,6 +58,7 @@
            animation:spin .7s linear infinite;display:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
 </style>
+<link rel="stylesheet" href="assets/css/enhancements.css">
 </head>
 <body>
 <div class="wrap">
@@ -137,17 +151,24 @@
       btnText.textContent = on ? 'Signing in…' : 'Sign In';
     }
 
+    function getRedirectTarget(profile) {
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect');
+      if (redirect && redirect.startsWith('/') === false && !redirect.includes('://')) {
+        return redirect; // only allow relative, same-site paths — never an external URL
+      }
+      return profile.role === 'admin' ? 'admin-reviews.html' : 'student-portal/dashboard.html';
+    }
+
     onAuthStateChanged(auth, async (user) => {
       if (!user) return;
       debugLog('[login] already logged in as ' + user.email);
       try {
         const snap = await getDoc(doc(db, 'users', user.uid));
         const profile = snap.exists() ? snap.data() : {};
-        window.location.href = profile.role === 'admin'
-          ? '../admin/dashboard.html'
-          : '../student-portal/dashboard.html';
+        window.location.href = getRedirectTarget(profile);
       } catch {
-        window.location.href = '../student-portal/dashboard.html';
+        window.location.href = getRedirectTarget({});
       }
     });
 
@@ -176,9 +197,7 @@
 
         showMsg('Login successful! Redirecting…', 'success');
         setTimeout(() => {
-          window.location.href = profile.role === 'admin'
-            ? '../admin/dashboard.html'
-            : '../student-portal/dashboard.html';
+          window.location.href = getRedirectTarget(profile);
         }, 700);
 
       } catch (err) {
@@ -204,5 +223,6 @@
     msgText.textContent = 'Could not load Firebase. Check your internet connection and try again.';
   }
 </script>
+<script src="assets/js/enhancements.js" defer></script>
 </body>
 </html>
