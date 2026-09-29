@@ -271,7 +271,7 @@ const CourseCatalog = {
               <div class="price-original">$${c.original}</div>
             </div>
           </div>
-          <a href="course-single.html?id=${c.id}" class="btn btn-primary w-full mt-4" style="justify-content:center; margin-top:16px;">
+          <a href="student-portal/checkout.html?product=course-${c.id}" class="btn btn-primary w-full mt-4" style="justify-content:center; margin-top:16px;">
             <i class="fas fa-graduation-cap"></i> Enroll Now
           </a>
         </div>

@@ -37,12 +37,48 @@ service cloud.firestore {
                     && request.resource.data.role == resource.data.role;
     }
 
+    /* ---------- Payments (manual verification) ---------- */
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() {
+      return isSignedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    // A buyer can create ONLY a pending order for themselves and read their own.
+    // Only an admin can approve / reject (update). Nobody can delete.
+    match /orders/{orderId} {
+      allow read:   if isSignedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isSignedIn()
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.status == "pending"
+                    && request.resource.data.verifiedAt == null
+                    && request.resource.data.verifiedBy == null
+                    && request.resource.data.priceUsd is number
+                    && request.resource.data.priceUsd > 0;
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+
+    // Duplicate-transaction lock: doc ID = the transaction ID / hash.
+    // Users may read a single doc (needed for the check) and CREATE it, never edit it.
+    match /usedReferences/{refId} {
+      allow get:    if isSignedIn();
+      allow list:   if isAdmin();
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    // Admin approve/reject history.
+    match /auditLog/{entryId} {
+      allow read, create: if isAdmin();
+      allow update, delete: if false;
+    }
+
     /* ---------- Default deny ---------- */
     // Add explicit rules above for any other collection your dashboard/
     // student-portal pages use before relying on this in production.
-    // NOTE: crypto orders and ebook products are NOT stored here — they
-    // live in Cloudflare Workers KV (see cloudflare/src/index.js), which
-    // is why there's no "orders" or "products" collection in these rules.
+    // Orders live in the "orders" collection above (no Cloudflare Worker needed).
     match /{document=**} {
       allow read, write: if false;
     }

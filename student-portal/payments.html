@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Library | Claudefx Academy Pro</title>
+  <title>My Payments | Claudefx Academy Pro</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +35,13 @@
     .lib-modal-head .title{font-weight:600;flex:1;}
     .lib-modal-body{flex:1;overflow:auto;background:#000;display:flex;align-items:center;justify-content:center;min-height:300px;}
     .lib-modal-body iframe,.lib-modal-body video{width:100%;height:70vh;border:none;}
+  .pay-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center;}
+    .pay-card .meta{font-size:.8rem;color:var(--color-text-secondary);line-height:1.7;}
+    .pay-card .meta strong{color:var(--color-text-primary);}
+    .pill{font-size:.68rem;font-weight:700;padding:.25rem .7rem;border-radius:999px;}
+    .pill.pending{background:rgba(245,158,11,.15);color:var(--color-warning);}
+    .pill.approved{background:rgba(34,197,94,.15);color:var(--color-success);}
+    .pill.rejected{background:rgba(239,68,68,.15);color:#fca5a5;}
   </style>
 </head>
 <body>
@@ -53,8 +60,8 @@
       <div class="sidebar-nav-group-label">Main</div>
       <a href="dashboard.html" class="sidebar-link"><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a>
       <a href="my-courses.html" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
-      <a href="library.html" class="sidebar-link active"><i class="fas fa-book-open"></i><span class="link-text">My Library</span></a>
-      <a href="payments.html" class="sidebar-link"><i class="fas fa-receipt"></i><span class="link-text">My Payments</span></a>
+      <a href="library.html" class="sidebar-link"><i class="fas fa-book-open"></i><span class="link-text">My Library</span></a>
+      <a href="payments.html" class="sidebar-link active"><i class="fas fa-receipt"></i><span class="link-text">My Payments</span></a>
     </div>
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Resources</div>
@@ -81,36 +88,40 @@
 
   <div class="dashboard-content">
     <div class="dash-page-header">
-      <div><h1 class="dash-page-title">My Library</h1><p class="dash-page-sub">Your purchased ebooks and course videos — available anytime once your payment is approved.</p></div>
+      <div><h1 class="dash-page-title">My Payments</h1><p class="dash-page-sub">Every payment you submitted and its verification status.</p></div>
       <a href="../pricing.html" class="btn btn-outline btn-sm"><i class="fas fa-plus"></i> Browse More</a>
     </div>
-
-    <div id="libLoading" style="text-align:center;padding:3rem;color:var(--color-text-secondary);"><i class="fas fa-spinner fa-spin"></i> Loading your library…</div>
-    <div id="libEmpty" class="lib-empty" style="display:none;">
-      <i class="fas fa-book"></i>
-      <p>You haven't unlocked anything yet.</p>
-      <a href="../pricing.html" class="btn btn-primary" style="margin-top:1rem;">Browse Ebooks & Courses</a>
-    </div>
-    <div id="libItems"></div>
+    <div id="payLoading" style="text-align:center;padding:3rem;color:var(--color-text-secondary);"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+    <div id="payEmpty" class="lib-empty" style="display:none;"><i class="fas fa-receipt"></i><p>No payments yet.</p></div>
+    <div id="payList"></div>
   </div>
 </div>
-</div>
-
-<div class="lib-modal-overlay" id="libModalOverlay">
-  <div class="lib-modal">
-    <div class="lib-modal-head">
-      <span class="title" id="libModalTitle">Loading…</span>
-      <button class="btn btn-ghost btn-sm" id="libModalClose"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="lib-modal-body" id="libModalBody"></div>
-  </div>
 </div>
 
 <script src="../assets/vendors/aos/aos.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/dashboard.js"></script>
-<script src="../assets/js/payment-config.js"></script>
-<script src="../assets/js/catalog.js"></script>
-<script type="module" src="../assets/js/library.js"></script>
+<script type="module">
+import { requireUser, populateUserUI } from "../assets/js/auth-helpers.js";
+import { db } from "../assets/js/firebase-config.js";
+import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const label = { pending: 'Pending verification', approved: 'Approved', rejected: 'Rejected' };
+requireUser().then(async ({ user, profile }) => {
+  populateUserUI(profile);
+  const snap = await getDocs(query(collection(db, 'orders'), where('uid', '==', user.uid)));
+  const orders = snap.docs.map(d => d.data()).sort((a, b) => (b.submittedAt?.seconds || 0) - (a.submittedAt?.seconds || 0));
+  document.getElementById('payLoading').style.display = 'none';
+  if (!orders.length) { document.getElementById('payEmpty').style.display = 'block'; return; }
+  document.getElementById('payList').innerHTML = orders.map(o => `
+    <div class="pay-card"><div class="meta">
+      <div><strong>${esc(o.title)}</strong></div>
+      <div>${o.method === 'crypto' ? 'Crypto — ' + esc(o.cryptocurrency) : esc(o.providerName)} · $${esc(o.priceUsd)}${o.amountXaf ? ' (' + Number(o.amountXaf).toLocaleString() + ' CFA)' : ''}</div>
+      <div>Ref: ${esc(o.id)} · ${o.submittedAt ? o.submittedAt.toDate().toLocaleString() : ''}</div>
+      ${o.status === 'rejected' && o.rejectionReason ? '<div style="color:#fca5a5;">Reason: ' + esc(o.rejectionReason) + ' — <a href="checkout.html?product=' + encodeURIComponent(o.slug) + '" style="color:var(--color-gold);">try again</a></div>' : ''}
+      ${o.status === 'approved' ? '<div><a href="library.html" style="color:var(--color-gold);">Open in My Library →</a></div>' : ''}
+    </div><span class="pill ${esc(o.status)}">${label[o.status] || esc(o.status)}</span></div>`).join('');
+}).catch(() => {});
+</script>
 </body>
 </html>

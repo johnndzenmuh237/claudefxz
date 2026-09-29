@@ -47,150 +47,125 @@
 <div id="admAudit" style="display:none;"></div>
 
 <script type="module">
-  import { auth } from "../assets/js/firebase-config.js";
+  import { auth, db } from "../assets/js/firebase-config.js";
   import { requireAdmin } from "../assets/js/auth-helpers.js";
+  import { collection, query, where, getDocs, doc, updateDoc, deleteDoc, addDoc, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  // ⚠️ Must match the URL from `wrangler deploy` (see CLOUDFLARE_SETUP.md)
-  const WORKER_BASE_URL = "https://claudefx-crypto-checkout.YOUR-SUBDOMAIN.workers.dev";
-
-  async function authedFetch(path, options = {}) {
-    const user = auth.currentUser;
-    const idToken = await user.getIdToken();
-    const res = await fetch(WORKER_BASE_URL + path, {
-      ...options,
-      headers: { ...(options.headers || {}), Authorization: 'Bearer ' + idToken },
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || 'Request failed');
-    return data;
-  }
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmtDate = (t) => t && t.toDate ? t.toDate().toLocaleString() : '';
+  let adminEmail = '';
 
   const REJECT_REASONS = [
-    'Transaction could not be verified',
-    'Incorrect amount',
-    'Invalid transaction ID',
-    'Transaction already used',
-    'Wrong payment recipient / wallet',
-    'Wrong network',
-    'Payment not received',
-    'Other',
+    'Transaction could not be verified', 'Incorrect amount', 'Invalid transaction ID',
+    'Transaction already used', 'Wrong payment recipient / wallet', 'Wrong network',
+    'Payment not received', 'Other',
   ];
 
-  function methodLabel(order) {
-    if (order.method === 'mtn') return 'MTN MoMo';
-    if (order.method === 'orange') return 'Orange Money';
-    return 'Crypto — ' + (order.cryptoAsset || '');
+  function methodLabel(o) {
+    if (o.method === 'momo') return o.providerName || (o.provider === 'orange' ? 'Orange Money' : 'MTN MoMo');
+    return 'Crypto — ' + (o.cryptocurrency || '');
+  }
+  const refOf = (o) => o.transactionId || o.transactionHash || o.refKey || '';
+
+  async function logAudit(o, action, extra = {}) {
+    try {
+      await addDoc(collection(db, 'auditLog'), { orderId: o.id, action, by: adminEmail, at: serverTimestamp(), ...extra });
+    } catch (e) { console.warn('audit log failed', e); }
   }
 
   async function loadPending() {
     const container = document.getElementById('admPending');
     container.innerHTML = '<p style="color:var(--color-text-secondary);">Loading…</p>';
-    const { orders } = await authedFetch('/api/admin/pending-payments');
-    if (orders.length === 0) {
-      container.innerHTML = '<p style="color:var(--color-text-secondary);">No pending payments. 🎉</p>';
-      return;
-    }
+    const snap = await getDocs(query(collection(db, 'orders'), where('status', '==', 'pending')));
+    const orders = snap.docs.map(d => d.data()).sort((a, b) => (a.submittedAt?.seconds || 0) - (b.submittedAt?.seconds || 0));
+    if (!orders.length) { container.innerHTML = '<p style="color:var(--color-text-secondary);">No pending payments. 🎉</p>'; return; }
     container.innerHTML = '';
+    const byId = {};
     orders.forEach((order) => {
+      byId[order.id] = order;
       const card = document.createElement('div');
       card.className = 'adm-card';
       card.innerHTML = `
         <div class="adm-row">
           <div class="adm-meta">
-            <div><strong>${order.email || order.uid}</strong> — <span class="badge-method">${methodLabel(order)}</span></div>
-            <div><strong>Product:</strong> ${order.productTitle}</div>
-            <div><strong>Amount:</strong> $${order.amountUSD}${order.amountXAF ? ' (' + order.amountXAF.toLocaleString() + ' XAF)' : ''}</div>
-            <div><strong>Reference:</strong> ${order.reference}</div>
-            ${order.senderPhone ? `<div><strong>Sender phone:</strong> ${order.senderPhone}</div>` : ''}
-            ${order.senderWallet ? `<div><strong>Sender wallet:</strong> ${order.senderWallet}</div>` : ''}
-            ${order.cryptoNetwork ? `<div><strong>Network:</strong> ${order.cryptoNetwork}</div>` : ''}
-            <div><strong>Submitted:</strong> ${new Date(order.submittedAt).toLocaleString()}</div>
-            <div><strong>Order ID:</strong> ${order.orderId}</div>
+            <div><strong>${esc(order.buyerEmail || order.uid)}</strong> — <span class="badge-method">${esc(methodLabel(order))}</span></div>
+            <div><strong>Product:</strong> ${esc(order.title)}</div>
+            <div><strong>Amount expected:</strong> $${esc(order.priceUsd)}${order.amountXaf ? ' (' + Number(order.amountXaf).toLocaleString() + ' CFA)' : ''}</div>
+            <div><strong>Reference:</strong> ${esc(refOf(order))}</div>
+            ${order.senderPhone ? `<div><strong>Sender phone:</strong> ${esc(order.senderPhone)}</div>` : ''}
+            ${order.senderWallet ? `<div><strong>Sender wallet:</strong> ${esc(order.senderWallet)}</div>` : ''}
+            ${order.network ? `<div><strong>Network:</strong> ${esc(order.network)}</div>` : ''}
+            <div><strong>Submitted:</strong> ${esc(fmtDate(order.submittedAt))}</div>
+            <div><strong>Order ID:</strong> ${esc(order.id)}</div>
           </div>
           <div class="adm-actions">
-            <button class="btn btn-primary btn-sm" data-approve="${order.orderId}"><i class="fas fa-check"></i> Approve</button>
-            <button class="btn btn-outline btn-sm" data-reject-toggle="${order.orderId}"><i class="fas fa-times"></i> Reject</button>
+            <button class="btn btn-primary btn-sm" data-approve="${esc(order.id)}"><i class="fas fa-check"></i> Approve</button>
+            <button class="btn btn-outline btn-sm" data-reject-toggle="${esc(order.id)}"><i class="fas fa-times"></i> Reject</button>
           </div>
         </div>
-        <div class="adm-reject-box" id="reject-${order.orderId}">
-          <select id="reason-select-${order.orderId}">
-            ${REJECT_REASONS.map((r) => `<option>${r}</option>`).join('')}
-          </select>
-          <textarea id="reason-notes-${order.orderId}" rows="2" placeholder="Additional notes (optional)"></textarea>
-          <button class="btn btn-danger btn-sm" data-confirm-reject="${order.orderId}">Confirm Rejection</button>
+        <div class="adm-reject-box" id="reject-${esc(order.id)}">
+          <select id="reason-select-${esc(order.id)}">${REJECT_REASONS.map((r) => `<option>${esc(r)}</option>`).join('')}</select>
+          <textarea id="reason-notes-${esc(order.id)}" rows="2" placeholder="Additional notes (optional)"></textarea>
+          <button class="btn btn-danger btn-sm" data-confirm-reject="${esc(order.id)}">Confirm Rejection</button>
         </div>`;
       container.appendChild(card);
     });
 
-    container.querySelectorAll('[data-approve]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        if (!confirm('Confirm that you have verified this payment through your own MTN/Orange/crypto records?')) return;
-        btn.disabled = true;
-        try {
-          await authedFetch('/api/admin/approve-payment', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orderId: btn.dataset.approve }),
-          });
-          loadPending();
-        } catch (err) { alert(err.message); btn.disabled = false; }
-      });
-    });
-    container.querySelectorAll('[data-reject-toggle]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        document.getElementById('reject-' + btn.dataset.rejectToggle).classList.toggle('open');
-      });
-    });
-    container.querySelectorAll('[data-confirm-reject]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        const orderId = btn.dataset.confirmReject;
-        const reasonSelect = document.getElementById('reason-select-' + orderId).value;
-        const notes = document.getElementById('reason-notes-' + orderId).value.trim();
-        const reason = notes ? `${reasonSelect}: ${notes}` : reasonSelect;
-        btn.disabled = true;
-        try {
-          await authedFetch('/api/admin/reject-payment', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orderId, reason }),
-          });
-          loadPending();
-        } catch (err) { alert(err.message); btn.disabled = false; }
-      });
-    });
+    container.querySelectorAll('[data-approve]').forEach((btn) => btn.addEventListener('click', async () => {
+      if (!confirm('Confirm that you have verified this payment through your own MTN/Orange/crypto records?')) return;
+      btn.disabled = true;
+      const order = byId[btn.dataset.approve];
+      try {
+        await updateDoc(doc(db, 'orders', order.id), { status: 'approved', verifiedAt: serverTimestamp(), verifiedBy: adminEmail, rejectionReason: null });
+        await logAudit(order, 'approved');
+        loadPending();
+      } catch (err) { alert(err.message); btn.disabled = false; }
+    }));
+    container.querySelectorAll('[data-reject-toggle]').forEach((btn) => btn.addEventListener('click', () => {
+      document.getElementById('reject-' + btn.dataset.rejectToggle).classList.toggle('open');
+    }));
+    container.querySelectorAll('[data-confirm-reject]').forEach((btn) => btn.addEventListener('click', async () => {
+      const order = byId[btn.dataset.confirmReject];
+      const reasonSelect = document.getElementById('reason-select-' + order.id).value;
+      const notes = document.getElementById('reason-notes-' + order.id).value.trim();
+      const reason = notes ? `${reasonSelect}: ${notes}` : reasonSelect;
+      btn.disabled = true;
+      try {
+        await updateDoc(doc(db, 'orders', order.id), { status: 'rejected', rejectionReason: reason, verifiedAt: serverTimestamp(), verifiedBy: adminEmail });
+        // Free the transaction ID so the buyer can resubmit a corrected one — unless it was rejected as a reused ID.
+        if (order.refKey && reasonSelect !== 'Transaction already used') {
+          try { await deleteDoc(doc(db, 'usedReferences', order.refKey)); } catch (e) { console.warn(e); }
+        }
+        await logAudit(order, 'rejected', { reason });
+        loadPending();
+      } catch (err) { alert(err.message); btn.disabled = false; }
+    }));
   }
 
   async function loadAudit() {
     const container = document.getElementById('admAudit');
     container.innerHTML = '<p style="color:var(--color-text-secondary);">Loading…</p>';
-    const { entries } = await authedFetch('/api/admin/audit-log');
-    if (entries.length === 0) {
-      container.innerHTML = '<p style="color:var(--color-text-secondary);">No activity yet.</p>';
-      return;
-    }
+    const snap = await getDocs(collection(db, 'auditLog'));
+    const entries = snap.docs.map(d => d.data()).sort((a, b) => (b.at?.seconds || 0) - (a.at?.seconds || 0)).slice(0, 100);
+    if (!entries.length) { container.innerHTML = '<p style="color:var(--color-text-secondary);">No activity yet.</p>'; return; }
     container.innerHTML = entries.map((e) => `
-      <div class="adm-card" style="padding:.85rem 1.25rem;">
-        <div class="adm-meta">
-          <strong>${e.action.toUpperCase()}</strong> by ${e.by} — Order ${e.orderId}
-          ${e.reason ? `<br>Reason: ${e.reason}` : ''}
-          <br><span style="color:var(--color-text-muted);">${new Date(e.at).toLocaleString()}</span>
-        </div>
-      </div>`).join('');
+      <div class="adm-card" style="padding:.85rem 1.25rem;"><div class="adm-meta">
+        <strong>${esc(String(e.action).toUpperCase())}</strong> by ${esc(e.by)} — Order ${esc(e.orderId)}
+        ${e.reason ? `<br>Reason: ${esc(e.reason)}` : ''}
+        <br><span style="color:var(--color-text-muted);">${esc(fmtDate(e.at))}</span>
+      </div></div>`).join('');
   }
 
-  document.querySelectorAll('.adm-tabs button').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.adm-tabs button').forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('admPending').style.display = btn.dataset.tab === 'pending' ? 'block' : 'none';
-      document.getElementById('admAudit').style.display = btn.dataset.tab === 'audit' ? 'block' : 'none';
-      if (btn.dataset.tab === 'audit') loadAudit();
-    });
-  });
+  document.querySelectorAll('.adm-tabs button').forEach((btn) => btn.addEventListener('click', () => {
+    document.querySelectorAll('.adm-tabs button').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('admPending').style.display = btn.dataset.tab === 'pending' ? 'block' : 'none';
+    document.getElementById('admAudit').style.display = btn.dataset.tab === 'audit' ? 'block' : 'none';
+    if (btn.dataset.tab === 'audit') loadAudit();
+  }));
 
-  requireAdmin().then(() => {
-    loadPending();
-  }).catch(() => {
-    // requireAdmin() already redirects to login
-  });
+  requireAdmin().then(({ user }) => { adminEmail = user.email || user.uid; loadPending(); }).catch(() => {});
 </script>
 </body>
 </html>

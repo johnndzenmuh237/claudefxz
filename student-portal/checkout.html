@@ -18,36 +18,68 @@
   <link rel="stylesheet" href="../assets/css/responsive.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-    .co-wrap{max-width:640px;margin:0 auto;}
-    .co-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.75rem;}
-    .co-price{text-align:center;margin-bottom:1.5rem;}
-    .co-price .amt{font-size:2rem;font-weight:800;color:var(--color-gold);}
-    .co-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem;}
-    .co-method-btn{background:var(--color-dark-3);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:1rem .5rem;text-align:center;cursor:pointer;color:var(--color-text-secondary);}
-    .co-method-btn i{font-size:1.4rem;display:block;margin-bottom:.4rem;}
-    .co-method-btn.active{border-color:var(--color-gold);color:var(--color-gold);background:rgba(201,168,76,.08);}
-    .co-panel{display:none;}
-    .co-panel.active{display:block;}
-    .co-instructions{background:var(--color-dark-3);border-radius:10px;padding:1.25rem;margin-bottom:1.25rem;}
-    .co-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88rem;}
-    .co-row:last-child{border-bottom:none;}
-    .co-row .val{font-weight:700;color:var(--color-text-primary);font-family:'JetBrains Mono',monospace;}
-    .co-copy{background:none;border:1px solid rgba(255,255,255,.15);color:var(--color-text-secondary);border-radius:6px;padding:.25rem .6rem;font-size:.7rem;cursor:pointer;margin-left:.5rem;}
-    .co-warning{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:.75rem 1rem;font-size:.8rem;color:var(--color-warning);margin-bottom:1.25rem;}
-    .co-crypto-select{width:100%;margin-bottom:1rem;padding:.7rem .9rem;border-radius:8px;background:var(--color-dark-3);border:1px solid rgba(255,255,255,.08);color:var(--color-text-primary);}
-    #coQr{display:flex;justify-content:center;background:#fff;padding:10px;border-radius:10px;width:180px;margin:0 auto 1rem;}
-    .co-form .form-control{margin-bottom:.85rem;}
-    .co-status{display:none;text-align:center;padding:2rem 1rem;}
-    .co-status i{font-size:2.5rem;margin-bottom:.75rem;}
-    .co-status.pending i{color:var(--color-warning);}
-    .co-status.approved i{color:var(--color-success);}
-    .co-status.rejected i{color:var(--color-danger);}
-    .co-msg{font-size:.8rem;padding:.6rem .8rem;border-radius:8px;margin-top:.75rem;display:none;}
-    .co-msg.error{display:block;background:rgba(239,68,68,.1);color:#fca5a5;}
-    .co-msg.success{display:block;background:rgba(34,197,94,.1);color:var(--color-success);}
-    .co-help{text-align:center;margin-top:1rem;font-size:.82rem;color:var(--color-text-secondary);}
-    .co-help a{color:var(--color-gold);font-weight:600;}
-  </style>
+.co-wrap{max-width:660px;margin:0 auto;}
+.co-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.5rem;margin-bottom:1rem;}
+.co-video{padding:0;overflow:hidden;}
+.co-video .vh{padding:.85rem 1.1rem;font-weight:600;font-size:.9rem;display:flex;gap:.5rem;align-items:center;}
+.co-video .vh i{color:#ff3d3d;}
+.co-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;}
+.co-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.co-trust{display:flex;gap:.5rem;justify-content:center;align-items:center;text-align:center;font-size:.78rem;color:var(--color-text-secondary);padding:.65rem;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:10px;margin-bottom:1.1rem;}
+.co-trust i{color:var(--color-success);}
+.co-summary{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 1.1rem;background:var(--color-dark-3);border-radius:12px;margin-bottom:1.1rem;}
+.co-summary h2{font-size:1rem;margin:0;}
+.co-summary .amt{font-size:1.3rem;font-weight:800;color:var(--color-gold);white-space:nowrap;}
+.co-steps{display:flex;justify-content:center;align-items:flex-start;gap:.4rem;margin-bottom:1.1rem;}
+.co-steps .dot{width:26px;height:26px;border-radius:50%;background:var(--color-dark-3);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--color-text-secondary);margin:0 auto;}
+.co-steps .dot.done{background:var(--color-success);border-color:var(--color-success);color:#04150e;}
+.co-steps .dot.active{background:var(--color-gold);border-color:var(--color-gold);color:#111;}
+.co-steps .lbl{font-size:.66rem;color:var(--color-text-secondary);margin-top:.35rem;text-align:center;}
+.co-steps .line{width:34px;height:2px;background:rgba(255,255,255,.1);margin-top:12px;}
+.co-methods{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;}
+.co-method{background:var(--color-dark-3);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.1rem .8rem;text-align:center;cursor:pointer;color:var(--color-text-primary);font-family:inherit;transition:border-color .15s,background .15s,transform .15s;}
+.co-method:hover,.co-method:focus-visible{border-color:var(--color-gold);background:rgba(201,168,76,.08);transform:translateY(-2px);outline:none;}
+.co-method .name{font-weight:700;font-size:.88rem;display:block;}
+.co-method small{display:block;margin-top:.25rem;color:var(--color-text-secondary);font-size:.72rem;}
+.logo-box{height:56px;display:flex;align-items:center;justify-content:center;margin-bottom:.6rem;}
+.logo-box svg,.logo-box img{max-height:56px;max-width:110px;height:auto;}
+.logo-pair{display:flex;gap:.4rem;justify-content:center;}
+.coin-ico{width:40px;height:40px;border-radius:50%;background:#1a2033;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;font-weight:800;color:var(--color-gold);flex-shrink:0;}
+.coin-ico img{width:40px;height:40px;display:block;}
+.logo-pair .coin-ico{width:34px;height:34px;}.logo-pair .coin-ico img{width:34px;height:34px;}
+.co-back{background:none;border:none;color:var(--color-text-secondary);cursor:pointer;margin-bottom:.9rem;font-size:.85rem;font-family:inherit;}
+.co-phead{display:flex;align-items:center;gap:.9rem;margin-bottom:.6rem;}
+.co-phead .logo-box{height:46px;margin:0;}.co-phead h2{margin:0;font-size:1.15rem;}
+.co-amount{text-align:center;padding:1rem;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:12px;margin:.9rem 0;}
+.co-amount .big{font-size:1.65rem;font-weight:800;color:var(--color-gold);}
+.co-amount .sub{font-size:.76rem;color:var(--color-text-secondary);margin-top:.3rem;}
+.co-row{display:flex;justify-content:space-between;align-items:center;gap:.7rem;padding:.75rem .9rem;background:var(--color-dark-3);border:1px solid rgba(255,255,255,.08);border-radius:10px;margin-bottom:.6rem;}
+.co-row .l{font-size:.74rem;color:var(--color-text-secondary);flex-shrink:0;}
+.co-row .v{font-family:'JetBrains Mono',monospace;font-size:.85rem;word-break:break-all;text-align:right;flex:1;}
+.co-row.addr .v{text-align:left;}
+.co-row button{background:none;border:none;color:var(--color-gold);cursor:pointer;font-weight:600;font-size:.78rem;font-family:inherit;flex-shrink:0;}
+.co-warn{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:var(--color-warning);padding:.75rem .9rem;border-radius:10px;font-size:.8rem;margin-bottom:1rem;}
+.co-steps-list{font-size:.82rem;color:var(--color-text-secondary);padding-left:1.1rem;margin:.8rem 0 1rem;}
+.co-steps-list li{margin-bottom:.35rem;}
+.coin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.7rem;}
+.coin-btn{background:var(--color-dark-3);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:.9rem .6rem;text-align:center;cursor:pointer;color:var(--color-text-primary);font-size:.82rem;font-weight:600;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:.5rem;}
+.coin-btn:hover,.coin-btn:focus-visible{border-color:var(--color-gold);background:rgba(201,168,76,.08);outline:none;}
+.coin-btn small{opacity:.6;font-weight:500;font-size:.68rem;}
+.qr-wrap{text-align:center;}
+#qrHolder{background:#fff;padding:12px;border-radius:12px;display:inline-block;margin:.5rem 0 1rem;}
+.co-checks{list-style:none;padding:0;font-size:.78rem;color:var(--color-text-secondary);margin-bottom:1rem;}
+.co-checks li{margin-bottom:.3rem;}.co-checks i{color:var(--color-success);}
+.co-form label{display:block;font-size:.8rem;color:var(--color-text-secondary);margin:.6rem 0 .3rem;}
+.co-form input{width:100%;margin-bottom:.4rem;}
+.co-form button[type=submit]{width:100%;margin-top:.8rem;}
+.co-alert{font-size:.82rem;padding:.65rem .85rem;border-radius:8px;margin-top:.75rem;background:rgba(239,68,68,.1);color:#fca5a5;}
+.co-alert.ok{background:rgba(34,197,94,.1);color:var(--color-success);}
+.co-done{text-align:center;padding:1rem .5rem;}
+.co-done i.big{font-size:2.3rem;margin-bottom:.6rem;display:block;}
+.co-help{text-align:center;font-size:.8rem;color:var(--color-text-secondary);margin-top:.5rem;}
+.co-help a{color:var(--color-gold);font-weight:600;}
+@media (prefers-reduced-motion:reduce){.co-method{transition:none}.co-method:hover{transform:none}}
+</style>
 </head>
 <body>
 <div class="page-loader"><div class="loader-ring"></div></div>
@@ -65,7 +97,8 @@
       <div class="sidebar-nav-group-label">Main</div>
       <a href="dashboard.html" class="sidebar-link"><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a>
       <a href="my-courses.html" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
-      <a href="library.html" class="sidebar-link active"><i class="fas fa-book-open"></i><span class="link-text">My Library</span></a>
+      <a href="library.html" class="sidebar-link"><i class="fas fa-book-open"></i><span class="link-text">My Library</span></a>
+      <a href="payments.html" class="sidebar-link"><i class="fas fa-receipt"></i><span class="link-text">My Payments</span></a>
     </div>
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">Resources</div>
@@ -93,88 +126,110 @@
   </div>
 
   <div class="dashboard-content">
-    <div class="co-wrap">
-      <div class="dash-page-header" style="margin-bottom:1.5rem;">
-        <div><h1 class="dash-page-title">Checkout</h1><p class="dash-page-sub">Complete your purchase to unlock lifetime access.</p></div>
-      </div>
-
-      <div class="co-card">
-        <div class="co-price">
-          <div id="coProductTitle" style="font-weight:600;margin-bottom:.25rem;">Loading…</div>
-          <div class="amt" id="coProductPrice">$0</div>
-        </div>
-
-        <div class="co-methods">
-          <div class="co-method-btn" data-method="mtn"><i class="fas fa-mobile-screen"></i>MTN MoMo</div>
-          <div class="co-method-btn" data-method="orange"><i class="fas fa-mobile-screen-button"></i>Orange Money</div>
-          <div class="co-method-btn" data-method="crypto"><i class="fas fa-coins"></i>Crypto</div>
-        </div>
-
-        <!-- MTN / Orange panel -->
-        <div class="co-panel" id="coMomoPanel">
-          <div class="co-instructions">
-            <div class="co-row"><span>Recipient Name</span><span class="val" id="coMomoName">—</span></div>
-            <div class="co-row"><span>Number</span><span class="val" id="coMomoNumber">—<button class="co-copy" data-copy="coMomoNumber">Copy</button></span></div>
-            <div class="co-row"><span>Amount to send</span><span class="val" id="coMomoAmount">—</span></div>
-          </div>
-          <ol style="font-size:.82rem;color:var(--color-text-secondary);padding-left:1.1rem;margin-bottom:1.25rem;">
-            <li>Copy the number above.</li>
-            <li>Send <strong>exactly</strong> the displayed amount using the app.</li>
-            <li>Come back here and enter your transaction ID below.</li>
-          </ol>
-        </div>
-
-        <!-- Crypto panel -->
-        <div class="co-panel" id="coCryptoPanel">
-          <select class="co-crypto-select" id="coCryptoSelect"></select>
-          <div class="co-warning" id="coNetworkWarning"><i class="fas fa-triangle-exclamation"></i> Only send using the exact network shown — sending on the wrong network can permanently lose funds.</div>
-          <div id="coQr"></div>
-          <div class="co-instructions">
-            <div class="co-row"><span>Network</span><span class="val" id="coCryptoNetwork">—</span></div>
-            <div class="co-row"><span>Address</span><span class="val" id="coCryptoAddress" style="word-break:break-all;font-size:.75rem;">—<button class="co-copy" data-copy="coCryptoAddress">Copy</button></span></div>
-            <div class="co-row"><span>Amount (USD value)</span><span class="val" id="coCryptoAmount">—</span></div>
-          </div>
-          <p class="co-help" style="margin-bottom:1.25rem;"><i class="fas fa-circle-question"></i> New to crypto? <a href="crypto-guide.html">Learn how to buy it here →</a></p>
-        </div>
-
-        <!-- Reference submission form (shared) -->
-        <form class="co-form" id="coForm" style="display:none;">
-          <div class="form-control-group">
-            <label style="font-size:.8rem;color:var(--color-text-secondary);display:block;margin-bottom:.35rem;" id="coRefLabel">Transaction ID</label>
-            <input class="form-control" type="text" id="coReference" required placeholder="Enter your transaction ID / hash">
-          </div>
-          <input class="form-control" type="tel" id="coSenderPhone" placeholder="Sender phone number (optional)" style="display:none;">
-          <input class="form-control" type="text" id="coSenderWallet" placeholder="Your wallet address (optional)" style="display:none;">
-          <button type="submit" class="btn btn-primary" style="width:100%;" id="coSubmitBtn">Submit Payment for Verification</button>
-          <div class="co-msg" id="coMsg"></div>
-        </form>
-      </div>
-
-      <!-- Status states -->
-      <div class="co-status pending" id="coStatusPending">
-        <i class="fas fa-clock"></i>
-        <h2 style="font-size:1.2rem;margin-bottom:.5rem;">Payment submitted — pending verification</h2>
-        <p style="color:var(--color-text-secondary);font-size:.9rem;">We check payments manually. This page updates automatically once it's reviewed — usually within a few hours.</p>
-      </div>
-      <div class="co-status approved" id="coStatusApproved">
-        <i class="fas fa-circle-check"></i>
-        <h2 style="font-size:1.2rem;margin-bottom:.5rem;">Payment approved — you're in!</h2>
-        <a href="library.html" class="btn btn-primary"><i class="fas fa-book-open"></i> Go to My Library</a>
-      </div>
-      <div class="co-status rejected" id="coStatusRejected">
-        <i class="fas fa-circle-xmark"></i>
-        <h2 style="font-size:1.2rem;margin-bottom:.5rem;">Payment could not be verified</h2>
-        <p style="color:var(--color-text-secondary);font-size:.9rem;" id="coRejectReason"></p>
-        <button class="btn btn-outline" id="coTryAgainBtn" style="margin-top:1rem;">Try Again</button>
-      </div>
+  <div class="co-wrap">
+    <div class="dash-page-header" style="margin-bottom:1.25rem;">
+      <div><h1 class="dash-page-title">Checkout</h1><p class="dash-page-sub">Complete your purchase to unlock lifetime access.</p></div>
     </div>
+
+    <div id="loadingBox" class="co-card" style="text-align:center;"><i class="fas fa-spinner fa-spin" style="color:var(--color-gold);"></i> Loading…</div>
+    <div id="notFoundBox" class="co-card" style="display:none;text-align:center;"><p>Product not found. <a href="../pricing.html" style="color:var(--color-gold);">Browse products →</a></p></div>
+
+    <!-- VIDEO: set the YouTube link in assets/js/payment-config.js (checkoutVideoUrl) -->
+    <div id="videoCard" class="co-card co-video" style="display:none;">
+      <div class="vh"><i class="fab fa-youtube"></i><span id="videoTitle">Watch before you pay</span></div>
+      <div class="co-frame"><iframe id="videoFrame" title="Product video" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    </div>
+
+    <div id="stepIndicator"></div>
+
+    <div id="stepMethod" class="co-card" style="display:none;">
+      <div class="co-trust"><i class="fas fa-lock"></i> Secure checkout — every payment is manually verified before access unlocks</div>
+      <div class="co-summary"><h2 id="productTitle"></h2><span class="amt" id="productPrice"></span></div>
+      <p style="font-size:.8rem;color:var(--color-text-secondary);margin-bottom:.6rem;">Choose how you want to pay</p>
+      <div class="co-methods" id="methodCards"></div>
+    </div>
+
+    <div id="stepMomo" class="co-card" style="display:none;">
+      <button class="co-back" data-back="stepMethod"><i class="fas fa-arrow-left"></i> Change payment method</button>
+      <div class="co-phead"><div class="logo-box" id="momoLogo"></div><h2 id="momoHeading"></h2></div>
+      <div class="co-amount"><div class="big" id="momoAmount">Calculating…</div><div class="sub" id="momoAmountSub"></div></div>
+      <div class="co-row"><span class="l">Recipient</span><span class="v" id="momoName"></span></div>
+      <div class="co-row"><span class="l">Number</span><span class="v" id="momoNumber"></span><button id="copyMomoBtn" type="button"><i class="far fa-copy"></i> Copy</button></div>
+      <ol class="co-steps-list">
+        <li>Dial <strong id="momoUssd"></strong> or open the <span id="momoProviderName2"></span> app.</li>
+        <li>Send <strong>exactly</strong> the amount shown above to the number above.</li>
+        <li>Copy the transaction ID from your confirmation SMS and enter it below.</li>
+      </ol>
+      <form class="co-form" id="momoForm">
+        <label for="momoTxId">Transaction ID *</label>
+        <input class="form-control" type="text" id="momoTxId" required autocomplete="off" placeholder="e.g. MP240915.1234.A56789">
+        <label for="momoSenderPhone">Sender phone number (optional but recommended)</label>
+        <input class="form-control" type="tel" id="momoSenderPhone" placeholder="+237 6XX XXX XXX">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Payment for Verification</button>
+      </form>
+      <div id="momoMsg"></div>
+    </div>
+
+    <div id="stepCryptoCoins" class="co-card" style="display:none;">
+      <button class="co-back" data-back="stepMethod"><i class="fas fa-arrow-left"></i> Change payment method</button>
+      <h2 style="margin:0 0 .3rem;font-size:1.15rem;">Choose a coin</h2>
+      <p style="font-size:.85rem;color:var(--color-text-secondary);margin-bottom:1rem;">Pick the coin and network you will send from.</p>
+      <div class="coin-grid" id="coinGrid"></div>
+      <p id="noCryptoMsg" class="co-alert" style="display:none;">No crypto wallet has been configured yet. Please use Mobile Money instead.</p>
+      <p class="co-help" style="margin-top:1rem;">New to crypto? <a href="crypto-guide.html">Learn how to buy it →</a></p>
+    </div>
+
+    <div id="stepCryptoPay" class="co-card" style="display:none;">
+      <button class="co-back" data-back="stepCryptoCoins"><i class="fas fa-arrow-left"></i> Choose a different coin</button>
+      <div class="co-phead"><span class="coin-ico" id="cryptoLogo"></span><h2 id="cryptoHeading"></h2></div>
+      <div class="co-amount"><div class="big" id="cryptoAmount"></div><div class="sub" id="cryptoAmountSub"></div></div>
+      <div class="co-warn"><i class="fas fa-triangle-exclamation"></i> Only send using the <strong id="cryptoNetworkName"></strong> network to this address. Sending via another network may result in permanent loss of funds.</div>
+      <p style="font-size:.78rem;color:var(--color-text-secondary);margin-bottom:.4rem;">Recipient wallet</p>
+      <div class="co-row addr"><span class="v" id="cryptoAddress"></span><button id="copyAddrBtn" type="button"><i class="far fa-copy"></i> Copy</button></div>
+      <div class="qr-wrap"><div id="qrHolder"></div></div>
+      <ul class="co-checks">
+        <li><i class="fas fa-check"></i> Verify the cryptocurrency</li>
+        <li><i class="fas fa-check"></i> Verify the network</li>
+        <li><i class="fas fa-check"></i> Verify the wallet address</li>
+        <li><i class="fas fa-check"></i> Verify the amount before sending</li>
+        <li id="confNote" style="margin-top:.5rem;"></li>
+      </ul>
+      <form class="co-form" id="cryptoForm">
+        <label for="txHash">Transaction Hash / TXID *</label>
+        <input class="form-control" type="text" id="txHash" required autocomplete="off" placeholder="e.g. 0xabc123...">
+        <label for="senderWallet">Sender wallet address (optional but recommended)</label>
+        <input class="form-control" type="text" id="senderWallet" placeholder="Your wallet address">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Payment for Verification</button>
+      </form>
+      <div id="cryptoMsg"></div>
+    </div>
+
+    <div id="pendingBox" class="co-card co-done" style="display:none;">
+      <i class="fas fa-clock big" style="color:var(--color-warning);"></i>
+      <h2 style="font-size:1.2rem;">Payment submitted — pending verification</h2>
+      <p style="color:var(--color-text-secondary);font-size:.9rem;">We check every payment manually against our records. Your access unlocks once it is approved — usually within a few hours.</p>
+      <p style="font-size:.8rem;color:var(--color-text-secondary);margin-top:.6rem;">Reference: <strong id="refDisplay"></strong></p>
+      <a href="payments.html" class="btn btn-primary" style="margin-top:.9rem;">View My Payments</a>
+    </div>
+
+    <div id="approvedBox" class="co-card co-done" style="display:none;">
+      <i class="fas fa-circle-check big" style="color:var(--color-success);"></i>
+      <h2 style="font-size:1.2rem;">You already own this — payment approved</h2>
+      <a href="library.html" class="btn btn-primary" style="margin-top:.9rem;"><i class="fas fa-book-open"></i> Go to My Library</a>
+    </div>
+
+    <p class="co-help" id="helpLine" style="display:none;">Need help with a payment? <a id="helpWa" target="_blank" rel="noopener">WhatsApp support</a></p>
   </div>
+</div>
+</div>
 </div>
 </div>
 
 <script src="../assets/vendors/aos/aos.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/payment-config.js"></script>
+<script src="../assets/js/catalog.js"></script>
 <script type="module" src="../assets/js/checkout.js"></script>
 </body>
 </html>
