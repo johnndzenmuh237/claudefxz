@@ -84,12 +84,11 @@ npx wrangler deploy
 Also double check you're signed in with the *exact* email listed in
 `ADMIN_EMAILS` (case doesn't matter, but typos do).
 
-**Video won't play / stalls** — check the file actually uploaded to R2
-under the exact key listed in `PRODUCTS`. Run:
-```powershell
-npx wrangler r2 object get claudefx-media/courses/forex-full-course/01-introduction.mp4 --file=test-download.mp4
-```
-If that fails, the file isn't where the config expects it.
+**Video won't play / stalls** — check the file actually uploaded to
+Backblaze B2 under the exact path listed in `PRODUCTS`. Open your B2
+bucket in the Backblaze dashboard and confirm the file exists at that
+exact path/name (e.g. `courses/forex-full-course/01-introduction.mp4`).
+If it's missing or misnamed, that's why it won't load.
 
 **General debugging** — live Worker logs:
 ```powershell

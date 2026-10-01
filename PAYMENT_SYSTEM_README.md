@@ -99,8 +99,9 @@ Everything is in **`CLOUDFLARE_SETUP.md`** — the short version:
 2. Add your admin email to the same file
 3. Deploy the Worker (`npx wrangler deploy`) — free, no card
 4. Paste the deployed Worker URL into 4 files (listed in the guide)
-5. Upload your ebook PDFs and course videos to Cloudflare R2 with the
-   exact filenames the guide lists
+5. Upload your ebook PDFs and course videos to Backblaze B2 (not
+   Cloudflare R2 — R2 requires a card to activate, Backblaze doesn't)
+   with the exact filenames the guide lists
 6. Make yourself an admin in Firestore
 
 ## Scope notes — what's a starting template, not a finished catalog

@@ -9,6 +9,7 @@ import { db } from './firebase-config.js';
 import { doc, runTransaction, serverTimestamp, collection, query, where, getDocs }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getUsdToXafRate } from './exchange-rate.js';
+import { openUrl } from './access.js';
 
 const CFG = window.PAYMENT_CONFIG || {};
 const params = new URLSearchParams(window.location.search);
@@ -333,7 +334,11 @@ requireUser().then(async ({ user, profile }) => {
   if (CFG.supportWhatsApp) { $('helpWa').href = CFG.supportWhatsApp; $('helpLine').style.display = 'block'; }
 
   const existing = await existingOrderStatus();
-  if (existing && existing.status === 'approved') { showStep('approvedBox'); return; }
+  if (existing && existing.status === 'approved') {
+    const go = $('openPaidBtn'); go.href = openUrl(slug);
+    go.innerHTML = product.type === 'ebook' ? '<i class="fas fa-download"></i> Go to My Ebooks' : '<i class="fas fa-play"></i> Open my ' + (product.type === 'course' ? 'course' : product.type === 'bot' ? 'bot' : 'mentorship');
+    showStep('approvedBox'); return;
+  }
   if (existing && existing.status === 'pending') { $('refDisplay').textContent = existing.o.id; showStep('pendingBox'); return; }
   showStep('stepMethod');
 }).catch(() => { /* requireUser() already redirects to login */ });

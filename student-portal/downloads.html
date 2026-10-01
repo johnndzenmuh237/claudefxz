@@ -15,6 +15,26 @@
   <link rel="stylesheet" href="../assets/css/darkmode.css">
   <link rel="stylesheet" href="../assets/css/dashboard.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
+<style>
+    .ln-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:.6rem 1.4rem;}
+    .ln-file{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap;padding:.9rem 0;border-top:1px solid rgba(255,255,255,.06);}
+    .ln-file:first-child{border-top:0;}
+    .mc-section{margin-top:2.2rem;}
+    .mc-section:first-of-type{margin-top:0;}
+    .mc-title{font-size:1.2rem;margin:0 0 1rem;display:flex;align-items:center;gap:.6rem;}
+    .mc-title i{color:var(--color-gold);}
+    .mc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.1rem;}
+    .mc-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;}
+    .mc-card img{width:100%;height:150px;object-fit:cover;background:var(--color-dark-3);}
+    .mc-body{padding:1rem;display:flex;flex-direction:column;gap:.5rem;flex:1;}
+    .mc-cat{font-size:.68rem;font-weight:700;letter-spacing:.06em;color:var(--color-gold);}
+    .mc-body h3{font-size:.98rem;margin:0;line-height:1.35;}
+    .mc-body p{font-size:.8rem;color:var(--color-text-secondary);margin:0;line-height:1.5;}
+    .mc-foot{margin-top:auto;padding-top:.7rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;}
+    .mc-price{font-size:1.2rem;font-weight:800;color:var(--color-gold);}
+    .mc-empty{padding:1.6rem;text-align:center;color:var(--color-text-secondary);background:var(--color-dark-2);border:1px dashed rgba(255,255,255,.12);border-radius:14px;font-size:.9rem;}
+    .mc-pill{font-size:.68rem;font-weight:700;padding:.3rem .7rem;border-radius:999px;background:rgba(245,158,11,.15);color:var(--color-warning);}
+</style>
 </head>
 <body>
 <div class="page-loader"><div class="loader-ring"></div></div>
@@ -37,8 +57,9 @@
         <i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span>
       </a>
       <a href="library.html" class="sidebar-link">
-        <i class="fas fa-book-open"></i><span class="link-text">My Library</span>
+        <i class="fas fa-book-open"></i><span class="link-text">My Ebooks</span>
       </a>
+      <a href="payments.html" class="sidebar-link"><i class="fas fa-receipt"></i><span class="link-text">My Payments</span></a>
       <a href="live-sessions.html" class="sidebar-link ">
         <i class="fas fa-video"></i><span class="link-text">Live Sessions</span>
         <span class="badge badge-gold" style="font-size:9px;margin-left:auto;">LIVE</span>
@@ -135,80 +156,41 @@
   </div>
 </div>
     <div class="dashboard-content">
-
-<div class="dash-page-header">
-  <div>
-    <h1 class="dash-page-title">Downloads</h1>
-    <p class="dash-page-sub">Access your course materials, cheat sheets, indicators, and templates.</p>
+  <div class="dash-page-header">
+    <div><h1 class="dash-page-title">Downloads</h1><p class="dash-page-sub">Every file you've paid for — ebooks, course ebooks and bot files. Download again any time.</p></div>
   </div>
+  <div id="dlLoading" style="text-align:center;padding:3rem;color:var(--color-text-secondary);"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+  <div id="dlRoot"></div>
+</div>
+</div>
 </div>
 
-<div class="tabs" data-tabs style="margin-bottom:2rem;">
-  <button class="tab-btn active" data-tab="dl-all">All Files</button>
-  <button class="tab-btn" data-tab="dl-guides">Guides & PDFs</button>
-  <button class="tab-btn" data-tab="dl-indicators">Indicators</button>
-  <button class="tab-btn" data-tab="dl-templates">Templates</button>
-  <button class="tab-btn" data-tab="dl-recordings">Recordings</button>
-</div>
-
-<div id="dl-all" class="tab-pane active">
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr><th>File Name</th><th>Category</th><th>Size</th><th>Date Added</th><th>Action</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(239,68,68,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-pdf" style="color:var(--color-danger);"></i></div><div><strong>Forex Fundamentals — Complete Course Guide</strong><div style="font-size:.75rem;color:var(--color-text-muted);">PDF Ebook</div></div></div></td>
-          <td><span class="badge badge-info">Guide</span></td>
-          <td>4.2 MB</td><td>Jan 15, 2025</td>
-          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
-        </tr>
-        <tr>
-          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-image" style="color:var(--color-gold);"></i></div><div><strong>Technical Analysis Cheat Sheet</strong><div style="font-size:.75rem;color:var(--color-text-muted);">High-res PNG</div></div></div></td>
-          <td><span class="badge badge-gold">Cheat Sheet</span></td>
-          <td>1.8 MB</td><td>Jan 12, 2025</td>
-          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
-        </tr>
-        <tr>
-          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(59,130,246,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-code" style="color:var(--color-info);"></i></div><div><strong>ICT Custom Indicator v2.1</strong><div style="font-size:.75rem;color:var(--color-text-muted);">MT4 / MT5 .ex4 file</div></div></div></td>
-          <td><span class="badge badge-success">Indicator</span></td>
-          <td>284 KB</td><td>Jan 8, 2025</td>
-          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
-        </tr>
-        <tr>
-          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(34,197,94,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-excel" style="color:var(--color-success);"></i></div><div><strong>Trade Journal Template 2025</strong><div style="font-size:.75rem;color:var(--color-text-muted);">Excel .xlsx</div></div></div></td>
-          <td><span class="badge badge-surface">Template</span></td>
-          <td>512 KB</td><td>Jan 5, 2025</td>
-          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
-        </tr>
-        <tr>
-          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(168,85,247,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-video" style="color:#a855f7;"></i></div><div><strong>Live Session: ICT Order Blocks (Recording)</strong><div style="font-size:.75rem;color:var(--color-text-muted);">MP4 Video</div></div></div></td>
-          <td><span class="badge badge-danger">Recording</span></td>
-          <td>1.2 GB</td><td>Jan 3, 2025</td>
-          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-play"></i> Watch</a></td>
-        </tr>
-        <tr>
-          <td><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:36px;height:36px;border-radius:var(--radius-md);background:rgba(239,68,68,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-file-pdf" style="color:var(--color-danger);"></i></div><div><strong>Risk Management Workbook</strong><div style="font-size:.75rem;color:var(--color-text-muted);">PDF + fillable form</div></div></div></td>
-          <td><span class="badge badge-info">Guide</span></td>
-          <td>2.1 MB</td><td>Dec 28, 2024</td>
-          <td><a href="#" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Download</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div id="dl-guides" class="tab-pane"></div>
-<div id="dl-indicators" class="tab-pane"></div>
-<div id="dl-templates" class="tab-pane"></div>
-<div id="dl-recordings" class="tab-pane"></div>
-    </div>
-  </div>
-</div>
 <script src="../assets/vendors/aos/aos.js"></script>
-<script src="../assets/vendors/chartjs/chart.umd.min.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/payment-config.js"></script>
+<script src="../assets/js/catalog.js"></script>
+<script type="module">
+import { requireUser, populateUserUI } from "../assets/js/auth-helpers.js";
+import { db } from "../assets/js/firebase-config.js";
+import { esc, loadOwnership, dlButton, bindDownloads } from "../assets/js/access.js";
+requireUser().then(async ({ user, profile }) => {
+  populateUserUI(profile);
+  const { owned } = await loadOwnership(db, user.uid);
+  const rows = [];
+  for (const id of owned.keys()) {
+    const p = window.CATALOG[id];
+    if (p.type === 'ebook') rows.push({ name: p.title, kind: 'Ebook', file: p.file });
+    if (p.type === 'course' && p.ebook) rows.push({ name: p.ebook.title, kind: 'Course ebook', file: p.ebook.file });
+    if (p.type === 'bot') (p.downloads || []).forEach((d) => rows.push({ name: d.label, kind: 'Bot', file: d.file }));
+  }
+  document.getElementById('dlLoading').style.display = 'none';
+  const root = document.getElementById('dlRoot');
+  root.innerHTML = rows.length
+    ? `<div class="ln-card">${rows.map((r) => `<div class="ln-file"><span><strong>${esc(r.name)}</strong> <small style="color:var(--color-text-muted);">· ${esc(r.kind)}</small></span>${dlButton(r.file, 'Download')}</div>`).join('')}</div>`
+    : `<div class="mc-empty">Nothing to download yet. Files appear here once your payment is approved. <a href="../pricing.html" style="color:var(--color-gold);">Browse products</a></div>`;
+  bindDownloads(root);
+}).catch(() => {});
+</script>
 </body>
 </html>

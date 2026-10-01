@@ -2,9 +2,8 @@
    CLAUDEFX ACADEMY PRO — Cloudflare Worker
    Manual MTN Mobile Money / Orange Money / Crypto payment system
    + gated ebook & course-video delivery, all inside the student
-   dashboard. 100% free stack (Cloudflare Workers + KV, Backblaze B2
-   for files) — no billing account anywhere, no automatic payment
-   gateway, no card required by any service used here.
+   dashboard. 100% free stack (Workers + KV + R2) — no billing
+   account anywhere, no automatic payment gateway.
 
    FLOW: user pays manually → submits a reference (MoMo transaction
    ID, or crypto tx hash) → order sits as "pending" → YOU (the admin)
@@ -23,13 +22,13 @@
 const MOBILE_MONEY = {
   mtn: {
     label: "MTN Mobile Money",
-    recipientName: "JOHN NDZENMUH",
-    number: "+237679806062", // e.g. "677123456"
+    recipientName: "PASTE_MTN_RECIPIENT_NAME_HERE",
+    number: "PASTE_MTN_NUMBER_HERE", // e.g. "677123456"
   },
   orange: {
     label: "Orange Money",
-    recipientName: "JOHN NDZENMUH",
-    number: "+237695", // e.g. "699123456"
+    recipientName: "PASTE_ORANGE_RECIPIENT_NAME_HERE",
+    number: "PASTE_ORANGE_NUMBER_HERE", // e.g. "699123456"
   },
 };
 
@@ -37,12 +36,12 @@ const MOBILE_MONEY = {
 // automatically lists whatever is here. Each entry = one coin+network
 // combination. Never reuse one address across two different networks.
 const CRYPTO_WALLETS = {
-  btc: { coin: "BTC", network: "Bitcoin", address: "bc1qmrx53ld85qftp4ng4gp4vcg3d38el34s00tq0l" },
-  eth: { coin: "ETH", network: "Ethereum (ERC-20)", address: "0x0971f00CD9Fd439F0735a4D1Eafa18400B72862F" },
-  usdt_trc20: { coin: "USDT", network: "Tron (TRC-20)", address: "TX7CpBYg8Gph7A4T2EqyS586qaMYENDteL" },
-  usdt_erc20: { coin: "USDT", network: "Ethereum (ERC-20)", address: "0x0971f00CD9Fd439F0735a4D1Eafa18400B72862F" },
-  usdt_bep20: { coin: "USDT", network: "BNB Smart Chain (BEP-20)", address: "0x0971f00CD9Fd439F0735a4D1Eafa18400B72862F" },
-  bnb_bep20: { coin: "BNB", network: "BNB Smart Chain (BEP-20)", address: "0x0971f00CD9Fd439F0735a4D1Eafa18400B72862F" },
+  btc: { coin: "BTC", network: "Bitcoin", address: "PASTE_BTC_ADDRESS_HERE" },
+  eth: { coin: "ETH", network: "Ethereum (ERC-20)", address: "PASTE_ETH_ADDRESS_HERE" },
+  usdt_trc20: { coin: "USDT", network: "Tron (TRC-20)", address: "PASTE_USDT_TRC20_ADDRESS_HERE" },
+  usdt_erc20: { coin: "USDT", network: "Ethereum (ERC-20)", address: "PASTE_USDT_ERC20_ADDRESS_HERE" },
+  usdt_bep20: { coin: "USDT", network: "BNB Smart Chain (BEP-20)", address: "PASTE_USDT_BEP20_ADDRESS_HERE" },
+  bnb_bep20: { coin: "BNB", network: "BNB Smart Chain (BEP-20)", address: "PASTE_BNB_ADDRESS_HERE" },
 };
 
 // --- Who is allowed to approve/reject payments (their Firebase login email) ---
@@ -88,7 +87,7 @@ const PRODUCTS = {
   },
 
   // Example course with videos — copy this block for each real course.
-  // Upload matching video files to B2 under courses/<product-id>/...
+  // Upload matching video files to R2 under courses/<product-id>/...
   "forex-full-course": {
     type: "course",
     title: "Forex Full Course & Mentorship",
