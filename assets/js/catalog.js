@@ -91,4 +91,56 @@ window.CATALOG = {
     perks: ["4x 90-min sessions / month", "24/7 WhatsApp access", "Daily chart analysis", "Live trade room (all sessions)", "Prop firm challenge coaching", "Priority email & phone support"] },
 };
 
+/* ============================================================
+   >>> PASTE YOUR COURSE YOUTUBE LINKS HERE <<<
+   For each course, put your links between the [ ] in THIS ORDER (15 lessons).
+   Keep the quotes and commas. Leave a lesson as "" to show "Coming soon".
+
+   Lesson order:
+    1 Welcome & how to use this course      9 Backtesting your strategy
+    2 The big picture                      10 Position sizing & stop-loss
+    3 Setting up your trading platform     11 Controlling emotions
+    4 Key terms & market structure         12 Keeping a trade journal
+    5 Reading the charts                   13 Demo to live: your checklist
+    6 Building your trading plan           14 Weekly review routine
+    7 Entry rules                          15 Next steps
+    8 Exit rules & trade management
+
+   Example:  "course-1": ["https://youtu.be/AAAAAAAAAAA", "https://youtu.be/BBBBBBBBBBB"],
+   ============================================================ */
+const COURSE_VIDEOS = {
+  "forex-synthetic-full": [],   // Forex & Synthetic Indices — Full Course + Mentorship
+  "forex-full":           [],   // Forex Trading — Full Course & Mentorship
+  "synthetic-full":       [],   // Synthetic Indices — Full Course & Mentorship
+  "ta-mastery":           [],   // Technical Analysis Mastery
+  "fa-mastery":           [],   // Fundamental Analysis Mastery
+  "course-1":             [],   // Forex Trading Fundamentals
+  "course-2":             [],   // Advanced Technical Analysis
+  "course-3":             [],   // Synthetic Indices Mastery
+  "course-4":             [],   // Risk Management & Psychology
+  "course-5":             [],   // Price Action Trading
+  "course-6":             [],   // Funded Account Blueprint
+  "course-7":             [],   // ICT Concepts & Smart Money
+  "course-8":             [],   // Account Management Strategies
+  "course-9":             [],   // Forex for Complete Beginners
+};
+Object.entries(COURSE_VIDEOS).forEach(([id, urls]) => {
+  const p = window.CATALOG[id];
+  if (!p || !p.modules) return;
+  let i = 0;
+  p.modules.forEach((m) => m.lessons.forEach((l) => { if (urls[i]) l.youtube = urls[i]; i++; }));
+});
+
+/* Every course opens one of the 3 course pages and uses one of the 3 course ebooks. */
+const PAGES = {
+  "forex-synthetic-full": "forex-synthetic", "forex-full": "forex", "synthetic-full": "synthetic", "course-3": "synthetic",
+  "course-1": "forex", "course-2": "forex", "course-4": "forex", "course-5": "forex", "course-6": "forex",
+  "course-7": "forex", "course-8": "forex", "course-9": "forex", "ta-mastery": "forex", "fa-mastery": "forex",
+};
+const GROUPS = { "forex": ["course-forex.html", "forex-full"], "synthetic": ["course-synthetic.html", "synthetic-full"], "forex-synthetic": ["course-forex-synthetic.html", "forex-synthetic-full"] };
+Object.entries(PAGES).forEach(([id, g]) => {
+  const p = window.CATALOG[id]; if (!p) return;
+  p.page = GROUPS[g][0];
+  p.ebook = { title: p.title + " — Course Ebook (PDF)", file: `../assets/ebooks/courses/${GROUPS[g][1]}.pdf` };
+});
 window.getCatalogDuration = (id) => (window.CATALOG[id] ? window.CATALOG[id].durationDays : null);

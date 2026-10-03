@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synthetic Indices — Full Course | Claudefx Academy Pro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/darkmode.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <style>
+    .lib-empty{text-align:center;padding:4rem 1.5rem;color:var(--color-text-secondary);}
+    .lib-empty i{font-size:2.5rem;color:var(--color-gold);margin-bottom:1rem;display:block;}
+    .lib-item{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:1.5rem;margin-bottom:1.25rem;}
+    .lib-item-head{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;}
+    .lib-item-head i{font-size:1.3rem;color:var(--color-gold);}
+    .lib-item-head h3{font-size:1.05rem;margin:0;}
+    .lib-item-head .type-badge{font-size:.65rem;background:rgba(201,168,76,.12);color:var(--color-gold);padding:.15rem .55rem;border-radius:999px;margin-left:auto;}
+    .lib-file-row{display:flex;align-items:center;gap:.75rem;padding:.65rem 0;border-top:1px solid rgba(255,255,255,.05);}
+    .lib-file-row:first-of-type{border-top:none;}
+    .lib-file-row .fname{flex:1;font-size:.88rem;color:var(--color-text-primary);}
+    .lib-file-row i.ftype{color:var(--color-text-muted);width:18px;}
+    .lib-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+    .lib-modal-overlay.open{display:flex;}
+    .lib-modal{background:var(--color-dark-2);border-radius:14px;width:100%;max-width:900px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+    .lib-modal-head{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.08);}
+    .lib-modal-head .title{font-weight:600;flex:1;}
+    .lib-modal-body{flex:1;overflow:auto;background:#000;display:flex;align-items:center;justify-content:center;min-height:300px;}
+    .lib-modal-body iframe,.lib-modal-body video{width:100%;height:70vh;border:none;}
+  
+    .ln-wrap{max-width:1100px;margin:0 auto;}
+    .ln-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.4rem;margin-bottom:1.1rem;}
+    .ln-card h3{font-size:1.05rem;margin:0 0 .6rem;display:flex;align-items:center;gap:.5rem;}
+    .ln-card h3 i{color:var(--color-gold);}
+    .ln-card p{font-size:.88rem;color:var(--color-text-secondary);margin:0 0 .9rem;line-height:1.6;}
+    .ln-actions{display:flex;flex-wrap:wrap;gap:.6rem;}
+    .ln-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:700;padding:.3rem .8rem;border-radius:999px;background:rgba(34,197,94,.15);color:var(--color-success);}
+    .ln-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+    .ln-head h1{font-size:1.5rem;margin:.4rem 0 0;}
+    .ln-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:1.1rem;align-items:start;}
+    @media(max-width:900px){.ln-grid{grid-template-columns:1fr;}}
+    .ln-player{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;margin-bottom:.8rem;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:.9rem;text-align:center;padding:1rem;}
+    .ln-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+    .ln-now{font-weight:700;margin-bottom:1rem;}
+    .ln-mod{margin-bottom:.9rem;}
+    .ln-mod-title{font-size:.8rem;font-weight:700;color:var(--color-gold);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem;}
+    .ln-lesson{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;background:var(--color-dark-3);border:1px solid transparent;border-radius:10px;padding:.65rem .8rem;margin-bottom:.35rem;color:var(--color-text-primary);font-family:inherit;font-size:.85rem;cursor:pointer;}
+    .ln-lesson:hover,.ln-lesson.active{border-color:var(--color-gold);background:rgba(201,168,76,.08);}
+    .ln-lesson i{color:var(--color-gold);width:16px;}
+    .ln-lesson .soon{margin-left:auto;font-size:.68rem;color:var(--color-text-muted);}
+    .ln-list{list-style:none;padding:0;margin:0 0 .9rem;}
+    .ln-list li{font-size:.88rem;color:var(--color-text-secondary);padding:.35rem 0;display:flex;gap:.55rem;}
+    .ln-list li i{color:var(--color-success);margin-top:.2rem;}
+    .ln-file{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap;padding:.8rem 0;border-top:1px solid rgba(255,255,255,.06);}
+    .ln-file:first-of-type{border-top:0;}
+    .ln-file span{font-size:.9rem;}
+    .ln-center{text-align:center;padding:2rem 1rem;}
+    .ln-center i.big{font-size:2.2rem;margin-bottom:.7rem;display:block;color:var(--color-gold);}
+  
+    .cp-mod{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.4rem;margin-bottom:1.1rem;scroll-margin-top:90px;}
+    .cp-mod h2{font-size:1.1rem;margin:0 0 .6rem;color:var(--color-gold);}
+    .cp-mod p{font-size:.92rem;line-height:1.7;color:var(--color-text-secondary);margin:0 0 .8rem;}
+    .cp-mod ul{margin:0;padding-left:1.2rem;font-size:.9rem;line-height:1.8;}
+    .cp-note{font-size:.78rem;color:var(--color-text-muted);margin-top:.5rem;}
+  
+    .cp-mod h3{font-size:.98rem;margin:1.1rem 0 .3rem;color:var(--color-text-primary);}
+    .cp-intro{font-size:.95rem !important;color:var(--color-text-primary) !important;}
+    .cp-ex{background:rgba(201,168,76,.08);border-left:3px solid var(--color-gold);border-radius:8px;padding:.8rem 1rem;margin:1.1rem 0;font-size:.88rem;}
+    .cp-ex p{margin:.3rem 0 0;}
+    .cp-key{background:var(--color-dark-3);border-radius:10px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.88rem;}
+    .cp-key ul{margin:.4rem 0 0;}
+    .cp-video .btn{margin-top:.2rem;}
+  </style>
+</head>
+<body data-page="course-synthetic.html" data-main="synthetic-full">
+<div class="page-loader"><div class="loader-ring"></div></div>
+<div class="dashboard-layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="dashboard.html" class="sidebar-brand">
+      <img src="../assets/images/logo/logo-icon.jpg" alt="" class="brand-logo" style="width:32px;height:32px;border-radius:8px;">
+      <span class="sidebar-brand-name">Claudefx<span style="color:var(--color-gold);">Academy</span></span>
+    </a>
+    <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link"><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a>
+      <a href="my-courses.html" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
+      <a href="library.html" class="sidebar-link"><i class="fas fa-book-open"></i><span class="link-text">My Ebooks</span></a>
+      <a href="payments.html" class="sidebar-link"><i class="fas fa-receipt"></i><span class="link-text">My Payments</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Resources</div>
+      <a href="downloads.html" class="sidebar-link"><i class="fas fa-download"></i><span class="link-text">Downloads</span></a>
+      <a href="crypto-guide.html" class="sidebar-link"><i class="fas fa-coins"></i><span class="link-text">Buy Crypto Guide</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Account</div>
+      <a href="profile.html" class="sidebar-link"><i class="fas fa-user"></i><span class="link-text">My Profile</span></a>
+      <a href="../index.html" class="sidebar-link"><i class="fas fa-globe"></i><span class="link-text">Back to Site</span></a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <img class="sidebar-user-avatar" src="../assets/images/traders/student-avatar.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">
+      <div><div class="sidebar-user-name" data-user-name>Loading…</div><div class="sidebar-user-role" data-user-plan>Starter</div></div>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<div class="dashboard-main" id="dashboard-main">
+  <div class="dashboard-topbar"><div class="topbar-left"><button class="topbar-mobile-toggle"><i class="fas fa-bars"></i></button></div></div>
+
+  <div class="dashboard-content"><div class="ln-wrap">
+<div id="lnLoading" style="text-align:center;padding:3rem;color:var(--color-text-secondary);"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+<div id="lockBody" style="display:none"></div>
+<div id="courseBody" style="display:none">
+<div class="ln-head"><div><a href="my-courses.html" style="font-size:.8rem;color:var(--color-text-secondary);"><i class="fas fa-arrow-left"></i> My Courses</a><h1>Synthetic Indices — Full Course</h1></div><span class="ln-badge"><i class="fas fa-circle-check"></i> Paid · lifetime access</span></div>
+<div class="ln-grid"><div>
+<section class="cp-mod"><h2>Module 1 — What Are Synthetic Indices?</h2><p class="cp-intro">Synthetic indices (for example, Deriv&#x27;s) are simulated markets whose prices are generated by a certified random-number generator. They are <strong>not</strong> tied to any real asset, so they run <strong>24/7</strong>, have <strong>no news events</strong> and are not affected by economic data.</p><h3>Volatility indices</h3><p>The number shows the average annualised volatility: <strong>Volatility 10</strong> is the calmest, <strong>Volatility 75</strong> and <strong>100</strong> the fastest. A &#x27;(1s)&#x27; version produces a new price every second. Higher volatility means larger candles, bigger opportunity and bigger risk.</p><h3>Boom and Crash</h3><p><strong>Boom 500/1000</strong> drifts down slowly with occasional sharp upward spikes; <strong>Crash 500/1000</strong> drifts up with occasional downward spikes. On average one spike appears every 500 (or 1000) ticks, but the exact timing is random.</p><h3>Step, Jump and Range Break</h3><p><strong>Step Index</strong> moves in fixed steps and is ideal for beginners. <strong>Jump indices</strong> have sudden price jumps at random intervals. <strong>Range Break</strong> trades inside ranges that periodically break out.</p><h3>Advantages and risks</h3><p>Advantages: always open, no news gaps, consistent behaviour. Risks: very fast moves, high leverage available, and constant availability tempting overtrading. Treat it as a high-risk activity; trade only money you can afford to lose.</p><div class="cp-ex"><strong>Worked example</strong><p>On a Volatility 75 chart, a 5-minute candle may move many times more than a typical EUR/USD candle. A trader used to forex lot sizes would lose far more than planned, which is why position size must be recalculated for every index.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Know each index&#x27;s behaviour before trading it</li><li>No news and 24/7 trading — choose set trading hours</li><li>Higher volatility number = smaller lot size</li></ul></div><div class="cp-video" data-n="1"></div></section>
+<section class="cp-mod"><h2>Module 2 — Platforms, Accounts &amp; Contract Specifications</h2><p class="cp-intro">You trade synthetics on a broker platform such as Deriv MT5, Deriv Trader or Deriv&#x27;s own web terminal. Always begin with the free demo account.</p><h3>Opening and funding</h3><p>Create your account (use the button on this page), verify your identity, open a <strong>demo</strong> account first (virtual funds) and a real account only when you are consistently following your rules. Use deposit methods available in your country and start with a small amount.</p><h3>Charts and platforms</h3><p>MT5 offers professional charts and indicators; TradingView gives cleaner charting for analysis. Use the same timeframes every day (H1 for bias, M5/M15 for entries).</p><h3>Contract specifications</h3><p>Each index has its own <strong>minimum lot, tick size and value per point</strong>. Look them up in the platform&#x27;s contract specification before trading. Always size positions with: <strong>Lot = Risk $ ÷ (stop distance in points × value per point per lot)</strong>.</p><h3>Fees and execution</h3><p>Check spreads and swap rules, avoid trading during platform maintenance, and keep a stable internet connection.</p><div class="cp-ex"><strong>Worked example</strong><p>You have a $500 demo account and want to risk 1% ($5). The platform shows a 40-point stop on your chosen index. If the value per point for 1 lot is $1, then Lot = $5 ÷ (40 × $1) = <strong>0.125 lot</strong>, rounded down to the nearest valid size. Always check the real number on your platform.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Begin on demo, then go live small</li><li>Read the contract specification of every index</li><li>Position sizing formula is the same for every market</li></ul></div><div class="cp-video" data-n="2"></div></section>
+<section class="cp-mod"><h2>Module 3 — Trading Volatility Indices</h2><p class="cp-intro">Volatility indices trend and range just like any other market. Treat structure first, indicators second.</p><h3>Trend following</h3><p>Use H1 for the bias (price above/below the 50 EMA, higher highs or lower lows) and M5/M15 for entries on pullbacks to the 50 EMA or a support/resistance zone. Trade <strong>with</strong> the trend.</p><h3>Breakout and retest</h3><p>When price breaks a key level with a strong candle, wait for it to return to retest the level; enter when it holds with a confirmation candle. This avoids many false breakouts.</p><h3>When not to trade</h3><p>Skip choppy, directionless price in the middle of a range, skip when you have lost your daily limit, and skip when you are tired or emotional. 24/7 availability does <strong>not</strong> mean you should trade 24/7.</p><h3>Choosing your index</h3><p>Beginners should start with <strong>Volatility 10, 25 or 50</strong> or the Step Index; move to V75/V100 only after consistent profits, always with smaller lots.</p><div class="cp-ex"><strong>Worked example</strong><p>V50 trends up on H1 (above 50 EMA). Price breaks above a resistance zone, returns to retest it and prints a bullish engulfing candle on M15. Entry on the candle close, stop below the retest low, target 1:2. If price breaks back below the zone, the trade is invalid and the stop protects you.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Trade with the higher-timeframe trend</li><li>Breakout + retest filters false moves</li><li>Start on lower-volatility indices</li></ul></div><div class="cp-video" data-n="3"></div></section>
+<section class="cp-mod"><h2>Module 4 — Boom &amp; Crash Spike Strategy</h2><p class="cp-intro">Boom and Crash offer two types of moves: slow trends and sudden spikes. Beginners lose money by trying to guess the spike.</p><h3>Trade the slow trend</h3><p>On <strong>Boom</strong>, the slow drift is down; on <strong>Crash</strong>, up. Many traders trade <strong>with</strong> the drift and exit quickly instead of waiting for a spike, using small profits and tight management.</p><h3>Spike trading</h3><p>Spike traders enter small lots in the direction of the spike expecting it to happen soon, using strict stops. This has a low win rate and a large reward. It only works with discipline: tiny risk per attempt and a fixed number of attempts.</p><h3>Spike warnings</h3><p>Price exhaustion, repeated rejection from a level, and long runs in one direction increase the chance that a spike is near, but <strong>never guarantee it</strong>.</p><h3>Rules that protect you</h3><p>Never hold against the trend hoping for a reversal; never increase lot size after a loss; accept that a spike can occur right after you exit.</p><div class="cp-ex"><strong>Worked example</strong><p>Crash 500 trades down in a slow drift on M5. You sell on a pullback to resistance with a stop above the last high and target 1:2. The price drifts to target in 15 minutes. You close the trade; a spike candle appears afterwards. You protected yourself instead of holding through the spike.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Trade the drift with the trend, exit quickly</li><li>Spike trading needs tiny risk and strict stops</li><li>No signal guarantees a spike</li></ul></div><div class="cp-video" data-n="4"></div></section>
+<section class="cp-mod"><h2>Module 5 — Step, Jump &amp; Range Break and Trade Management</h2><p class="cp-intro">Each index has its own rhythm. A clear management plan matters more than the entry.</p><h3>Step Index</h3><p>Steps of constant size make it predictable and smooth; trade pullbacks to the 50 EMA on M5/M15 in the trend direction.</p><h3>Jump and Range Break</h3><p>On Jump indices, sudden jumps can hit stops; use wider stops with smaller lots. On Range Break, trade bounces inside the range and breakouts that hold on a retest.</p><h3>Trade management</h3><p>Take <strong>partial profit at 1R</strong> and move the stop to breakeven only after the structure confirms. Trail the remaining position behind new swing highs/lows. Never move your stop further away.</p><h3>Backtesting each index</h3><p>Backtest every index separately (at least 100 trades each). Their behaviour differs, so a strategy that works on V25 may not work on Crash 500.</p><div class="cp-ex"><strong>Worked example</strong><p>Entry at 1,000 with stop at 980 (20 points risk). At 1,020 (1R) close half the position and move the stop to 1,000 (breakeven). The rest reaches 1,040 (2R). Result: +0.5R from the first half + 1R from the second half = <strong>+1.5R</strong> instead of a possible loss.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Partial profit and breakeven protect the account</li><li>Never widen a stop</li><li>Backtest each index separately</li></ul></div><div class="cp-video" data-n="5"></div></section>
+<section class="cp-mod"><h2>Module 6 — Risk Management &amp; Discipline</h2><p class="cp-intro">Synthetic indices move quickly all day and night. Discipline is what keeps your account alive.</p><h3>Position sizing</h3><p>Risk 1% per trade (0.5% on V75/V100). Use the contract-specification formula every time.</p><h3>Daily limits</h3><p>Fixed daily loss (for example 3%) and maximum trades (for example 3). When reached, close the platform. No exceptions.</p><h3>Avoid overtrading</h3><p>24/7 markets create endless temptation. Choose a fixed trading window (for example 2 hours) and take only A+ setups.</p><h3>The journal</h3><p>Record index, setup, entry, stop, result in R, a screenshot and your emotion. Review it each week and remove your worst habit.</p><div class="cp-ex"><strong>Worked example</strong><p>Account $500. Risk 1% = $5 per trade, daily loss limit 3% = $15. After three losing trades (−$15) the trader stops for the day. Without the limit, chasing the loss with bigger lots could turn a −3% day into a −15% day.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Smaller risk on faster indices</li><li>Daily limits protect you from emotions</li><li>Trade a fixed window, not all day</li></ul></div><div class="cp-video" data-n="6"></div></section>
+<section class="cp-mod"><h2>Module 7 — Your Weekly Plan, Scaling &amp; Mentorship</h2><p class="cp-intro">Consistency comes from a routine you can repeat every week.</p><h3>Choose and master</h3><p>Pick 1–2 indices and 1 strategy. Master them for 3 months before adding anything new.</p><h3>Weekly routine</h3><p>Sunday: review the journal and mark key levels. Weekdays: trade only your window and your setups. Friday: review results in R and write next week&#x27;s one improvement.</p><h3>Scaling safely</h3><p>Only increase risk after two consecutive profitable months of following rules, and never above 2% per trade.</p><h3>Support and mentorship</h3><p>Join the students&#x27; WhatsApp group, contact us for <strong>one-on-one mentorship</strong> and strategy checks, and use the YouTube lessons to revisit any module.</p><div class="cp-ex"><strong>Worked example</strong><p>Plan: Volatility 25 + Step Index, trade 14:00–16:00, risk 1%, maximum 3 trades per day, review every Sunday. After 8 weeks of following the plan the journal shows an average of +0.3R per trade — a repeatable process.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Master 1–2 indices first</li><li>Run a weekly review routine</li><li>Scale slowly and use mentorship for feedback</li></ul></div><div class="cp-video" data-n="7"></div></section>
+<p class="cp-note">Educational content only — not financial advice. Trading carries a high risk of loss; never risk money you cannot afford to lose.</p>
+</div><div id="side"></div></div>
+</div>
+</div></div>
+</div>
+</div>
+
+<script src="../assets/vendors/aos/aos.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/payment-config.js"></script>
+<script src="../assets/js/catalog.js"></script>
+<script type="module" src="../assets/js/course-gate.js"></script>
+</body>
+</html>

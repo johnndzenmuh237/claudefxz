@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forex Trading — Full Course | Claudefx Academy Pro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/vendors/aos/aos.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/darkmode.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <style>
+    .lib-empty{text-align:center;padding:4rem 1.5rem;color:var(--color-text-secondary);}
+    .lib-empty i{font-size:2.5rem;color:var(--color-gold);margin-bottom:1rem;display:block;}
+    .lib-item{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:1.5rem;margin-bottom:1.25rem;}
+    .lib-item-head{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;}
+    .lib-item-head i{font-size:1.3rem;color:var(--color-gold);}
+    .lib-item-head h3{font-size:1.05rem;margin:0;}
+    .lib-item-head .type-badge{font-size:.65rem;background:rgba(201,168,76,.12);color:var(--color-gold);padding:.15rem .55rem;border-radius:999px;margin-left:auto;}
+    .lib-file-row{display:flex;align-items:center;gap:.75rem;padding:.65rem 0;border-top:1px solid rgba(255,255,255,.05);}
+    .lib-file-row:first-of-type{border-top:none;}
+    .lib-file-row .fname{flex:1;font-size:.88rem;color:var(--color-text-primary);}
+    .lib-file-row i.ftype{color:var(--color-text-muted);width:18px;}
+    .lib-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+    .lib-modal-overlay.open{display:flex;}
+    .lib-modal{background:var(--color-dark-2);border-radius:14px;width:100%;max-width:900px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+    .lib-modal-head{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.08);}
+    .lib-modal-head .title{font-weight:600;flex:1;}
+    .lib-modal-body{flex:1;overflow:auto;background:#000;display:flex;align-items:center;justify-content:center;min-height:300px;}
+    .lib-modal-body iframe,.lib-modal-body video{width:100%;height:70vh;border:none;}
+  
+    .ln-wrap{max-width:1100px;margin:0 auto;}
+    .ln-card{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.4rem;margin-bottom:1.1rem;}
+    .ln-card h3{font-size:1.05rem;margin:0 0 .6rem;display:flex;align-items:center;gap:.5rem;}
+    .ln-card h3 i{color:var(--color-gold);}
+    .ln-card p{font-size:.88rem;color:var(--color-text-secondary);margin:0 0 .9rem;line-height:1.6;}
+    .ln-actions{display:flex;flex-wrap:wrap;gap:.6rem;}
+    .ln-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:700;padding:.3rem .8rem;border-radius:999px;background:rgba(34,197,94,.15);color:var(--color-success);}
+    .ln-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+    .ln-head h1{font-size:1.5rem;margin:.4rem 0 0;}
+    .ln-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:1.1rem;align-items:start;}
+    @media(max-width:900px){.ln-grid{grid-template-columns:1fr;}}
+    .ln-player{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;margin-bottom:.8rem;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:.9rem;text-align:center;padding:1rem;}
+    .ln-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+    .ln-now{font-weight:700;margin-bottom:1rem;}
+    .ln-mod{margin-bottom:.9rem;}
+    .ln-mod-title{font-size:.8rem;font-weight:700;color:var(--color-gold);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem;}
+    .ln-lesson{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;background:var(--color-dark-3);border:1px solid transparent;border-radius:10px;padding:.65rem .8rem;margin-bottom:.35rem;color:var(--color-text-primary);font-family:inherit;font-size:.85rem;cursor:pointer;}
+    .ln-lesson:hover,.ln-lesson.active{border-color:var(--color-gold);background:rgba(201,168,76,.08);}
+    .ln-lesson i{color:var(--color-gold);width:16px;}
+    .ln-lesson .soon{margin-left:auto;font-size:.68rem;color:var(--color-text-muted);}
+    .ln-list{list-style:none;padding:0;margin:0 0 .9rem;}
+    .ln-list li{font-size:.88rem;color:var(--color-text-secondary);padding:.35rem 0;display:flex;gap:.55rem;}
+    .ln-list li i{color:var(--color-success);margin-top:.2rem;}
+    .ln-file{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap;padding:.8rem 0;border-top:1px solid rgba(255,255,255,.06);}
+    .ln-file:first-of-type{border-top:0;}
+    .ln-file span{font-size:.9rem;}
+    .ln-center{text-align:center;padding:2rem 1rem;}
+    .ln-center i.big{font-size:2.2rem;margin-bottom:.7rem;display:block;color:var(--color-gold);}
+  
+    .cp-mod{background:var(--color-dark-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.4rem;margin-bottom:1.1rem;scroll-margin-top:90px;}
+    .cp-mod h2{font-size:1.1rem;margin:0 0 .6rem;color:var(--color-gold);}
+    .cp-mod p{font-size:.92rem;line-height:1.7;color:var(--color-text-secondary);margin:0 0 .8rem;}
+    .cp-mod ul{margin:0;padding-left:1.2rem;font-size:.9rem;line-height:1.8;}
+    .cp-note{font-size:.78rem;color:var(--color-text-muted);margin-top:.5rem;}
+  
+    .cp-mod h3{font-size:.98rem;margin:1.1rem 0 .3rem;color:var(--color-text-primary);}
+    .cp-intro{font-size:.95rem !important;color:var(--color-text-primary) !important;}
+    .cp-ex{background:rgba(201,168,76,.08);border-left:3px solid var(--color-gold);border-radius:8px;padding:.8rem 1rem;margin:1.1rem 0;font-size:.88rem;}
+    .cp-ex p{margin:.3rem 0 0;}
+    .cp-key{background:var(--color-dark-3);border-radius:10px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.88rem;}
+    .cp-key ul{margin:.4rem 0 0;}
+    .cp-video .btn{margin-top:.2rem;}
+  </style>
+</head>
+<body data-page="course-forex.html" data-main="forex-full">
+<div class="page-loader"><div class="loader-ring"></div></div>
+<div class="dashboard-layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="dashboard.html" class="sidebar-brand">
+      <img src="../assets/images/logo/logo-icon.jpg" alt="" class="brand-logo" style="width:32px;height:32px;border-radius:8px;">
+      <span class="sidebar-brand-name">Claudefx<span style="color:var(--color-gold);">Academy</span></span>
+    </a>
+    <button class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Main</div>
+      <a href="dashboard.html" class="sidebar-link"><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a>
+      <a href="my-courses.html" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span class="link-text">My Courses</span></a>
+      <a href="library.html" class="sidebar-link"><i class="fas fa-book-open"></i><span class="link-text">My Ebooks</span></a>
+      <a href="payments.html" class="sidebar-link"><i class="fas fa-receipt"></i><span class="link-text">My Payments</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Resources</div>
+      <a href="downloads.html" class="sidebar-link"><i class="fas fa-download"></i><span class="link-text">Downloads</span></a>
+      <a href="crypto-guide.html" class="sidebar-link"><i class="fas fa-coins"></i><span class="link-text">Buy Crypto Guide</span></a>
+    </div>
+    <div class="sidebar-nav-group">
+      <div class="sidebar-nav-group-label">Account</div>
+      <a href="profile.html" class="sidebar-link"><i class="fas fa-user"></i><span class="link-text">My Profile</span></a>
+      <a href="../index.html" class="sidebar-link"><i class="fas fa-globe"></i><span class="link-text">Back to Site</span></a>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <img class="sidebar-user-avatar" src="../assets/images/traders/student-avatar.jpg" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">
+      <div><div class="sidebar-user-name" data-user-name>Loading…</div><div class="sidebar-user-role" data-user-plan>Starter</div></div>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay"></div>
+
+<div class="dashboard-main" id="dashboard-main">
+  <div class="dashboard-topbar"><div class="topbar-left"><button class="topbar-mobile-toggle"><i class="fas fa-bars"></i></button></div></div>
+
+  <div class="dashboard-content"><div class="ln-wrap">
+<div id="lnLoading" style="text-align:center;padding:3rem;color:var(--color-text-secondary);"><i class="fas fa-spinner fa-spin"></i> Loading…</div>
+<div id="lockBody" style="display:none"></div>
+<div id="courseBody" style="display:none">
+<div class="ln-head"><div><a href="my-courses.html" style="font-size:.8rem;color:var(--color-text-secondary);"><i class="fas fa-arrow-left"></i> My Courses</a><h1>Forex Trading — Full Course</h1></div><span class="ln-badge"><i class="fas fa-circle-check"></i> Paid · lifetime access</span></div>
+<div class="ln-grid"><div>
+<section class="cp-mod"><h2>Module 1 — How the Forex Market Works</h2><p class="cp-intro">Forex (foreign exchange) is the global market where one currency is exchanged for another. It is open 24 hours a day, Monday to Friday, because trading passes from Sydney to Tokyo to London to New York.</p><h3>Currency pairs</h3><p>Every trade involves two currencies. In EUR/USD the first is the <strong>base</strong> and the second the <strong>quote</strong>; the price tells you how many dollars one euro costs. If you <strong>buy</strong> EUR/USD you expect the euro to rise against the dollar; if you <strong>sell</strong> you expect it to fall. Majors (EUR/USD, GBP/USD, USD/JPY, USD/CHF, AUD/USD, USD/CAD, NZD/USD) have the tightest spreads. Minors (EUR/GBP, GBP/JPY) and exotics cost more to trade.</p><h3>Pips, lots and spread</h3><p>A <strong>pip</strong> is the standard price step (0.0001 for most pairs, 0.01 for JPY pairs). A <strong>standard lot</strong> is 100,000 units (about $10 per pip on EUR/USD), a <strong>mini lot</strong> 0.10 and a <strong>micro lot</strong> 0.01 (about $0.10 per pip). The <strong>spread</strong> is the difference between buy and sell price; it is the broker&#x27;s fee and you start every trade slightly negative.</p><h3>Leverage and margin</h3><p>Leverage lets you control a large position with a small deposit. At 1:100, <strong>margin</strong> for 1 lot of EUR/USD at 1.0850 is 100,000 × 1.0850 ÷ 100 = <strong>$1,085</strong>. Leverage magnifies profits and losses equally; most account blow-ups come from oversized positions, not from bad analysis.</p><h3>Trading sessions</h3><p>London (about 08:00–16:00 GMT) and New York (about 13:00–21:00 GMT) are the most active, and the <strong>overlap (13:00–16:00 GMT)</strong> has the best liquidity and biggest moves. Asian sessions are calmer and favour JPY, AUD and NZD pairs.</p><div class="cp-ex"><strong>Worked example</strong><p>Buy 0.10 lot EUR/USD at 1.0850 with spread 1.2 pips. Price rises to 1.0870 (+20 pips). Profit = 20 pips × $1 per pip = <strong>$20</strong>, minus the spread cost of about $1.20. If price had fallen to 1.0830 you would have lost $20 plus spread.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Know base vs quote, pip, lot, spread and margin before placing a trade</li><li>Trade the London/New York overlap when liquidity is highest</li><li>Leverage is a risk multiplier, not free money</li><li>Always begin on a demo account</li></ul></div><div class="cp-video" data-n="1"></div></section>
+<section class="cp-mod"><h2>Module 2 — Market Structure &amp; Price Action</h2><p class="cp-intro">Price is the only thing every trader sees. Learn to read it before adding any indicator.</p><h3>Trends and ranges</h3><p>An <strong>uptrend</strong> makes higher highs (HH) and higher lows (HL); a <strong>downtrend</strong> makes lower highs (LH) and lower lows (LL). When price keeps bouncing between two levels it is <strong>ranging</strong>. A trend ends when the last higher low (or lower high) is broken — this is a <strong>break of structure (BOS)</strong>.</p><h3>Support, resistance and zones</h3><p>Support is where buyers stepped in before; resistance is where sellers did. Draw them as <strong>zones</strong>, not single lines, and mark them first on the Daily and H4 charts. A level touched 3+ times is strong. Once broken, support often becomes resistance (and the reverse) — the <strong>flip zone</strong>.</p><h3>Candlestick signals</h3><p>Read candles at key levels only. A <strong>pin bar</strong> (long wick, small body) shows rejection. A <strong>bullish engulfing</strong> candle closes above the previous candle&#x27;s body and signals buyers taking control; bearish engulfing is the opposite. A <strong>doji</strong> shows indecision. A candle pattern in the middle of nowhere means nothing.</p><h3>Top-down analysis</h3><p>Start on Daily to see the main trend, move to H4/H1 for zones, then use M15/M5 for the entry. Never take an M5 buy straight into a strong Daily resistance.</p><div class="cp-ex"><strong>Worked example</strong><p>GBP/USD is in a Daily uptrend. Price pulls back to a previous resistance level at 1.2700 that has flipped to support, and a bullish engulfing candle forms on H1. Entry buy at 1.2712, stop-loss below the zone at 1.2680 (32 pips), target the last high at 1.2776 (64 pips) = <strong>1:2 risk-to-reward</strong>.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Trade in the direction of the higher timeframe trend</li><li>Mark zones on higher timeframes, enter on lower ones</li><li>Candles matter only at key levels</li><li>A break of structure is the first warning that the trend is changing</li></ul></div><div class="cp-video" data-n="2"></div></section>
+<section class="cp-mod"><h2>Module 3 — Technical Analysis Tools</h2><p class="cp-intro">Indicators are calculated from price, so they lag. Use them to <strong>confirm</strong> what price structure already shows — never as the only reason to trade.</p><h3>Moving averages</h3><p>The 50 EMA and 200 EMA define trend: price above both with 50 above 200 is bullish. In a trend, price often pulls back to the 50 EMA — a popular entry area. Crossovers are slow in ranging markets, so only use them when structure confirms a trend.</p><h3>RSI and MACD</h3><p><strong>RSI</strong> (14) measures momentum from 0–100: above 70 is overbought and below 30 oversold, but in strong trends it can stay there for long. Its best use is <strong>divergence</strong>: price makes a new high while RSI makes a lower high, warning of weakening momentum. <strong>MACD</strong> crossing its signal line shows momentum shifts.</p><h3>Fibonacci retracement</h3><p>Drawn from swing low to swing high (for a buy), it shows where a pullback may end: <strong>38.2%, 50% and 61.8%</strong>. The best entries occur when a Fibonacci level lines up with a support zone and a moving average.</p><h3>Confluence</h3><p>Take a trade only when <strong>at least 3 independent things agree</strong>, for example: (1) higher-timeframe trend, (2) support zone, (3) confirmation candle. The more that agree, the higher the quality of the setup — and the fewer trades you take.</p><div class="cp-ex"><strong>Worked example</strong><p>USD/JPY trends up on H4 (price above 50 and 200 EMA). It pulls back to the 61.8% Fibonacci retracement, which sits exactly on the 50 EMA and an old support zone. RSI shows bullish divergence and a pin bar prints. That is <strong>four confirmations</strong> at one spot: a high-quality buy setup.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Price structure first, indicators second</li><li>RSI divergence is more useful than overbought/oversold readings</li><li>Fibonacci works best inside a trend</li><li>Use 3+ confluences and skip the rest</li></ul></div><div class="cp-video" data-n="3"></div></section>
+<section class="cp-mod"><h2>Module 4 — Fundamental Analysis</h2><p class="cp-intro">Economic data and central-bank decisions drive currency strength over weeks and months, and cause sharp spikes at the moment they are released.</p><h3>Interest rates</h3><p>Currencies with higher or rising interest rates usually attract investment and strengthen. Learn to follow the Fed, ECB, BoE and BoJ: the tone of their statements often moves the market more than the rate change itself.</p><h3>Key data releases</h3><p><strong>CPI</strong> (inflation), <strong>NFP</strong> (US jobs, first Friday of the month), <strong>GDP</strong>, retail sales and PMIs. A result better than forecast usually strengthens that currency; worse weakens it. The market trades the <strong>surprise</strong> versus the forecast, not the number itself.</p><h3>Using the economic calendar</h3><p>Check it every morning. High-impact (red) events can move price 50–100 pips in seconds with huge spreads. Beginners should avoid opening trades 30 minutes before and after, and should never hold a tight stop through NFP.</p><h3>Risk sentiment</h3><p>In risk-on markets investors buy AUD, NZD and stocks; in risk-off they run to USD, JPY and CHF. Sentiment explains why pairs sometimes move together.</p><div class="cp-ex"><strong>Worked example</strong><p>US CPI is forecast at 3.1% but prints 3.5%. Traders expect the Fed to keep rates high, so USD strengthens and EUR/USD drops 60 pips in minutes. A trader who waited for the spike to settle and then sold the pullback to a resistance zone avoided the chaos and traded a cleaner move.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Trade the surprise, not the number</li><li>Check the calendar daily and avoid high-impact news as a beginner</li><li>Combine fundamentals (direction) with technicals (timing)</li></ul></div><div class="cp-video" data-n="4"></div></section>
+<section class="cp-mod"><h2>Module 5 — Building a Complete Trading Strategy</h2><p class="cp-intro">A strategy is a written set of rules that tells you exactly when to enter, where to place the stop, where to exit and how much to risk. If a rule is not written, it is a guess.</p><h3>The five parts of a strategy</h3><p>1) Market and timeframe, 2) Setup conditions, 3) Entry trigger, 4) Stop-loss and take-profit, 5) Risk per trade. Write them on one page.</p><h3>Example: Trend Pullback strategy</h3><p><strong>Pairs:</strong> EUR/USD, GBP/USD. <strong>Bias:</strong> H4 price above 50 EMA and 50 above 200 EMA (buys only). <strong>Setup:</strong> pullback into the 50 EMA or the 50–61.8% Fib zone, at a support zone. <strong>Entry:</strong> bullish engulfing or pin bar on M15/H1. <strong>Stop-loss:</strong> below the pullback low. <strong>Take-profit:</strong> at least 1:2. <strong>Risk:</strong> 1%. Reverse everything for sells.</p><h3>Risk-to-reward and win rate</h3><p>With <strong>1:2</strong> you only need to win <strong>33.4%</strong> of trades to break even. With 40% winners: expectancy = (0.40 × 2R) − (0.60 × 1R) = <strong>+0.2R per trade</strong>, so 100 trades would produce about +20R. Edge comes from rules + consistency, not from a high win rate.</p><h3>Backtesting and forward-testing</h3><p>Scroll back on the chart and record at least <strong>100 trades</strong> using your exact rules (date, entry, stop, result in R). Then forward-test on demo for 4+ weeks. Only go live when results are positive and you followed the rules every time.</p><div class="cp-ex"><strong>Worked example</strong><p>Entry 1.0850, stop-loss 1.0830 (20 pips), take-profit 1.0890 (40 pips). Risk 1R = 20 pips. Ten trades: 4 winners (+2R each = +8R) and 6 losers (−1R each = −6R) = <strong>+2R net</strong>, even though you lost more trades than you won.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Write the strategy on one page</li><li>Aim for minimum 1:2 reward-to-risk</li><li>Backtest 100 trades, then demo test for 4+ weeks</li><li>Consistency of execution matters more than the win rate</li></ul></div><div class="cp-video" data-n="5"></div></section>
+<section class="cp-mod"><h2>Module 6 — Risk Management &amp; Trading Psychology</h2><p class="cp-intro">Professional traders think about what they can lose before what they can win. Surviving long enough to learn is the real goal.</p><h3>The 1% rule and position sizing</h3><p>Risk 1% (maximum 2%) of your account per trade. Formula: <strong>Lot size = (Account × Risk %) ÷ (Stop-loss in pips × pip value per lot)</strong>. Never choose a lot size first and then place the stop where it &#x27;fits&#x27;; the chart decides the stop, the stop decides the lot size.</p><h3>Drawdown mathematics</h3><p>Losses are harder to recover than they look: a 10% loss needs +11% to recover, 25% needs +33%, <strong>50% needs +100%</strong>. This is why small, controlled risk matters.</p><h3>Daily and weekly limits</h3><p>Set a daily loss limit (for example 3%) and a maximum number of trades per day (for example 3). When you hit the limit, close the platform. Most large losses come on the day a trader tries to win it back.</p><h3>The psychology traps</h3><p><strong>Fear</strong> makes you skip valid setups; <strong>greed</strong> makes you move take-profit or oversize; <strong>revenge trading</strong> happens after a loss; <strong>FOMO</strong> makes you chase price. Fix them with rules, a checklist before every trade, and a trading journal.</p><div class="cp-ex"><strong>Worked example</strong><p>Account $1,000, risk 1% = <strong>$10</strong>. Stop-loss 20 pips on EUR/USD ($10 per pip per standard lot). Lot size = $10 ÷ (20 × $10) = <strong>0.05 lot</strong>. If stopped out you lose $10 (1%); if the 1:2 target hits you make $20 (2%). Ten losses in a row would cost about 9.6% — painful but survivable.</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Risk 1% per trade; the stop decides the lot size</li><li>Large drawdowns are very hard to recover</li><li>Daily loss limit protects you from emotional trading</li><li>Journal every trade: setup, result, emotion</li></ul></div><div class="cp-video" data-n="6"></div></section>
+<section class="cp-mod"><h2>Module 7 — Going Live, Journaling &amp; Funded Accounts</h2><p class="cp-intro">The jump from demo to live is mostly psychological. Make it small, slow and structured.</p><h3>Demo-to-live checklist</h3><p>Positive results over 100+ backtested and 4+ weeks of demo trades; strategy written down; risk 1%; a trading journal ready; a regulated broker; money you can afford to lose. Start live with the <strong>smallest lot size</strong> and scale up only after a month of rule-following.</p><h3>The trading journal</h3><p>For every trade record: date, pair, direction, entry, stop, target, result (R), screenshot, and one line on how you felt. Every Sunday review: win rate, average R, your top mistake, and one rule to improve next week.</p><h3>Prop-firm (funded) accounts</h3><p>Prop firms give you capital after you pass an evaluation: a profit target (for example 8–10%), a maximum daily loss (for example 5%) and a maximum total loss (for example 10%). Trade the challenge with <strong>0.5–1% risk</strong>, no gambling for speed, and treat the rules as seriously as the profit target.</p><h3>Where to go next</h3><p>Open your trading account (button on this page), practise on demo, join the students&#x27; WhatsApp group for questions, and book <strong>one-on-one mentorship</strong> for personal feedback on your trades and a custom plan.</p><div class="cp-ex"><strong>Worked example</strong><p>Week review: 12 trades, 5 wins and 7 losses at 1:2 = +10R − 7R = <strong>+3R</strong> (+3% at 1% risk). Biggest mistake: 2 trades taken without a confirmation candle. Rule for next week: &#x27;No candle, no trade.&#x27;</p></div><div class="cp-key"><strong>Key takeaways</strong><ul><li>Go live small and scale slowly</li><li>A journal turns experience into skill</li><li>Funded accounts reward discipline, not speed</li><li>Use mentorship for personalised feedback</li></ul></div><div class="cp-video" data-n="7"></div></section>
+<p class="cp-note">Educational content only — not financial advice. Trading carries a high risk of loss; never risk money you cannot afford to lose.</p>
+</div><div id="side"></div></div>
+</div>
+</div></div>
+</div>
+</div>
+
+<script src="../assets/vendors/aos/aos.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/payment-config.js"></script>
+<script src="../assets/js/catalog.js"></script>
+<script type="module" src="../assets/js/course-gate.js"></script>
+</body>
+</html>

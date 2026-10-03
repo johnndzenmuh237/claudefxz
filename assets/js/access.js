@@ -12,7 +12,7 @@ export const checkoutUrl = (id) => `checkout.html?product=${encodeURIComponent(i
 // Where a buyer goes to USE a paid product.
 export const openUrl = (id) => {
   const p = (window.CATALOG || {})[id];
-  return p && p.type === 'ebook' ? `library.html` : `learn.html?p=${encodeURIComponent(id)}`;
+  return p && p.type === 'ebook' ? `library.html` : (p && p.page ? p.page : `learn.html?p=${encodeURIComponent(id)}`);
 };
 
 function expiryOf(o) {

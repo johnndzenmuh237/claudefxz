@@ -102,6 +102,7 @@ function renderLocked(p, pending) {
     const { owned, pending } = await loadOwnership(db, user.uid);
     const order = owned.get(id);
     if (!order) { renderLocked(product, pending.has(id)); return; }
+    if (product.type === 'course' && product.page) { location.replace(product.page); return; }
     if (product.type === 'course') renderCourse(product, order);
     else if (product.type === 'bot') renderBot(product, order);
     else renderMentorship(product, order);

@@ -17,6 +17,21 @@ window.PAYMENT_CONFIG = {
   productVideos: {
   },
 
+  /* ---------- COURSE YOUTUBE LESSONS ----------
+     Paste one YouTube link per module, IN ORDER, inside each [ ].
+     Forex & Synthetic courses have 7 modules; the combined course has 12.
+     A module left as "" shows "Video coming soon". */
+  courseVideos: {
+    "course-forex.html":           ["","","","","","",""],
+    "course-synthetic.html":       ["","","","","","",""],
+    "course-forex-synthetic.html": ["","","","","","","","","","","",""],
+  },
+
+  /* ---------- OPEN A TRADING ACCOUNT buttons on the course pages ----------
+     Paste your broker / Deriv affiliate links. Empty = button asks us on WhatsApp. */
+  openAccountForexUrl: "",      // <<< PASTE HERE your forex broker sign-up link
+  openAccountDerivUrl: "https://deriv.com",   // <<< or your Deriv affiliate link
+
   /* ---------- CRYPTO WALLETS ---------- */
   cryptoWallets: {
     btc:        { enabled: true, label: "Bitcoin",  network: "Bitcoin (BTC)", address: "bc1qmrx53ld85qftp4ng4gp4vcg3d38el34s00tq0l", confirmationsNote: "Wait for at least 2 confirmations on a Bitcoin block explorer." },
@@ -39,6 +54,7 @@ window.PAYMENT_CONFIG = {
     orange: { enabled: true, providerName: "Orange Money",     accountName: "JOHN NDZENMUH", accountNumber: "+237679806062", logo: "", ussd: "#150#" },
   },
 
+  whatsappGroupUrl: "",   // <<< PASTE HERE your WhatsApp GROUP invite link (https://chat.whatsapp.com/...)
   pendingReviewWindowHours: 24,
   supportWhatsApp: "https://wa.me/237675175534",
   supportPhone: "+237679806062",
