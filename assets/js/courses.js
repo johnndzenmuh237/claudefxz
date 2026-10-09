@@ -1,318 +1,62 @@
-/* ============================================================
-   FOREX ACADEMY PRO — courses.js
-   Course listing, filtering, search & enrollment
-   ============================================================ */
+/* Opens a course page only for users with an APPROVED order for a product that uses this page. */
+import { requireUser, populateUserUI } from "./auth-helpers.js";
+import { db } from "./firebase-config.js";
+import { esc, loadOwnership, checkoutUrl, dlButton, bindDownloads, contactCard } from "./access.js";
 
-'use strict';
+const page = document.body.dataset.page;
+const ids = Object.keys(window.CATALOG).filter((k) => window.CATALOG[k].page === page);
+const $ = (i) => document.getElementById(i);
 
-const CourseCatalog = {
-  courses: [
-    {
-      id: 1,
-      title: 'Forex Trading Fundamentals',
-      category: 'forex',
-      level: 'beginner',
-      price: 197,
-      original: 397,
-      duration: '12 hours',
-      lessons: 42,
-      students: 2840,
-      rating: 4.9,
-      instructor: { name: 'David Okafor', title: 'Senior FX Analyst', avatar: 'assets/images/instructors/instructor-1.jpg' },
-      thumb: 'assets/images/courses/course-1.jpg',
-      desc: 'Master the foundational principles of Forex trading. Covers currency pairs, market structure, sessions, and your first live trade.',
-      tags: ['forex', 'beginner', 'fundamentals'],
-    },
-    {
-      id: 2,
-      title: 'Advanced Technical Analysis',
-      category: 'technical',
-      level: 'intermediate',
-      price: 297,
-      original: 597,
-      duration: '18 hours',
-      lessons: 64,
-      students: 1920,
-      rating: 4.8,
-      instructor: { name: 'Sarah Mensah', title: 'Chart Pattern Specialist', avatar: 'assets/images/instructors/instructor-2.jpg' },
-      thumb: 'assets/images/courses/course-2.jpg',
-      desc: 'Deep dive into chart patterns, indicators, Fibonacci, ICT concepts, and confluence trading strategies used by professionals.',
-      tags: ['technical', 'patterns', 'indicators'],
-    },
-    {
-      id: 3,
-      title: 'Synthetic Indices Mastery',
-      category: 'synthetic',
-      level: 'intermediate',
-      price: 247,
-      original: 497,
-      duration: '15 hours',
-      lessons: 54,
-      students: 3210,
-      rating: 4.9,
-      instructor: { name: 'Emmanuel Asante', title: 'Synthetic Indices Trader', avatar: 'assets/images/instructors/instructor-3.jpg' },
-      thumb: 'assets/images/courses/course-3.jpg',
-      desc: 'The complete guide to trading Volatility 75, Crash/Boom, Step Index and all Deriv synthetic indices profitably.',
-      tags: ['synthetic', 'volatility', 'deriv'],
-    },
-    {
-      id: 4,
-      title: 'Risk Management & Psychology',
-      category: 'psychology',
-      level: 'beginner',
-      price: 147,
-      original: 297,
-      duration: '8 hours',
-      lessons: 28,
-      students: 4105,
-      rating: 4.7,
-      instructor: { name: 'Linda Boateng', title: 'Trading Psychologist', avatar: 'assets/images/instructors/instructor-4.jpg' },
-      thumb: 'assets/images/courses/course-4.jpg',
-      desc: 'Develop unshakeable trading discipline. Master position sizing, drawdown control, and the winning trader mindset.',
-      tags: ['risk', 'psychology', 'mindset'],
-    },
-    {
-      id: 5,
-      title: 'Price Action Trading',
-      category: 'technical',
-      level: 'intermediate',
-      price: 267,
-      original: 527,
-      duration: '16 hours',
-      lessons: 58,
-      students: 2290,
-      rating: 4.8,
-      instructor: { name: 'Kwame Darko', title: 'Price Action Expert', avatar: 'assets/images/instructors/instructor-5.jpg' },
-      thumb: 'assets/images/courses/course-5.jpg',
-      desc: 'Trade naked charts with confidence. Learn candlestick formations, support/resistance, supply and demand zones.',
-      tags: ['price action', 'candlesticks', 'support resistance'],
-    },
-    {
-      id: 6,
-      title: 'Funded Account Blueprint',
-      category: 'propfirm',
-      level: 'advanced',
-      price: 347,
-      original: 697,
-      duration: '20 hours',
-      lessons: 72,
-      students: 1680,
-      rating: 4.9,
-      instructor: { name: 'Nana Amponsah', title: 'Funded Trader & Coach', avatar: 'assets/images/instructors/instructor-6.jpg' },
-      thumb: 'assets/images/courses/course-6.jpg',
-      desc: 'Pass FTMO, MyForexFunds, and other prop firm challenges. Covers strategy, rules compliance, and scaling capital.',
-      tags: ['funded', 'prop firm', 'FTMO'],
-    },
-    {
-      id: 7,
-      title: 'ICT Concepts & Smart Money',
-      category: 'technical',
-      level: 'advanced',
-      price: 397,
-      original: 797,
-      duration: '24 hours',
-      lessons: 88,
-      students: 987,
-      rating: 4.9,
-      instructor: { name: 'David Okafor', title: 'Senior FX Analyst', avatar: 'assets/images/instructors/instructor-1.jpg' },
-      thumb: 'assets/images/courses/course-7.jpg',
-      desc: 'Master Inner Circle Trader methodology. Order blocks, fair value gaps, liquidity pools, and institutional order flow.',
-      tags: ['ICT', 'smart money', 'institutional'],
-    },
-    {
-      id: 8,
-      title: 'Account Management Strategies',
-      category: 'management',
-      level: 'advanced',
-      price: 497,
-      original: 997,
-      duration: '22 hours',
-      lessons: 80,
-      students: 543,
-      rating: 4.8,
-      instructor: { name: 'Sarah Mensah', title: 'Account Manager', avatar: 'assets/images/instructors/instructor-2.jpg' },
-      thumb: 'assets/images/courses/course-8.jpg',
-      desc: 'Build a professional account management business. Client relations, reporting, drawdown management, and legal compliance.',
-      tags: ['account management', 'business', 'clients'],
-    },
-    {
-      id: 9,
-      title: 'Forex for Complete Beginners',
-      category: 'forex',
-      level: 'beginner',
-      price: 97,
-      original: 197,
-      duration: '6 hours',
-      lessons: 20,
-      students: 6842,
-      rating: 4.6,
-      instructor: { name: 'Linda Boateng', title: 'Trading Educator', avatar: 'assets/images/instructors/instructor-4.jpg' },
-      thumb: 'assets/images/courses/course-9.jpg',
-      desc: 'Your very first step into Forex. No prior experience needed. Learn what Forex is, how it works, and how to get started safely.',
-      tags: ['forex', 'beginner', 'starter'],
-    },
-  ],
-
-  filter: { category: 'all', level: 'all', search: '' },
-  sort: 'popular',
-  grid: null,
-  count: null,
-
-  init() {
-    this.grid  = document.querySelector('[data-courses-grid]');
-    this.count = document.querySelector('[data-courses-count]');
-    if (!this.grid) return;
-
-    this.render();
-    this.bindFilters();
-    this.bindSearch();
-    this.bindSort();
-  },
-
-  getFiltered() {
-    let list = [...this.courses];
-
-    if (this.filter.category !== 'all') {
-      list = list.filter(c => c.category === this.filter.category);
-    }
-    if (this.filter.level !== 'all') {
-      list = list.filter(c => c.level === this.filter.level);
-    }
-    if (this.filter.search) {
-      const q = this.filter.search.toLowerCase();
-      list = list.filter(c =>
-        c.title.toLowerCase().includes(q) ||
-        c.desc.toLowerCase().includes(q) ||
-        c.tags.some(t => t.includes(q))
-      );
-    }
-
-    // Sort
-    switch (this.sort) {
-      case 'popular':  list.sort((a, b) => b.students - a.students); break;
-      case 'rating':   list.sort((a, b) => b.rating - a.rating);     break;
-      case 'newest':   list.sort((a, b) => b.id - a.id);             break;
-      case 'price-lo': list.sort((a, b) => a.price - b.price);       break;
-      case 'price-hi': list.sort((a, b) => b.price - a.price);       break;
-    }
-    return list;
-  },
-
-  render() {
-    const list = this.getFiltered();
-    if (this.count) this.count.textContent = `${list.length} course${list.length !== 1 ? 's' : ''}`;
-
-    if (!list.length) {
-      this.grid.innerHTML = `
-        <div style="grid-column:1/-1; text-align:center; padding:4rem; color:var(--color-text-muted);">
-          <i class="fas fa-graduation-cap" style="font-size:2.5rem; margin-bottom:1rem; display:block; color:var(--color-dark-4);"></i>
-          <p>No courses found. Try a different filter.</p>
-        </div>`;
+(async function () {
+  try {
+    const { user, profile } = await requireUser();
+    populateUserUI(profile);
+    const { owned, pending } = await loadOwnership(db, user.uid);
+    $('lnLoading').style.display = 'none';
+    const mine = ids.find((k) => owned.has(k));
+    if (!mine) {
+      const main = document.body.dataset.main;
+      const isPending = ids.some((k) => pending.has(k));
+      $('lockBody').style.display = 'block';
+      $('lockBody').innerHTML = `<div class="ln-card ln-center"><i class="fas fa-lock big"></i><h2 style="font-size:1.3rem;margin-bottom:.4rem;">${esc(document.title.split('|')[0])}</h2>` +
+        (isPending ? `<p>Your payment is <strong>pending verification</strong>. This course unlocks once it is approved.</p><div class="ln-actions" style="justify-content:center;"><a class="btn btn-outline" href="payments.html">View my payments</a></div>`
+                   : `<p>Pay once to unlock the full course, ebook and mentorship access — for life.</p><div class="ln-actions" style="justify-content:center;"><a class="btn btn-primary" href="${checkoutUrl(main)}"><i class="fas fa-shopping-cart"></i> Enroll — $${esc(window.CATALOG[main].priceUsd)}</a></div>`) + `</div>`;
       return;
     }
-
-    this.grid.innerHTML = list.map(c => this.buildCard(c)).join('');
-
-    // Wishlist toggle
-    this.grid.querySelectorAll('.wishlist-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        btn.classList.toggle('active');
-        btn.querySelector('i').className = btn.classList.contains('active')
-          ? 'fas fa-heart' : 'far fa-heart';
-        btn.style.color = btn.classList.contains('active')
-          ? 'var(--color-danger)' : '';
-      });
+    const p = window.CATALOG[mine], c = window.PAYMENT_CONFIG || {};
+    const toc = [...document.querySelectorAll('.cp-mod h2')].map((h, i) => { h.parentElement.id = 'm' + (i + 1); return `<a href="#m${i + 1}" class="ln-lesson"><i class="fas fa-book-open"></i>${esc(h.textContent)}</a>`; }).join('');
+    const group = c.whatsappGroupUrl
+      ? `<a class="btn btn-primary btn-sm" href="${esc(c.whatsappGroupUrl)}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Join the WhatsApp group</a>`
+      : `<a class="btn btn-primary btn-sm" href="${esc(c.supportWhatsApp || '#')}?text=${encodeURIComponent('Hello, I paid for the course. Please add me to the student WhatsApp group.')}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Request WhatsApp group link</a>`;
+    const wa = (t) => `${esc(c.supportWhatsApp || '#')}?text=${encodeURIComponent(t)}`;
+    const acct = (label, url, ask) => url ? `<a class="btn btn-primary btn-sm" href="${esc(url)}" target="_blank" rel="noopener"><i class="fas fa-user-plus"></i> ${label}</a>`
+      : `<a class="btn btn-outline btn-sm" href="${wa(ask)}" target="_blank" rel="noopener"><i class="fas fa-user-plus"></i> ${label}</a>`;
+    const wantF = page !== 'course-synthetic.html', wantS = page !== 'course-forex.html';
+    const accounts = `<div class="ln-card"><h3><i class="fas fa-user-plus"></i> Create your trading account</h3><p>Open a free demo account first, then go live only when you follow your rules.</p><div class="ln-actions">` +
+      (wantF ? acct('Open forex account', c.openAccountForexUrl, 'Hello, which broker should I use to open a forex account?') : '') +
+      (wantS ? acct('Open Deriv account', c.derivSignupUrl || c.openAccountDerivUrl, 'Hello, please help me open a Deriv account.') : '') + `</div></div>`;
+    $('side').innerHTML = accounts +
+      `<div class="ln-card"><h3><i class="fas fa-list-check"></i> Course contents</h3>${toc}</div>` +
+      (p.ebook ? `<div class="ln-card"><h3><i class="fas fa-file-pdf"></i> Course ebook</h3><p>Download it and keep it — you can download it again any time you log in.</p><div class="ln-actions">${dlButton(p.ebook.file, 'Download ebook (PDF)', 'btn btn-primary')}</div></div>` : '') +
+      `<div class="ln-card"><h3><i class="fas fa-users"></i> Student community</h3><p>Join the students' WhatsApp group to ask questions and share progress.</p><div class="ln-actions">${group}</div></div>` +
+      contactCard('1-on-1 mentorship & follow-up', 'Want personal guidance, feedback on your trades or one-on-one mentorship? Contact us directly:');
+    const vids = (c.courseVideos || {})[page] || [];
+    document.querySelectorAll('.cp-video').forEach((d) => {
+      const u = vids[+d.dataset.n - 1];
+      d.innerHTML = /^https?:\/\//i.test(u || '')
+        ? `<a class="btn btn-primary btn-sm" href="${esc(u)}" target="_blank" rel="noopener"><i class="fab fa-youtube"></i> Watch the video lesson on YouTube</a>`
+        : `<span class="cp-note"><i class="fab fa-youtube"></i> Video lesson coming soon</span>`;
     });
-  },
-
-  buildCard(c) {
-    const stars = '★'.repeat(Math.floor(c.rating)) + (c.rating % 1 >= 0.5 ? '⭐' : '');
-    const discount = Math.round((1 - c.price / c.original) * 100);
-    const levelClass = { beginner: 'level-beginner', intermediate: 'level-intermediate', advanced: 'level-advanced' };
-
-    return `
-      <div class="course-card" data-aos="fade-up">
-        <div class="course-thumb">
-          <img src="${c.thumb}" alt="${c.title}" loading="lazy"
-            onerror="this.src='assets/images/courses/placeholder.jpg'">
-          <div class="course-thumb-overlay">
-            <span class="course-level ${levelClass[c.level]}">${c.level}</span>
-          </div>
-          <button class="wishlist-btn" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.5); border:none; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white; font-size:14px; transition:all 0.2s;">
-            <i class="far fa-heart"></i>
-          </button>
-          ${discount >= 20 ? `<span style="position:absolute;top:12px;left:12px;background:var(--color-danger);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;">-${discount}%</span>` : ''}
-        </div>
-        <div class="course-body">
-          <div class="course-category">${c.category.toUpperCase()}</div>
-          <h3 class="course-title">${c.title}</h3>
-          <p class="course-desc">${c.desc}</p>
-          <div class="course-meta">
-            <span><i class="fas fa-clock"></i> ${c.duration}</span>
-            <span><i class="fas fa-play-circle"></i> ${c.lessons} lessons</span>
-            <span><i class="fas fa-users"></i> ${c.students.toLocaleString()}</span>
-          </div>
-          <div style="display:flex; align-items:center; gap:6px; font-size:13px; margin-bottom:16px;">
-            <span style="color:var(--color-gold);">${c.rating}</span>
-            <span style="color:var(--color-gold); letter-spacing:-1px; font-size:12px;">${'★'.repeat(Math.round(c.rating))}</span>
-            <span style="color:var(--color-text-muted);">(${(c.students * 0.4).toFixed(0)} reviews)</span>
-          </div>
-          <div class="course-instructor">
-            <img class="instructor-avatar" src="${c.instructor.avatar}" alt="${c.instructor.name}"
-              onerror="this.src='assets/images/instructors/placeholder.jpg'">
-            <div>
-              <div class="instructor-name">${c.instructor.name}</div>
-              <div class="instructor-title">${c.instructor.title}</div>
-            </div>
-            <div class="course-price">
-              <div class="price">$${c.price}</div>
-              <div class="price-original">$${c.original}</div>
-            </div>
-          </div>
-          <a href="student-portal/checkout.html?product=course-${c.id}" class="btn btn-primary w-full mt-4" style="justify-content:center; margin-top:16px;">
-            <i class="fas fa-graduation-cap"></i> Enroll Now
-          </a>
-        </div>
-      </div>`;
-  },
-
-  bindFilters() {
-    document.querySelectorAll('[data-course-filter]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const [key, val] = btn.dataset.courseFilter.split(':');
-        document.querySelectorAll(`[data-course-filter^="${key}:"]`).forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        this.filter[key] = val;
-        this.render();
-      });
-    });
-  },
-
-  bindSearch() {
-    const input = document.querySelector('[data-course-search]');
-    if (!input) return;
-    let timer;
-    input.addEventListener('input', (e) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        this.filter.search = e.target.value.trim();
-        this.render();
-      }, 300);
-    });
-  },
-
-  bindSort() {
-    const select = document.querySelector('[data-course-sort]');
-    if (!select) return;
-    select.addEventListener('change', () => {
-      this.sort = select.value;
-      this.render();
-    });
+    const links = { mt5Download: c.mt5DownloadUrl || 'https://www.metatrader5.com/en/download', derivSignup: c.derivSignupUrl || c.openAccountDerivUrl || 'https://deriv.com' };
+    const waMsg = { vip: 'Hello, I would like to join the VIP signals.', bot: 'Hello, I am interested in the AI Auto Trading Bot.' };
+    document.querySelectorAll('[data-wa]').forEach((a) => { a.href = `${c.supportWhatsApp || '#'}?text=${encodeURIComponent(waMsg[a.dataset.wa])}`; });
+    document.querySelectorAll('[data-link]').forEach((a) => { a.href = links[a.dataset.link]; });
+    const logos = { deriv: c.derivLogo, mt5: c.mt5Logo };
+    document.querySelectorAll('[data-brand]').forEach((el) => { const u = logos[el.dataset.brand]; if (u) el.innerHTML = `<img src="${esc(u)}" alt="${esc(el.dataset.brand)}">`; });
+    $('courseBody').style.display = 'block';
+    bindDownloads($('courseBody'));
+  } catch (e) {
+    $('lnLoading').style.display = 'none';
+    if (e !== 'not-authenticated') { $('lockBody').style.display = 'block'; $('lockBody').innerHTML = '<div class="ln-card ln-center"><p>Could not load the course — please refresh.</p></div>'; }
   }
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-  CourseCatalog.init();
-});
+})();
