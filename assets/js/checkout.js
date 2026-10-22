@@ -2,7 +2,7 @@
    CLAUDEFX ACADEMY PRO — student-portal/checkout.html logic
    Manual payment system (MTN / Orange / Crypto) on Firestore.
    Customer pays -> submits reference -> order is "pending" ->
-   admin approves in admin-payments.html -> library unlocks.
+   admin approves in admin/payments.html -> library unlocks and the sale is credited to the admin sales balance.
    ============================================================ */
 import { requireUser, populateUserUI } from './auth-helpers.js';
 import { db } from './firebase-config.js';

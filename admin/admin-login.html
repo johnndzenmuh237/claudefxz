@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login | Forex Academy Pro</title>
+  <title>Admin Login | Claudefx Academy Pro</title>
+  <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
   <style>
     body {
       min-height: 100vh;
@@ -167,7 +169,7 @@
 
 <!-- ── Firebase Script ── -->
 <script type="module">
-  import { auth, db } from '../assets/js/firebase/firebase-config.js';
+  import { adminAuth as auth, adminDb as db } from '../assets/js/admin-firebase.js';
   import {
     signInWithEmailAndPassword,
     signOut, onAuthStateChanged,
@@ -177,17 +179,21 @@
     doc, getDoc, updateDoc, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  // Already admin? Go to dashboard
+  // Where to go after login: the page the admin originally asked for (a plain file name
+  // in this folder only — never a URL, so it can't be used as an open redirect).
+  const params = new URLSearchParams(location.search);
+  const nextPage = /^[a-z0-9-]+\.html$/i.test(params.get('next') || '') && params.get('next') !== 'admin-login.html'
+    ? params.get('next') : 'dashboard.html';
+
+  // Already signed in to the ADMIN session? Verify the role, then continue.
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
+    if (!user) return;
+    try {
       const snap = await getDoc(doc(db, 'users', user.uid));
       const role = snap.exists() ? snap.data().role : 'student';
-      if (role === 'admin') {
-        window.location.href = '../admin/dashboard.html';
-      } else {
-        await signOut(auth); // wrong role — sign out
-      }
-    }
+      if (role === 'admin') { window.location.replace(nextPage); }
+      else { await signOut(auth); }       // wrong role — only the admin session is cleared, never a student's
+    } catch (e) { console.error(e); }
   });
 
   function showMsg(text, type='error') {
@@ -196,6 +202,8 @@
     document.getElementById('authMsgText').textContent = text;
     el.querySelector('i').className = type==='error'?'fas fa-circle-exclamation':'fas fa-circle-check';
   }
+
+  if (params.get('denied')) showMsg('That account is not an administrator. Please sign in with your admin account.');
 
   function setLoading(on) {
     document.getElementById('adminSpinner').style.display = on ? 'block' : 'none';
@@ -232,7 +240,7 @@
       await updateDoc(doc(db, 'users', user.uid), { lastLogin: serverTimestamp() });
 
       showMsg('Admin verified. Redirecting…', 'success');
-      setTimeout(() => { window.location.href = '../admin/dashboard.html'; }, 700);
+      setTimeout(() => { window.location.replace(nextPage); }, 500);
 
     } catch (err) {
       setLoading(false);

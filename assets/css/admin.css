@@ -1,0 +1,181 @@
+/* ============================================================
+   CLAUDEFX ACADEMY PRO — assets/css/admin.css
+   Extra components for the admin panel. Loaded AFTER dashboard.css and
+   reuses its tokens (--color-gold, --space-*, --radius-* …).
+   ============================================================ */
+
+/* ---- base page style for the admin panel ----
+   style.css in this project has lost its site-wide `body { … }` rule (only an orphaned
+   `overflow-x: clip;` is left after the html rule), so text would default to black
+   Times New Roman. This restores it for admin pages only, using the same tokens as
+   darkmode.css (so the light/dark toggle keeps working). */
+body {
+  font-family: var(--font-body);
+  background: var(--color-black);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- access guard: nothing is shown until the admin is verified ---- */
+.adm-locked .dashboard-layout { visibility: hidden; }
+.adm-lock-msg { display: none; }
+.adm-locked .adm-lock-msg {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-4);
+  position: fixed; inset: 0; z-index: 9000; background: var(--color-black);
+  color: var(--color-text-secondary); font-size: var(--text-sm); text-align: center; padding: var(--space-6);
+}
+.adm-lock-msg .loader-ring { position: static; }
+
+/* ---- identity ---- */
+.adm-avatar {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(201,168,76,.14); color: var(--color-gold);
+  border: 1px solid rgba(201,168,76,.3); font-weight: 800; font-size: 13px; font-family: var(--font-display);
+}
+.topbar-user .adm-avatar { width: 32px; height: 32px; }
+
+/* ---- sidebar pending badge ---- */
+.adm-pending-badge { margin-left: auto; min-width: 20px; justify-content: center; font-size: 10px !important; }
+.adm-pending-badge[hidden] { display: none !important; }
+.badge-warning { background: rgba(245,158,11,.12); color: var(--color-warning); border: 1px solid rgba(245,158,11,.25); }
+
+/* ---- bell drawer ---- */
+.adm-drawer-foot { display: flex; gap: var(--space-2); flex-wrap: wrap; padding: var(--space-4) var(--space-6); margin-top: auto; border-top: 1px solid rgba(255,255,255,.06); }
+a.notif-item { color: inherit; text-decoration: none; }
+.adm-empty { text-align: center; color: var(--color-text-secondary); padding: var(--space-10) var(--space-6); font-size: var(--text-sm); }
+.adm-empty i { display: block; font-size: 1.8rem; margin-bottom: var(--space-3); color: var(--color-text-muted); }
+
+/* ---- toasts ---- */
+#admToasts { position: fixed; top: 84px; right: 16px; z-index: 9500; display: flex; flex-direction: column; gap: 10px; max-width: min(380px, calc(100vw - 32px)); }
+.adm-toast {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: var(--radius-lg);
+  background: var(--color-dark-3); border: 1px solid rgba(255,255,255,.1); color: var(--color-text-primary);
+  box-shadow: var(--shadow-lg); font-size: var(--text-sm); line-height: 1.45; text-decoration: none; cursor: pointer;
+  animation: admToastIn .25s ease both;
+}
+.adm-toast.out { opacity: 0; transform: translateX(20px); transition: all .25s ease; }
+.adm-toast i { margin-top: 2px; }
+.adm-toast-success { border-color: rgba(34,197,94,.4); } .adm-toast-success i { color: var(--color-success); }
+.adm-toast-danger  { border-color: rgba(239,68,68,.4); }  .adm-toast-danger i  { color: var(--color-danger); }
+.adm-toast-warn    { border-color: rgba(245,158,11,.4); } .adm-toast-warn i    { color: var(--color-warning); }
+.adm-toast-info    { border-color: rgba(201,168,76,.4); } .adm-toast-info i    { color: var(--color-gold); }
+@keyframes admToastIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+
+/* ---- banners ---- */
+.adm-banner { display: flex; gap: 10px; align-items: flex-start; padding: 12px 16px; border-radius: var(--radius-lg); margin-bottom: var(--space-5); font-size: var(--text-sm); line-height: 1.5; }
+.adm-banner > span { flex: 1; min-width: 0; }
+.adm-banner-danger { background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.3); color: #fca5a5; }
+.adm-banner-warn   { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.3); color: #fcd34d; }
+.adm-banner-info   { background: rgba(201,168,76,.08); border: 1px solid rgba(201,168,76,.3); color: var(--color-gold-light); }
+.adm-banner .btn { flex-shrink: 0; }
+
+/* ---- TOTAL SALES BALANCE hero ---- */
+.adm-hero {
+  position: relative; overflow: hidden; margin-bottom: var(--space-6);
+  padding: var(--space-8); border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, rgba(201,168,76,.16), rgba(201,168,76,.03) 55%, var(--color-dark-2));
+  border: 1px solid rgba(201,168,76,.35); box-shadow: var(--shadow-gold);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap;
+}
+.adm-hero-label { font-size: var(--text-xs); letter-spacing: .12em; text-transform: uppercase; color: var(--color-gold); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.adm-hero-amount { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.2rem, 7vw, 3.6rem); line-height: 1.1; margin: var(--space-2) 0; color: var(--color-text-primary); font-variant-numeric: tabular-nums; word-break: break-word; }
+.adm-hero-sub { color: var(--color-text-secondary); font-size: var(--text-sm); }
+.adm-chips { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.adm-chip { padding: var(--space-3) var(--space-5); border-radius: var(--radius-lg); background: rgba(0,0,0,.28); border: 1px solid rgba(255,255,255,.08); min-width: 140px; }
+.adm-chip small { display: block; font-size: var(--text-xs); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .06em; }
+.adm-chip strong { font-family: var(--font-display); font-size: var(--text-xl); font-variant-numeric: tabular-nums; }
+
+/* ---- layout helpers ---- */
+.adm-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: var(--space-6); margin-bottom: var(--space-6); align-items: start; }
+.adm-grid > * { min-width: 0; }
+.adm-chart-box { position: relative; height: 260px; }
+.adm-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.adm-money { color: var(--color-success); font-weight: 700; }
+.adm-muted { color: var(--color-text-secondary); }
+.adm-mono { font-family: var(--font-mono); font-size: .78rem; word-break: break-all; }
+
+/* ---- daily bars (no chart library) ---- */
+.adm-bars { display: flex; align-items: flex-end; gap: 3px; height: 220px; padding-top: var(--space-2); }
+.adm-bar-col { flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; }
+.adm-bar-col small { font-size: 10px; color: var(--color-text-muted); line-height: 1; }
+.adm-bar-fill { display: block; width: 100%; max-width: 22px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--color-gold-light), var(--color-gold-dark)); min-height: 0; transition: height .3s ease; }
+.adm-bar-fill.empty { background: rgba(255,255,255,.06); height: 2px !important; }
+.adm-bar-col:hover .adm-bar-fill { filter: brightness(1.15); }
+
+/* ---- sales by product ---- */
+.adm-prod { padding: var(--space-4) var(--space-6); border-bottom: 1px solid rgba(255,255,255,.05); }
+.adm-prod:last-child { border-bottom: 0; }
+.adm-prod-top { display: flex; justify-content: space-between; gap: var(--space-4); align-items: baseline; }
+.adm-prod-name { font-weight: 600; font-size: var(--text-sm); min-width: 0; }
+.adm-prod-amt { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.adm-prod-meta { font-size: var(--text-xs); color: var(--color-text-secondary); margin: 2px 0 8px; }
+.adm-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,.07); overflow: hidden; }
+.adm-bar > span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--color-gold-dark), var(--color-gold-light)); }
+
+/* ---- tabs ---- */
+.adm-tabs { display: flex; gap: var(--space-2); margin: 0 0 var(--space-6); flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,.07); }
+.adm-tabs button {
+  background: none; border: 0; border-bottom: 2px solid transparent; color: var(--color-text-secondary);
+  padding: var(--space-3) var(--space-4); font: inherit; font-weight: 600; cursor: pointer; margin-bottom: -1px;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.adm-tabs button:hover { color: var(--color-text-primary); }
+.adm-tabs button.active { color: var(--color-gold); border-bottom-color: var(--color-gold); }
+.adm-tabs .badge { font-size: 10px; }
+
+/* ---- pending payment cards ---- */
+.adm-card { background: var(--color-dark-2); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius-xl); padding: var(--space-5) var(--space-6); margin-bottom: var(--space-4); transition: border-color .2s, box-shadow .2s; }
+.adm-card.flash { border-color: var(--color-gold); box-shadow: var(--shadow-gold); }
+.adm-card-head { display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; align-items: flex-start; }
+.adm-card-title { font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg); line-height: 1.3; }
+.adm-card-price { font-family: var(--font-display); font-weight: 800; font-size: var(--text-2xl); color: var(--color-gold); white-space: nowrap; }
+.adm-card-price small { display: block; font-size: var(--text-xs); color: var(--color-text-secondary); font-weight: 500; text-align: right; font-family: var(--font-body); }
+.adm-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--space-2) var(--space-6); margin: var(--space-4) 0; font-size: var(--text-sm); }
+.adm-details div { min-width: 0; overflow-wrap: anywhere; }
+.adm-details dt, .adm-details .k { color: var(--color-text-secondary); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .05em; display: block; }
+.adm-copy { background: none; border: 0; color: var(--color-gold); cursor: pointer; padding: 0 4px; font-size: 12px; }
+.adm-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.adm-reject-box { display: none; margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px dashed rgba(255,255,255,.1); gap: var(--space-3); flex-direction: column; }
+.adm-reject-box.open { display: flex; }
+.adm-warn { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: var(--radius-md); font-size: var(--text-sm); margin-top: var(--space-3); }
+.adm-warn-danger { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.35); color: #fca5a5; }
+.adm-warn-warn { background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.3); color: #fcd34d; }
+
+/* ---- filters / toolbars ---- */
+.adm-toolbar { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; padding: var(--space-4) var(--space-6); border-bottom: 1px solid rgba(255,255,255,.06); }
+.adm-toolbar .form-control { width: auto; min-width: 150px; font-size: var(--text-sm); padding: var(--space-2) var(--space-3); }
+.adm-toolbar .grow { flex: 1; min-width: 180px; }
+.adm-summary { margin-left: auto; font-size: var(--text-sm); color: var(--color-text-secondary); }
+.adm-summary strong { color: var(--color-success); }
+
+/* ---- confirm modal ---- */
+.adm-modal-backdrop { position: fixed; inset: 0; z-index: 9400; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; padding: var(--space-4); }
+.adm-modal { width: 100%; max-width: 480px; max-height: 92vh; overflow-y: auto; background: var(--color-dark-2); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); }
+.adm-modal h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
+.adm-modal-rows { background: var(--color-dark-3); border-radius: var(--radius-lg); padding: var(--space-4); font-size: var(--text-sm); display: grid; gap: 8px; margin-bottom: var(--space-4); }
+.adm-modal-rows div { display: flex; justify-content: space-between; gap: var(--space-4); }
+.adm-modal-rows span:last-child { text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.adm-modal-credit { color: var(--color-success); font-weight: 800; font-size: var(--text-lg); }
+.adm-check { display: flex; gap: 10px; align-items: flex-start; font-size: var(--text-sm); color: var(--color-text-secondary); margin: var(--space-4) 0; cursor: pointer; }
+.adm-check input { margin-top: 3px; accent-color: var(--color-gold); }
+.adm-modal-actions { display: flex; gap: var(--space-3); justify-content: flex-end; flex-wrap: wrap; }
+
+/* ---- mobile ---- */
+@media (max-width: 1024px) {
+  .adm-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .adm-hero { padding: var(--space-5); }
+  .adm-chips { width: 100%; }
+  .adm-chip { flex: 1; min-width: 120px; padding: var(--space-3); }
+  .adm-card { padding: var(--space-4); }
+  .adm-card-price { font-size: var(--text-xl); }
+  .adm-toolbar { padding: var(--space-3) var(--space-4); }
+  .adm-toolbar .form-control { flex: 1; min-width: 130px; }
+  .adm-summary { margin-left: 0; width: 100%; }
+  .adm-actions .btn { flex: 1; }
+  .adm-prod { padding: var(--space-4); }
+  #admToasts { top: 72px; right: 8px; left: 8px; max-width: none; }
+}

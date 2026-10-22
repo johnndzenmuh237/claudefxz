@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Reports | FAP Admin</title>
   <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,9 +15,11 @@
   <link rel="stylesheet" href="../assets/css/darkmode.css">
   <link rel="stylesheet" href="../assets/css/dashboard.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
-<body>
+<body class="adm-locked">
 <div class="page-loader"><div class="loader-ring"></div></div>
+<div class="adm-lock-msg" id="admLockMsg"><div class="loader-ring"></div><p>Verifying admin access…</p></div>
 <div class="dashboard-layout">
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
@@ -36,13 +39,12 @@
       <div class="sidebar-nav-group-label">Management</div>
       <a href="students.html" class="sidebar-link ">
         <i class="fas fa-users"></i><span class="link-text">Students</span>
-        <span class="badge badge-info" style="font-size:9px;margin-left:auto;">14,284</span>
       </a>
       <a href="instructors.html" class="sidebar-link "><i class="fas fa-chalkboard-teacher"></i><span class="link-text">Instructors</span></a>
       <a href="courses.html" class="sidebar-link "><i class="fas fa-graduation-cap"></i><span class="link-text">Courses</span></a>
       <a href="payments.html" class="sidebar-link ">
         <i class="fas fa-credit-card"></i><span class="link-text">Payments</span>
-        <span class="badge badge-success" style="font-size:9px;margin-left:auto;">3 new</span>
+        <span class="badge badge-gold adm-pending-badge" data-pending-badge hidden>0</span>
       </a>
     </div>
     <div class="sidebar-nav-group">
@@ -53,15 +55,14 @@
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">System</div>
       <a href="../index.html" class="sidebar-link"><i class="fas fa-globe"></i><span class="link-text">View Website</span></a>
-      <a href="../index.html" class="sidebar-link" style="color:var(--color-danger);"><i class="fas fa-sign-out-alt"></i><span class="link-text">Sign Out</span></a>
+      <a href="admin-login.html" class="sidebar-link" data-adm-signout style="color:var(--color-danger);"><i class="fas fa-sign-out-alt"></i><span class="link-text">Sign Out</span></a>
     </div>
   </nav>
   <div class="sidebar-footer">
     <div class="sidebar-user">
-      <img class="sidebar-user-avatar" src="../assets/images/instructors/instructor-1.jpg" alt="Admin"
-           onerror="this.style.background='var(--color-dark-3)'">
+      <span class="adm-avatar" data-admin-initials>A</span>
       <div style="overflow:hidden;min-width:0;">
-        <div class="sidebar-user-name">Super Admin</div>
+        <div class="sidebar-user-name" data-admin-name>Admin</div>
         <div class="sidebar-user-role">Administrator</div>
       </div>
       <i class="fas fa-chevron-right sidebar-user-icon"></i>
@@ -89,30 +90,17 @@
       <i class="fas fa-external-link-alt"></i>
     </a>
     <div class="topbar-user">
-      <img src="../assets/images/instructors/instructor-1.jpg" alt="Admin"
-           onerror="this.style.display='none'"
-           style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
-      <span class="topbar-user-name">Admin</span>
+      <span class="adm-avatar" data-admin-initials>A</span>
+      <span class="topbar-user-name" data-admin-name>Admin</span>
     </div>
   </div>
 </div>
     <div class="notif-drawer">
   <div class="notif-drawer-header">
-    <span class="notif-drawer-title">Admin Alerts</span>
+    <span class="notif-drawer-title">Payments to verify</span>
     <button class="btn btn-ghost btn-sm" data-notif-toggle>Close</button>
   </div>
-  <div class="notif-item unread">
-    <div class="notif-item-icon stat-card-green"><i class="fas fa-user-plus"></i></div>
-    <div><div class="notif-text"><strong>3 new students</strong> registered today</div><div class="notif-time">1 hour ago</div></div>
-  </div>
-  <div class="notif-item unread">
-    <div class="notif-item-icon stat-card-gold"><i class="fas fa-credit-card"></i></div>
-    <div><div class="notif-text"><strong>Payment received</strong> — $297 Professional Plan</div><div class="notif-time">2 hours ago</div></div>
-  </div>
-  <div class="notif-item">
-    <div class="notif-item-icon stat-card-blue"><i class="fas fa-signal"></i></div>
-    <div><div class="notif-text">Signal accuracy report ready for <strong>January</strong></div><div class="notif-time">3 hours ago</div></div>
-  </div>
+  <div data-adm-notif-list></div>
 </div>
     <div class="dashboard-content">
 
@@ -158,5 +146,6 @@
 <script src="../assets/vendors/chartjs/chart.umd.min.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/dashboard.js"></script>
+<script type="module" src="../assets/js/admin-shell.js"></script>
 </body>
 </html>

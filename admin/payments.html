@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Payments | FAP Admin</title>
   <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,9 +15,11 @@
   <link rel="stylesheet" href="../assets/css/darkmode.css">
   <link rel="stylesheet" href="../assets/css/dashboard.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
-<body>
+<body class="adm-locked">
 <div class="page-loader"><div class="loader-ring"></div></div>
+<div class="adm-lock-msg" id="admLockMsg"><div class="loader-ring"></div><p>Verifying admin access…</p></div>
 <div class="dashboard-layout">
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
@@ -36,13 +39,12 @@
       <div class="sidebar-nav-group-label">Management</div>
       <a href="students.html" class="sidebar-link ">
         <i class="fas fa-users"></i><span class="link-text">Students</span>
-        <span class="badge badge-info" style="font-size:9px;margin-left:auto;">14,284</span>
       </a>
       <a href="instructors.html" class="sidebar-link "><i class="fas fa-chalkboard-teacher"></i><span class="link-text">Instructors</span></a>
       <a href="courses.html" class="sidebar-link "><i class="fas fa-graduation-cap"></i><span class="link-text">Courses</span></a>
       <a href="payments.html" class="sidebar-link active">
         <i class="fas fa-credit-card"></i><span class="link-text">Payments</span>
-        <span class="badge badge-success" style="font-size:9px;margin-left:auto;">3 new</span>
+        <span class="badge badge-gold adm-pending-badge" data-pending-badge hidden>0</span>
       </a>
     </div>
     <div class="sidebar-nav-group">
@@ -53,15 +55,14 @@
     <div class="sidebar-nav-group">
       <div class="sidebar-nav-group-label">System</div>
       <a href="../index.html" class="sidebar-link"><i class="fas fa-globe"></i><span class="link-text">View Website</span></a>
-      <a href="../index.html" class="sidebar-link" style="color:var(--color-danger);"><i class="fas fa-sign-out-alt"></i><span class="link-text">Sign Out</span></a>
+      <a href="admin-login.html" class="sidebar-link" data-adm-signout style="color:var(--color-danger);"><i class="fas fa-sign-out-alt"></i><span class="link-text">Sign Out</span></a>
     </div>
   </nav>
   <div class="sidebar-footer">
     <div class="sidebar-user">
-      <img class="sidebar-user-avatar" src="../assets/images/instructors/instructor-1.jpg" alt="Admin"
-           onerror="this.style.background='var(--color-dark-3)'">
+      <span class="adm-avatar" data-admin-initials>A</span>
       <div style="overflow:hidden;min-width:0;">
-        <div class="sidebar-user-name">Super Admin</div>
+        <div class="sidebar-user-name" data-admin-name>Admin</div>
         <div class="sidebar-user-role">Administrator</div>
       </div>
       <i class="fas fa-chevron-right sidebar-user-icon"></i>
@@ -89,108 +90,307 @@
       <i class="fas fa-external-link-alt"></i>
     </a>
     <div class="topbar-user">
-      <img src="../assets/images/instructors/instructor-1.jpg" alt="Admin"
-           onerror="this.style.display='none'"
-           style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
-      <span class="topbar-user-name">Admin</span>
+      <span class="adm-avatar" data-admin-initials>A</span>
+      <span class="topbar-user-name" data-admin-name>Admin</span>
     </div>
   </div>
 </div>
     <div class="notif-drawer">
   <div class="notif-drawer-header">
-    <span class="notif-drawer-title">Admin Alerts</span>
+    <span class="notif-drawer-title">Payments to verify</span>
     <button class="btn btn-ghost btn-sm" data-notif-toggle>Close</button>
   </div>
-  <div class="notif-item unread">
-    <div class="notif-item-icon stat-card-green"><i class="fas fa-user-plus"></i></div>
-    <div><div class="notif-text"><strong>3 new students</strong> registered today</div><div class="notif-time">1 hour ago</div></div>
-  </div>
-  <div class="notif-item unread">
-    <div class="notif-item-icon stat-card-gold"><i class="fas fa-credit-card"></i></div>
-    <div><div class="notif-text"><strong>Payment received</strong> — $297 Professional Plan</div><div class="notif-time">2 hours ago</div></div>
-  </div>
-  <div class="notif-item">
-    <div class="notif-item-icon stat-card-blue"><i class="fas fa-signal"></i></div>
-    <div><div class="notif-text">Signal accuracy report ready for <strong>January</strong></div><div class="notif-time">3 hours ago</div></div>
-  </div>
+  <div data-adm-notif-list></div>
 </div>
     <div class="dashboard-content">
 
 <div class="dash-page-header">
   <div>
-    <h1 class="dash-page-title">Payments</h1>
-    <p class="dash-page-sub">Track all transactions and revenue.</p>
+    <h1 class="dash-page-title">Payments &amp; Sales</h1>
+    <p class="dash-page-sub">Customers get access only after you approve their payment. Approved payments are credited to your sales balance automatically.</p>
   </div>
-  <button class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Export CSV</button>
+  <div class="adm-chip" style="min-width:190px;"><small>Total sales balance</small><strong class="adm-money" id="balTotal">$0.00</strong></div>
 </div>
 
-<div class="dash-stats" style="margin-bottom:2rem;">
-  <div class="stat-card">
-    <div class="stat-card-icon stat-card-green"><i class="fas fa-dollar-sign"></i></div>
-    <div class="stat-card-info">
-      <div class="stat-card-label">Total Revenue</div>
-      <div class="stat-card-value">$1.24M</div>
-      <span class="stat-card-change change-up"><i class="fas fa-arrow-up"></i> +34% YoY</span>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-card-icon stat-card-gold"><i class="fas fa-calendar"></i></div>
-    <div class="stat-card-info">
-      <div class="stat-card-label">This Month</div>
-      <div class="stat-card-value">$148K</div>
-      <span class="stat-card-change change-up"><i class="fas fa-arrow-up"></i> +18.4%</span>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-card-icon stat-card-blue"><i class="fas fa-users"></i></div>
-    <div class="stat-card-info">
-      <div class="stat-card-label">Paying Students</div>
-      <div class="stat-card-value">9,842</div>
-      <span class="stat-card-change change-up"><i class="fas fa-arrow-up"></i> +247 new</span>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-card-icon stat-card-red"><i class="fas fa-undo"></i></div>
-    <div class="stat-card-info">
-      <div class="stat-card-label">Refunds</div>
-      <div class="stat-card-value">$2.1K</div>
-      <span class="stat-card-change change-down"><i class="fas fa-arrow-down"></i> -0.3%</span>
-    </div>
-  </div>
+<div class="adm-tabs" role="tablist">
+  <button type="button" data-tab="pending" class="active" role="tab">Pending approval <span class="badge badge-gold" id="tabPendCount" hidden>0</span></button>
+  <button type="button" data-tab="sales" role="tab">Sales ledger</button>
+  <button type="button" data-tab="audit" role="tab">Activity log</button>
 </div>
 
-<div class="dash-widget">
-  <div class="dash-widget-header">
-    <span class="dash-widget-title">Transaction History</span>
-    <div style="display:flex;gap:.75rem;align-items:center;">
-      <select class="form-control" style="width:auto;font-size:.8rem;padding:.35rem .75rem;">
-        <option>All Status</option><option>Paid</option><option>Pending</option><option>Failed</option><option>Refunded</option>
+<!-- ===================== PENDING ===================== -->
+<section id="tab-pending">
+  <div id="pendList"></div>
+</section>
+
+<!-- ===================== SALES LEDGER ===================== -->
+<section id="tab-sales" hidden>
+  <div class="dash-widget">
+    <div class="adm-toolbar">
+      <input type="search" id="fSearch" class="form-control grow" placeholder="Search product, buyer, reference…">
+      <select id="fProduct" class="form-control"><option value="">All products</option></select>
+      <select id="fPeriod" class="form-control">
+        <option value="all">All time</option><option value="today">Today</option><option value="7">Last 7 days</option>
+        <option value="30">Last 30 days</option><option value="month">This month</option>
       </select>
-      <select class="form-control" style="width:auto;font-size:.8rem;padding:.35rem .75rem;">
-        <option>Last 30 days</option><option>Last 90 days</option><option>This Year</option><option>All Time</option>
-      </select>
+      <button type="button" class="btn btn-outline btn-sm" id="btnCsv"><i class="fas fa-download"></i> Export CSV</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnSync" title="Add earlier approved orders and recalculate the total from the ledger"><i class="fas fa-rotate"></i> Recalculate balance</button>
+      <div class="adm-summary" id="ledgerSummary"></div>
     </div>
-  </div>
-  <div class="dash-widget-body" style="padding:0;">
     <div class="table-wrapper" style="border:none;border-radius:0;">
       <table>
-        <thead><tr><th>Transaction ID</th><th>Student</th><th>Plan/Course</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
-        <tbody>
-          <tr><td style="font-family:var(--font-mono);font-size:.75rem;color:var(--color-text-muted);">#TXN-20250115-001</td><td><strong>Kofi Asante</strong></td><td>Professional Plan</td><td style="color:var(--color-success);font-weight:600;">$97.00</td><td><i class="fab fa-cc-visa" style="color:#1a1f71;"></i> Visa</td><td>Jan 15, 2025</td><td><span class="badge badge-success">Paid</span></td><td><button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-receipt"></i></button></td></tr>
-          <tr><td style="font-family:var(--font-mono);font-size:.75rem;color:var(--color-text-muted);">#TXN-20250114-003</td><td><strong>Amara Diallo</strong></td><td>Elite Plan</td><td style="color:var(--color-success);font-weight:600;">$247.00</td><td><i class="fab fa-paypal" style="color:#003087;"></i> PayPal</td><td>Jan 14, 2025</td><td><span class="badge badge-success">Paid</span></td><td><button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-receipt"></i></button></td></tr>
-          <tr><td style="font-family:var(--font-mono);font-size:.75rem;color:var(--color-text-muted);">#TXN-20250113-007</td><td><strong>Blessing Osei</strong></td><td>Forex Fundamentals</td><td style="color:var(--color-success);font-weight:600;">$197.00</td><td><i class="fas fa-mobile-alt" style="color:var(--color-success);"></i> M-Pesa</td><td>Jan 13, 2025</td><td><span class="badge badge-success">Paid</span></td><td><button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-receipt"></i></button></td></tr>
-          <tr><td style="font-family:var(--font-mono);font-size:.75rem;color:var(--color-text-muted);">#TXN-20250112-009</td><td><strong>James Osei</strong></td><td>Professional Plan</td><td style="color:var(--color-warning);font-weight:600;">$97.00</td><td><i class="fab fa-cc-mastercard" style="color:#eb001b;"></i> Mastercard</td><td>Jan 12, 2025</td><td><span class="badge badge-warning">Pending</span></td><td><button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-receipt"></i></button></td></tr>
-          <tr><td style="font-family:var(--font-mono);font-size:.75rem;color:var(--color-text-muted);">#TXN-20250111-002</td><td><strong>Fatima Hassan</strong></td><td>Elite Plan</td><td style="color:var(--color-danger);font-weight:600;">$247.00</td><td><i class="fab fa-cc-visa" style="color:#1a1f71;"></i> Visa</td><td>Jan 11, 2025</td><td><span class="badge badge-danger">Failed</span></td><td><button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-receipt"></i></button></td></tr>
-        </tbody>
+        <thead><tr><th>Date</th><th>Product sold</th><th>Buyer</th><th>Method</th><th>Reference</th><th class="adm-num">Amount</th></tr></thead>
+        <tbody id="ledgerBody"><tr><td colspan="6" class="adm-muted" style="text-align:center;padding:2rem;">Loading…</td></tr></tbody>
       </table>
     </div>
   </div>
-</div>
+</section>
+
+<!-- ===================== ACTIVITY LOG ===================== -->
+<section id="tab-audit" hidden>
+  <div id="auditList"></div>
+</section>
+
     </div>
   </div>
 </div>
-<script src="../assets/vendors/chartjs/chart.umd.min.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/catalog.js"></script>
+<script type="module" src="../assets/js/admin-shell.js"></script>
+<script type="module">
+  import { ready, pending, sales, adminDb, fs, esc, fmtUsd, timeAgo, tsToMs, methodLabel, toast, showBanner, explainError, confirmDialog, copyText, catalog } from '../assets/js/admin-shell.js';
+  import { checkOrder, referenceOf, toCsv } from '../assets/js/admin-sales-core.js';
+
+  const $ = (id) => document.getElementById(id);
+  const rd = (d) => ({ ...d.data({ serverTimestamps: 'estimate' }), id: d.id });
+  const when = (ms) => ms ? new Date(ms).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+  const REJECT_REASONS = ['Transaction could not be verified', 'Incorrect amount', 'Invalid transaction ID', 'Transaction already used',
+    'Wrong payment recipient / wallet', 'Wrong network', 'Payment not received', 'Other'];
+
+  /* ================= tabs (+ #sales, #audit, #order=ID deep links) ================= */
+  const tabs = ['pending', 'sales', 'audit'];
+  const loaded = {};
+  function showTab(name) {
+    tabs.forEach((t) => { $('tab-' + t).hidden = t !== name; });
+    document.querySelectorAll('.adm-tabs button').forEach((b) => b.classList.toggle('active', b.dataset.tab === name));
+    if (name === 'sales' && !loaded.sales) { loaded.sales = true; startLedger(); }
+    if (name === 'audit') loadAudit();
+  }
+  document.querySelectorAll('.adm-tabs button').forEach((b) => b.addEventListener('click', () => {
+    history.replaceState(null, '', b.dataset.tab === 'pending' ? location.pathname : '#' + b.dataset.tab);
+    showTab(b.dataset.tab);
+  }));
+
+  /* ================= PENDING: live cards ================= */
+  const cards = new Map();                       // orderId -> element (kept so typed notes survive updates)
+
+  function cardHtml(o) {
+    const warns = checkOrder(o, catalog());
+    const isMomo = o.method === 'momo';
+    const ref = referenceOf(o);
+    const row = (k, v, extra = '') => v ? `<div><span class="k">${esc(k)}</span>${v}${extra}</div>` : '';
+    const copy = (txt) => `<button type="button" class="adm-copy" data-copy="${esc(txt)}" title="Copy"><i class="far fa-copy"></i></button>`;
+    return `
+      <div class="adm-card-head">
+        <div style="min-width:0;">
+          <div class="adm-card-title">${esc(o.title)}</div>
+          <div class="adm-muted" style="font-size:.82rem;margin-top:4px;">${esc(o.buyerEmail || o.uid)} · ${esc(timeAgo(tsToMs(o.submittedAt)))}</div>
+        </div>
+        <div class="adm-card-price">${esc(fmtUsd(o.priceUsd))}<small>${esc(methodLabel(o))}</small></div>
+      </div>
+      ${warns.map((w) => `<div class="adm-warn adm-warn-${w.severity === 'danger' ? 'danger' : 'warn'}"><i class="fas fa-triangle-exclamation"></i><span>${esc(w.message)}</span></div>`).join('')}
+      <div class="adm-details">
+        ${row('Transaction reference', `<span class="adm-mono">${esc(ref)}</span>`, copy(ref))}
+        ${isMomo ? row('Amount to find in your messages', `<strong>${esc(Number(o.amountXaf || 0).toLocaleString('en-US'))} CFA</strong>`, o.xafRate ? ` <span class="adm-muted">(1 USD = ${esc(Math.round(o.xafRate))} CFA)</span>` : '') : ''}
+        ${isMomo ? row('Customer phone', esc(o.senderPhone || 'not given')) : row('Customer wallet', o.senderWallet ? `<span class="adm-mono">${esc(o.senderWallet)}</span>` : 'not given')}
+        ${isMomo ? row('Paid to', esc((o.recipientName || '') + ' ' + (o.recipientNumber || ''))) : row('Network', esc(o.network || ''))}
+        ${!isMomo ? row('Your wallet', `<span class="adm-mono">${esc(o.walletAddress || '')}</span>`) : ''}
+        ${row('Submitted', esc(when(tsToMs(o.submittedAt))))}
+        ${row('Order ID', `<span class="adm-mono">${esc(o.id)}</span>`)}
+      </div>
+      <div class="adm-actions">
+        <button type="button" class="btn btn-primary btn-sm" data-act="approve"><i class="fas fa-check"></i> Approve &amp; credit ${esc(fmtUsd(o.priceUsd))}</button>
+        <button type="button" class="btn btn-outline btn-sm" data-act="reject-toggle"><i class="fas fa-times"></i> Reject</button>
+      </div>
+      <div class="adm-reject-box">
+        <select class="form-control" data-f="reason">${REJECT_REASONS.map((r) => `<option>${esc(r)}</option>`).join('')}</select>
+        <textarea class="form-control" rows="2" data-f="notes" placeholder="Extra note for the customer (optional)"></textarea>
+        <div><button type="button" class="btn btn-danger btn-sm" data-act="reject">Confirm rejection</button></div>
+      </div>`;
+  }
+
+  function buildCard(o) {
+    const el = document.createElement('div');
+    el.className = 'adm-card'; el.id = 'order-' + o.id; el.dataset.id = o.id;
+    el.innerHTML = cardHtml(o);
+    el.addEventListener('click', async (e) => {
+      const copyBtn = e.target.closest('[data-copy]');
+      if (copyBtn) { copyText(copyBtn.dataset.copy, copyBtn); return; }
+      const btn = e.target.closest('[data-act]'); if (!btn) return;
+      const act = btn.dataset.act;
+      if (act === 'reject-toggle') { el.querySelector('.adm-reject-box').classList.toggle('open'); return; }
+      if (act === 'approve') return approve(o, el, btn);
+      if (act === 'reject') return reject(o, el, btn);
+    });
+    return el;
+  }
+
+  async function approve(o, el, btn) {
+    const warns = checkOrder(o, catalog());
+    const ok = await confirmDialog({
+      title: 'Approve this payment?',
+      rows: [['Product', o.title], ['Buyer', o.buyerEmail || o.uid], ['Method', methodLabel(o)], ['Reference', referenceOf(o)],
+             ['Credited to sales balance', fmtUsd(o.priceUsd), 'adm-modal-credit']],
+      warnings: warns,
+      checkbox: 'I have checked this payment in my own MTN / Orange / wallet records and the amount is correct.',
+      confirmText: `Approve & credit ${fmtUsd(o.priceUsd)}`,
+      intro: 'The customer will get access immediately.',
+    });
+    if (!ok) return;
+    const all = el.querySelectorAll('button'); all.forEach((b) => { b.disabled = true; });
+    try {
+      const r = await sales.approveOrder(o.id);
+      toast(`Approved — ${fmtUsd(r.sale.amountUsd)} credited for “${r.sale.productName}”. Balance: ${fmtUsd(r.totalUsd)}`, 'success', { ms: 9000 });
+    } catch (err) {
+      console.error(err); toast(explainError(err), 'danger', { ms: 10000 });
+      all.forEach((b) => { b.disabled = false; });
+    }
+  }
+
+  async function reject(o, el, btn) {
+    const sel = el.querySelector('[data-f="reason"]').value;
+    const notes = el.querySelector('[data-f="notes"]').value.trim();
+    const reason = notes ? `${sel}: ${notes}` : sel;
+    const ok = await confirmDialog({ title: 'Reject this payment?', rows: [['Product', o.title], ['Buyer', o.buyerEmail || o.uid], ['Reason shown to customer', reason]],
+      confirmText: 'Reject payment', danger: true, intro: 'The customer sees the reason and can submit a corrected transaction ID.' });
+    if (!ok) return;
+    const all = el.querySelectorAll('button'); all.forEach((b) => { b.disabled = true; });
+    try {
+      await sales.rejectOrder(o.id, { reason, freeReference: sel !== 'Transaction already used' });
+      toast('Payment rejected. The customer can see the reason.', 'info');
+    } catch (err) {
+      console.error(err); toast(explainError(err), 'danger', { ms: 10000 });
+      all.forEach((b) => { b.disabled = false; });
+    }
+  }
+
+  function renderPending(state) {
+    const list = state.list, host = $('pendList');
+    const tc = $('tabPendCount'); tc.textContent = list.length; tc.hidden = !list.length;
+    const ids = new Set(list.map((o) => o.id));
+    cards.forEach((el, id) => { if (!ids.has(id)) { el.remove(); cards.delete(id); } });
+    list.forEach((o) => { if (!cards.has(o.id)) cards.set(o.id, buildCard(o)); });
+    const ordered = list.map((o) => cards.get(o.id));
+    if (ordered.some((el, i) => host.children[i] !== el)) host.replaceChildren(...ordered);   // only re-order when needed
+    let empty = $('pendEmpty');
+    if (!list.length) {
+      if (!empty) { empty = document.createElement('div'); empty.id = 'pendEmpty'; host.after(empty); }
+      empty.innerHTML = state.error ? '' : `<div class="adm-empty"><i class="fas fa-check-circle"></i><p>No payments waiting. New submissions appear here instantly — you don't need to refresh.</p></div>`;
+    } else if (empty) { empty.remove(); }
+    focusDeepLink();
+  }
+  let focused = null;
+  function focusDeepLink() {
+    const m = location.hash.match(/^#order=(.+)$/); if (!m) return;
+    const id = decodeURIComponent(m[1]); if (focused === id) return;
+    const el = cards.get(id); if (!el) return;
+    focused = id; el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 3500);
+  }
+
+  /* ================= SALES LEDGER ================= */
+  let ledger = [];
+  function periodStart(p) {
+    const n = new Date();
+    if (p === 'today') return new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTime();
+    if (p === 'month') return new Date(n.getFullYear(), n.getMonth(), 1).getTime();
+    if (p === '7' || p === '30') return Date.now() - Number(p) * 86400000;
+    return 0;
+  }
+  function filtered() {
+    const q = $('fSearch').value.trim().toLowerCase(), prod = $('fProduct').value, from = periodStart($('fPeriod').value);
+    return ledger.filter((r) => (!prod || r.productName === prod) && (tsToMs(r.approvedAt) || 0) >= from
+      && (!q || [r.productName, r.buyerEmail, r.reference, r.methodLabel, r.orderId].join(' ').toLowerCase().includes(q)));
+  }
+  function renderLedger() {
+    const rows = filtered(), total = rows.reduce((a, r) => a + r.amountUsd, 0);
+    $('ledgerBody').innerHTML = rows.length ? rows.map((r) => `
+      <tr>
+        <td class="adm-muted" style="white-space:nowrap;">${esc(when(tsToMs(r.approvedAt)))}</td>
+        <td><strong>${esc(r.productName)}</strong>${r.productType ? ` <span class="badge badge-surface" style="font-size:10px;">${esc(r.productType)}</span>` : ''}${r.source === 'backfill' ? ' <span class="badge badge-info" style="font-size:10px;" title="Approved before the sales balance existed">earlier order</span>' : ''}</td>
+        <td class="adm-muted">${esc(r.buyerEmail || '—')}</td>
+        <td>${esc(r.methodLabel || '')}</td>
+        <td><span class="adm-mono">${esc(r.reference || '')}</span></td>
+        <td class="adm-num adm-money">${esc(fmtUsd(r.amountUsd))}</td>
+      </tr>`).join('')
+      : `<tr><td colspan="6" class="adm-muted" style="text-align:center;padding:2rem;">${ledger.length ? 'No sales match these filters.' : 'No sales yet — approve a payment and it appears here with the product name.'}</td></tr>`;
+    $('ledgerSummary').innerHTML = `Showing <strong>${rows.length}</strong> sale${rows.length === 1 ? '' : 's'} · <strong>${esc(fmtUsd(total))}</strong>${ledger.length >= 500 ? ' <span class="adm-muted">(latest 500)</span>' : ''}`;
+  }
+  function refreshProductFilter() {
+    const sel = $('fProduct'), cur = sel.value;
+    const names = [...new Set(ledger.map((r) => r.productName))].sort();
+    sel.innerHTML = '<option value="">All products</option>' + names.map((n) => `<option>${esc(n)}</option>`).join('');
+    sel.value = names.includes(cur) ? cur : '';
+  }
+  function startLedger() {
+    fs.onSnapshot(fs.query(fs.collection(adminDb, 'sales'), fs.orderBy('approvedAt', 'desc'), fs.limit(500)),
+      (snap) => { ledger = snap.docs.map(rd); refreshProductFilter(); renderLedger(); },
+      (err) => showBanner(`<i class="fas fa-triangle-exclamation"></i><span>Couldn't load the sales ledger: ${esc(explainError(err))}</span>`));
+  }
+  ['fSearch', 'fProduct', 'fPeriod'].forEach((id) => $(id).addEventListener('input', renderLedger));
+  $('btnCsv').addEventListener('click', () => {
+    const rows = filtered(); if (!rows.length) { toast('Nothing to export for these filters.', 'warn'); return; }
+    const csv = toCsv([
+      { label: 'Date', value: (r) => new Date(tsToMs(r.approvedAt) || 0).toISOString() },
+      { label: 'Order ID', value: (r) => r.orderId }, { label: 'Product', value: (r) => r.productName }, { label: 'Type', value: (r) => r.productType },
+      { label: 'Buyer', value: (r) => r.buyerEmail }, { label: 'Method', value: (r) => r.methodLabel }, { label: 'Reference', value: (r) => r.reference },
+      { label: 'Amount (USD)', value: (r) => r.amountUsd }, { label: 'Amount (CFA)', value: (r) => r.amountXaf }, { label: 'Approved by', value: (r) => r.approvedBy },
+    ], rows);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = `sales-${new Date().toISOString().slice(0, 10)}.csv`; document.body.appendChild(a); a.click(); a.remove();
+  });
+  $('btnSync').addEventListener('click', async () => {
+    const ok = await confirmDialog({ title: 'Recalculate the sales balance?',
+      intro: 'Adds a sales entry for any order you approved earlier that is missing one, then rebuilds the total and per-product figures from the whole ledger. Safe to repeat — nothing is counted twice.',
+      confirmText: 'Recalculate' });
+    if (!ok) return;
+    try {
+      const r = await sales.syncFromOrders();
+      toast(`Done. ${r.created} order${r.created === 1 ? '' : 's'} added. Balance ${fmtUsd(r.totalUsd)} from ${r.salesCount} sales.`, 'success', { ms: 9000 });
+      if (r.skipped.length) toast(`${r.skipped.length} old order(s) skipped (no price or product name): ${r.skipped.map((x) => x.id).join(', ')}`, 'warn', { ms: 12000 });
+    } catch (e) { toast(explainError(e), 'danger', { ms: 10000 }); }
+  });
+
+  /* ================= ACTIVITY LOG ================= */
+  async function loadAudit() {
+    const host = $('auditList');
+    host.innerHTML = '<p class="adm-muted">Loading…</p>';
+    try {
+      const snap = await fs.getDocs(fs.query(fs.collection(adminDb, 'auditLog'), fs.orderBy('at', 'desc'), fs.limit(100)));
+      const rows = snap.docs.map(rd);
+      host.innerHTML = rows.length ? rows.map((e) => `
+        <div class="adm-card" style="padding:var(--space-4) var(--space-5);">
+          <div class="adm-card-head" style="align-items:center;">
+            <div style="min-width:0;">
+              <span class="badge ${e.action === 'approved' ? 'badge-success' : 'badge-danger'}">${esc(String(e.action).toUpperCase())}</span>
+              <strong style="margin-left:8px;">${esc(e.productName || 'Order ' + e.orderId)}</strong>
+              ${e.amountUsd ? `<span class="adm-money" style="margin-left:8px;">${esc(fmtUsd(e.amountUsd))}</span>` : ''}
+              <div class="adm-muted" style="font-size:.8rem;margin-top:4px;">by ${esc(e.by)} · order <span class="adm-mono">${esc(e.orderId)}</span>${e.reason ? ' · Reason: ' + esc(e.reason) : ''}</div>
+            </div>
+            <span class="adm-muted" style="font-size:.8rem;white-space:nowrap;">${esc(when(tsToMs(e.at)))}</span>
+          </div>
+        </div>`).join('') : '<div class="adm-empty"><i class="fas fa-clock-rotate-left"></i><p>No activity yet.</p></div>';
+    } catch (err) { host.innerHTML = `<div class="adm-banner adm-banner-danger"><i class="fas fa-triangle-exclamation"></i><span>${esc(explainError(err))}</span></div>`; }
+  }
+
+  /* ================= boot ================= */
+  await ready;
+  pending.subscribe(renderPending);
+  fs.onSnapshot(fs.doc(adminDb, 'stats', 'sales'), (snap) => { $('balTotal').textContent = fmtUsd(snap.exists() ? snap.data().totalUsd : 0); });
+  const h = location.hash.replace('#', '');
+  showTab(h === 'sales' || h === 'audit' ? h : 'pending');
+  window.addEventListener('hashchange', () => { const x = location.hash.replace('#', ''); if (x === 'sales' || x === 'audit') showTab(x); else { showTab('pending'); focusDeepLink(); } });
+</script>
 </body>
 </html>
